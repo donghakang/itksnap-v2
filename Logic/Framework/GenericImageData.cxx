@@ -127,6 +127,7 @@ GenericImageData
 SmartPtr<ImageWrapperBase>
 GenericImageData::CreateAnatomicWrapper(GuidedNativeImageIO *io, ITKTransformType *transform)
 {
+  std::cout << "(GenericImageData.cxx) - CreateAnatomicWrapper starts" << std::endl;
   // The output wrapper
   SmartPtr<ImageWrapperBase> out_wrapper;
 
@@ -136,6 +137,7 @@ GenericImageData::CreateAnatomicWrapper(GuidedNativeImageIO *io, ITKTransformTyp
   // Split depending on whether the image is scalar or vector
   if(io->GetNumberOfComponentsInNativeImage() > 1)
     {
+    std::cout << "(GenericImageData.cxx) - GetNumberOfComponenetsInNativeImage > 1" << std::endl;
     // The image will be cast to a vector anatomic image
     typedef AnatomicImageWrapper::ImageType AnatomicImageType;
 
@@ -162,6 +164,8 @@ GenericImageData::CreateAnatomicWrapper(GuidedNativeImageIO *io, ITKTransformTyp
 
   else
     {
+
+      std::cout << "(GenericImageData.cxx) - GetNumberOfComponenetsInNativeImage <= 1" << std::endl;
     // Rescale the image to desired number of bits
     typedef AnatomicScalarImageWrapper::ImageType AnatomicImageType;
 
@@ -171,14 +175,22 @@ GenericImageData::CreateAnatomicWrapper(GuidedNativeImageIO *io, ITKTransformTyp
 
     // Create a mapper to native intensity
     LinearInternalToNativeIntensityMapping mapper(
-          rescaler.GetNativeScale(), rescaler.GetNativeShift());
+        rescaler.GetNativeScale(), rescaler.GetNativeShift());
+
+    std::cout << "(GenericImageData.cxx) - rescaler   " << rescaler.GetNativeScale() << ", " << rescaler.GetNativeShift() << std::endl << std::endl;
 
     // Create a main wrapper of fixed type.
     SmartPtr<AnatomicScalarImageWrapper> wrapper = AnatomicScalarImageWrapper::New();
 
     // Set properties
     wrapper->SetDisplayGeometry(m_DisplayGeometry);
-    wrapper->SetImage(image, refSpace, transform);
+    wrapper->SetImage(image, refSpace, transform);     // -> ImageWrappr.cxx -> LabelImageWrapper
+
+    std::cout << "GenericImageData.cxx - wrapper-> " << wrapper->GetImageMinAsDouble() << std::endl;
+    std::cout << "                                 " << wrapper->GetImageMaxAsDouble() << std::endl;
+    std::cout << "                                 " << wrapper->GetImageMinNative() << std::endl;
+    std::cout << "                                 " << wrapper->GetImageMaxNative() << std::endl;
+
     wrapper->SetNativeMapping(mapper);
 
     for(int i = 0; i < 3; i++)

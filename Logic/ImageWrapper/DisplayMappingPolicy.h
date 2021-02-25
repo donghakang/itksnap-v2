@@ -149,6 +149,14 @@ public:
    */
   virtual void AutoFitContrast();
 
+
+  /*
+   * Written By 강동하
+   * This function is to set level and window as specific value
+  */
+  virtual void DefaultFitContrast(); 
+
+
   /**
    * Has the intensity curve been adjusted from its default (reset) state?
    */

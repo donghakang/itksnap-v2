@@ -251,6 +251,7 @@ void
 IRISApplication
 ::SetDisplayGeometry(const IRISDisplayGeometry &dispGeom)
 {
+  std::cout << "(IRISApplication.cxx) - SetDisplayGeometry" << std::endl;
   // Store the new geometry
   m_DisplayGeometry = dispGeom;
 
@@ -1590,9 +1591,12 @@ IRISApplication
   // This has to happen in 'pure' IRIS mode
   assert(!IsSnakeModeActive());
 
+
   // Load the image into the current image data object
   // TODO: 처음 시작할때, default로 값을 주기 위해서는 여기에서 건드려야한다.
-  m_IRISImageData->SetMainImage(io);
+  m_IRISImageData->SetMainImage(io);                            // -> GenericImageData
+
+
 
   // Get a pointer to the resulting wrapper
   ImageWrapperBase *layer = m_IRISImageData->GetMain();
@@ -1603,9 +1607,11 @@ IRISApplication
   // Get the control point range
   float t0, y0, t1, y1;
   curve->GetControlPoint(0, t0, y0);
-  curve->GetControlPoint(curve->GetControlPointCount() -1 , t1, y1);
+  curve->GetControlPoint(1 , t1, y1);
 
   std::cout << "IRISApplication.cxx ------ " << t0 << ", " << t1 << std::endl;
+
+  
 
   // Set the filename and nickname of the image wrapper
   layer->SetFileName(io->GetFileNameOfNativeImage());
@@ -1770,11 +1776,25 @@ void
 IRISApplication
 ::UnloadMainImage()
 {
+  std::cout << "(IRISApplication.cxx) UnloadMainImage -- starts" << std::endl;
   // Save the settings for this image
-  if(m_CurrentImageData->IsMainLoaded())
-    {
+  if(m_CurrentImageData->IsMainLoaded()) {
+      std::cout << "(IRISApplication.cxx) UnloadMainImage -- if main loaded" << std::endl;
     ImageWrapperBase *main_image = m_CurrentImageData->GetMain();
     const char *fnMain = main_image->GetFileName();
+
+    /*
+    IntensityCurveInterface *curve = main_image->GetDisplayMapping()->GetIntensityCurve();
+  assert(curve);
+      
+  // Get the control point range
+  float t0, y0, t1, y1;
+  curve->GetControlPoint(0, t0, y0);
+  curve->GetControlPoint(curve->GetControlPointCount() -1 , t1, y1);
+
+  std::cout << "(IRISApplication.cxx) UnloadMainImage control points ------ " << t0 << ", " << t1 << std::endl;
+    */
+
 
     // Reset the toolbar mode to default
     m_GlobalState->SetToolbarMode(CROSSHAIRS_MODE);
@@ -1794,13 +1814,13 @@ IRISApplication
       // would require doing this elsewhere
       m_SystemInterface->WriteThumbnail(m_GlobalState->GetProjectFilename().c_str(), thumbnail);
       }
-    }
+  }
 
   // Reset the automatic segmentation ROI
   m_GlobalState->SetSegmentationROI(GlobalState::RegionType());
 
   // Unload the main image
-  m_CurrentImageData->UnloadMainImage();
+  m_CurrentImageData->UnloadMainImage();        //GenericImageData
 
   // After unloading the main image, we reset the workspace filename
   m_GlobalState->SetProjectFilename("");
@@ -1838,17 +1858,34 @@ IRISApplication
   SmartPtr<GuidedNativeImageIO> io = GuidedNativeImageIO::New();
 
   // Load the header of the image
-  io->ReadNativeImageHeader(fname, *ioHints);
+  io->ReadNativeImageHeader(fname, *ioHints);     // GuidedNativeImageIO
 
   // Validate the header
   del->ValidateHeader(io, wl);
 
+  
+  // m_IRISImageData->SetMainImage(io);
+
+  // // Get a pointer to the resulting wrapper
+  // ImageWrapperBase *l = m_IRISImageData->GetMain();
+
+  // IntensityCurveInterface *curve = l->GetDisplayMapping()->GetIntensityCurve();
+  // assert(curve);
+      
+  // // Get the control point range
+  // float t0, y0, t1, y1;
+  // curve->GetControlPoint(0, t0, y0);
+  // curve->GetControlPoint(curve->GetControlPointCount() -1 , t1, y1);
+
+  // std::cout << "IRISApplication.cxx ------ " << t0 << ", " << t1 << std::endl;
+
+
   // Unload the current image data
   del->UnloadCurrentImage();
 
-
   // Read the image body
   io->ReadNativeImageData();
+
 
   // Validate the image data
   del->ValidateImage(io, wl);

@@ -57,6 +57,7 @@ LabelImageWrapper::~LabelImageWrapper()
 void LabelImageWrapper::UpdateImagePointer(
     ImageType *image, ImageBaseType *refSpace, ITKTransformType *tran)
 {
+  std::cout << "(LabelImageWrapper.cxx) - UpdateImagePointer starts" << std::endl;
   Superclass::UpdateImagePointer(image, refSpace, tran);
   m_UndoManager->Clear();
 

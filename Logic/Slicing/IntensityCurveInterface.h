@@ -66,7 +66,10 @@ public:
   /**
    * Reset to linear mapping, keeping number of points intact
    */
-  virtual void Reset() { this->Initialize(this->GetControlPointCount()); }
+  virtual void Reset() { 
+    std::cout << "Reset Pressed" << std::endl;
+    this->Initialize(this->GetControlPointCount()); 
+  }
 
   // Check if the curve is in default state (linear from 0 to 1)
   virtual bool IsInDefaultState() = 0;

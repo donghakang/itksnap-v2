@@ -419,7 +419,7 @@ int parse(int argc, char *argv[], CommandLineRequest &argdata)
     if(parseResult.IsOptionPresent("--grey"))
       {
       argdata.fnMain = DecodeFilename(parseResult.GetOptionParameter("--grey"));
-      std::cout << "File name via Command Line: " << argdata.fnMain << std::endl;
+      // std::cout << "File name via Command Line: " << argdata.fnMain << std::endl;
       have_main = true;
       }
     else if(iTrailing < argc)

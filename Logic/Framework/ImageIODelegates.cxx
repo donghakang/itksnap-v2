@@ -37,14 +37,14 @@ void
 LoadMainImageDelegate
 ::UnloadCurrentImage()
 {
-  m_Driver->UnloadMainImage();
+  m_Driver->UnloadMainImage(); 
 }
 
 ImageWrapperBase *LoadMainImageDelegate::UpdateApplicationWithImage(GuidedNativeImageIO *io)
 {
   // Update the IRIS driver
   m_Driver->UpdateIRISMainImage(io, this->GetMetaDataRegistry());     // m_Driver -- IRISApplication
-  
+
   // Return the main image
   return m_Driver->GetIRISImageData()->GetMain();
 }

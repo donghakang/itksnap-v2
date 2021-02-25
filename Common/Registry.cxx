@@ -191,10 +191,6 @@ Registry::Entry(const std::string &key)
   // Search for the key and return it if found
   EntryIterator it = m_EntryMap.find(key);
   if(it != m_EntryMap.end()) {
-    if (it->first == "Format") {
-      std::cout << it->first << "       ..." << std::endl;
-    }
-    
     return it->second;
   }
 

@@ -15,6 +15,7 @@
 #include "itkUnaryFunctorImageFilter.h"
 #include "InputSelectionImageFilter.h"
 #include "Rebroadcaster.h"
+#include "IntensityCurveSettings.h"
 
 
 /* ===============================================================
@@ -385,8 +386,29 @@ AbstractContinuousImageDisplayMappingPolicy
   double t0 = factor * (ilow - irange[0]);
   double t1 = factor * (ihigh - irange[0]);
 
+  std::cout << irange[0] << "    " << irange[1] << std::endl;
   // Set the window and level
   this->GetIntensityCurve()->ScaleControlPointsToWindow((float) t0, (float) t1);
+}
+
+void
+AbstractContinuousImageDisplayMappingPolicy
+::DefaultFitContrast() {
+
+  Vector2d irange = this->GetNativeImageRangeForCurve();
+  int level = -500;
+  int window = 1000;
+
+  
+    int max = static_cast<int>((2 * level + window) / 2.0);
+    int min = static_cast<int>((2 * level - window) / 2.0);
+
+    int t1 = (max - irange[0]) / (irange[1] - irange[0]);
+    int t0 = (min - irange[0]) / (irange[1] - irange[0]);
+
+   
+
+  this->GetIntensityCurve()->ScaleControlPointsToWindow(t0, t1);
 }
 
 bool AbstractContinuousImageDisplayMappingPolicy::IsContrastInDefaultState()

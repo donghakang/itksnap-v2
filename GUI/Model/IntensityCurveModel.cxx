@@ -617,8 +617,15 @@ IntensityCurveModel
 
 void IntensityCurveModel::OnResetCurveAction()
 {
-  this->GetCurve()->Reset();
-  InvokeEvent(ModelUpdateEvent());
+  // this->GetCurve()->Reset();
+  // InvokeEvent(ModelUpdateEvent());
+
+  // There must be a layer
+  AbstractContinuousImageDisplayMappingPolicy *dmp = this->GetDisplayPolicy();
+  assert(dmp);
+
+  // Get the histogram
+  dmp->DefaultFitContrast();  
 }
 
 void IntensityCurveModel::OnUpdate()
