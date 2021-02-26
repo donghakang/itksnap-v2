@@ -199,6 +199,8 @@ Vector2d IntensityCurveModel::GetVisibleImageRange()
   return outRange;
 }
 
+
+
 bool
 IntensityCurveModel
 ::UpdateControlPoint(size_t i, float t, float x)
@@ -617,15 +619,8 @@ IntensityCurveModel
 
 void IntensityCurveModel::OnResetCurveAction()
 {
-  // this->GetCurve()->Reset();
-  // InvokeEvent(ModelUpdateEvent());
-
-  // There must be a layer
-  AbstractContinuousImageDisplayMappingPolicy *dmp = this->GetDisplayPolicy();
-  assert(dmp);
-
-  // Get the histogram
-  dmp->DefaultFitContrast();  
+  this->GetCurve()->Reset();
+  InvokeEvent(ModelUpdateEvent());
 }
 
 void IntensityCurveModel::OnUpdate()

@@ -67,7 +67,6 @@ public:
    * Reset to linear mapping, keeping number of points intact
    */
   virtual void Reset() { 
-    std::cout << "Reset Pressed" << std::endl;
     this->Initialize(this->GetControlPointCount()); 
   }
 

@@ -251,7 +251,6 @@ void
 IRISApplication
 ::SetDisplayGeometry(const IRISDisplayGeometry &dispGeom)
 {
-  std::cout << "(IRISApplication.cxx) - SetDisplayGeometry" << std::endl;
   // Store the new geometry
   m_DisplayGeometry = dispGeom;
 
@@ -1897,7 +1896,61 @@ IRISApplication
   // to a project
   layer->SetIOHints(*ioHints);
 
+  // Vector2d irange = layer->GetDisplayMapping()->GetNativeImageRangeForCurve();
+  // std::cout << "========================================" << std::endl;
+  // std::cout << irange[0] << ", " << irange[1]<<std::endl;
+  std::cout << "========================================" << std::endl;
+
+
   return layer;
+}
+
+
+void 
+IRISApplication::UpdateIntensity(int level, int window) {
+  std::cout << "Update intensity by... Level: " << level << "   Window: " << window << std::endl;
+
+  /*
+  * variables 
+  * m_CurrentImageData  -- GenericImageData
+  */
+
+//  ImageWrapperBase *layer = m_IRISImageData->GetMain();
+
+  // IntensityCurveInterface *curve = layer->GetDisplayMapping()->GetIntensityCurve();
+  // assert(curve);
+      
+  // // Get the control point range
+  // float t0, y0, t1, y1;
+  // curve->GetControlPoint(0, t0, y0);
+  // curve->GetControlPoint(1 , t1, y1);
+
+  // std::cout << "IRISApplication.cxx ------ " << t0 << ", " << t1 << std::endl;
+
+
+
+  if(m_CurrentImageData->IsMainLoaded()) {
+    ImageWrapperBase *main_image = m_CurrentImageData->GetMain();       // Affects all the layers
+    IntensityCurveInterface *curve = main_image->GetDisplayMapping()->GetIntensityCurve();
+
+    int max = static_cast<int>((2 * level + window) / 2.0);
+    int min = static_cast<int>((2 * level - window) / 2.0); 
+
+    double r1 = main_image->GetImageMaxNative();
+    double r0 = main_image->GetImageMinNative();
+
+    float t1 = (max - r0) / (r1 - r0);
+    float t0 = (min - r0) / (r1 - r0);
+
+    
+    // const char *fnMain = main_image->GetFileName();
+    // std::cout << "(IRISApplication.cxx) UpdateIntensity -- if main loaded  " << r0 << "   " << r1 << std::endl;
+
+    main_image->GetDisplayMapping()->GetIntensityCurve()->ScaleControlPointsToWindow((float)t0, (float)t1);
+  } else {
+    std::cerr << "ERROR in (IRISApplication.cxx): Main Image Cannot be loaded at this time" << std::endl;
+    exit(-1);
+  }
 }
 
 IRISApplication::DicomSeriesTree
@@ -2014,41 +2067,7 @@ void IRISApplication
       this->AssignNicknameFromDicomMetadata(layer);
     }
 }
-/*
-void IRISApplication
-::LoadImage(const char *fname, LayerRole role, IRISWarningList &wl,
-            Registry *meta_data_reg, Registry *io_hints_reg, bool additive)
-{
-  // Pointer to the delegate
-  SmartPtr<AbstractLoadImageDelegate> delegate;
 
-  switch(role)
-    {
-    case MAIN_ROLE:
-      delegate = LoadMainImageDelegate::New().GetPointer();
-      break;
-    case OVERLAY_ROLE:
-      delegate = LoadOverlayImageDelegate::New().GetPointer();
-      break;
-    case LABEL_ROLE:
-      {
-      SmartPtr<LoadSegmentationImageDelegate> d = LoadSegmentationImageDelegate::New();
-      d->SetAdditiveMode(additive);
-      delegate = d.GetPointer();
-      }
-      break;
-    default:
-      throw IRISException("LoadImage does not support role %d", role);
-    }
-
-  delegate->Initialize(this);
-  if(meta_data_reg)
-    delegate->SetMetaDataRegistry(meta_data_reg);
-
-  // Load via delegate, providing the IO hints
-  this->LoadImageViaDelegate(fname, delegate, wl, io_hints_reg);
-}
-*/
 
 void IRISApplication
 ::LoadImage(const char *fname, LayerRole role, IRISWarningList &wl, 

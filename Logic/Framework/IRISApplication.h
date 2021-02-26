@@ -600,6 +600,9 @@ public:
   /** Get the preset manager for color maps */
   irisGetMacro(ColorMapPresetManager, ColorMapPresetManager *)
 
+
+  void UpdateIntensity(int level, int window);
+
   // ----------------------- Project support ------------------------------
 
   /**
