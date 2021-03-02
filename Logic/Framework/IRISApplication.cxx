@@ -1862,25 +1862,10 @@ IRISApplication
   // Validate the header
   del->ValidateHeader(io, wl);
 
-  
-  // m_IRISImageData->SetMainImage(io);
-
-  // // Get a pointer to the resulting wrapper
-  // ImageWrapperBase *l = m_IRISImageData->GetMain();
-
-  // IntensityCurveInterface *curve = l->GetDisplayMapping()->GetIntensityCurve();
-  // assert(curve);
-      
-  // // Get the control point range
-  // float t0, y0, t1, y1;
-  // curve->GetControlPoint(0, t0, y0);
-  // curve->GetControlPoint(curve->GetControlPointCount() -1 , t1, y1);
-
-  // std::cout << "IRISApplication.cxx ------ " << t0 << ", " << t1 << std::endl;
-
-
   // Unload the current image data
   del->UnloadCurrentImage();
+
+  std::cout << "(IRISApplication.cxx) ReadNativeImageData starts... " << std::endl;
 
   // Read the image body
   io->ReadNativeImageData();
@@ -1926,9 +1911,6 @@ IRISApplication::UpdateIntensity(int level, int window) {
   // curve->GetControlPoint(1 , t1, y1);
 
   // std::cout << "IRISApplication.cxx ------ " << t0 << ", " << t1 << std::endl;
-
-
-
   if(m_CurrentImageData->IsMainLoaded()) {
     ImageWrapperBase *main_image = m_CurrentImageData->GetMain();       // Affects all the layers
     IntensityCurveInterface *curve = main_image->GetDisplayMapping()->GetIntensityCurve();
@@ -1942,7 +1924,6 @@ IRISApplication::UpdateIntensity(int level, int window) {
     float t1 = (max - r0) / (r1 - r0);
     float t0 = (min - r0) / (r1 - r0);
 
-    
     // const char *fnMain = main_image->GetFileName();
     // std::cout << "(IRISApplication.cxx) UpdateIntensity -- if main loaded  " << r0 << "   " << r1 << std::endl;
 
@@ -2512,6 +2493,9 @@ IRISApplication
 
   // Perform reorientation in the current image data
   m_CurrentImageData->SetDirectionMatrix(inDirection);
+  std::cout << inDirection[2][2] << std::endl;    // -1 1
+  std::cout << "=====================" << std::endl;
+  std::cout << inDirection << std::endl;
 
   /*
   // Compute a new coordinate transform object

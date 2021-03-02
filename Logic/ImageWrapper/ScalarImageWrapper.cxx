@@ -113,16 +113,16 @@ void
 ScalarImageWrapper<TTraits,TBase>
 ::UpdateImagePointer(ImageType *newImage, ImageBaseType *referenceSpace, ITKTransformType *transform)
 {
-  std::cout << "(ScalarImageWrapper.cxx) - UpdateImagePointer starts" << std::endl;
+  // std::cout << "(ScalarImageWrapper.cxx) - UpdateImagePointer starts" << std::endl;
   // Call the parent
   Superclass::UpdateImagePointer(newImage, referenceSpace, transform);
-  std::cout << "(ScalarImageWrapper.cxx) -- after ImageWrapper.cxx" << std::endl;
+
   // Update the max-min pipeline once we have one setup
   m_MinMaxFilter->SetInput(newImage);
 
   m_MinMaxFilter->GetMaximumOutput()->Update();
-  std::cout << "ScalarImageWrapper.cxx -- MAX: " << static_cast<double>(m_MinMaxFilter->GetMaximumOutput()->Get());
-  std::cout << "    MIN: " <<  static_cast<double>(m_MinMaxFilter->GetMinimumOutput()->Get()) << std::endl;
+  // std::cout << "ScalarImageWrapper.cxx -- MAX: " << static_cast<double>(m_MinMaxFilter->GetMaximumOutput()->Get());
+  // std::cout << "    MIN: " <<  static_cast<double>(m_MinMaxFilter->GetMinimumOutput()->Get()) << std::endl;
 
   // Update the histogram mini-pipeline
   m_HistogramFilter->SetInput(newImage);
@@ -163,7 +163,7 @@ ScalarImageWrapper<TTraits,TBase>
   // the min/max has been computed
   m_MinMaxFilter->Update();
   m_ImageScaleFactor = 1.0 / (m_MinMaxFilter->GetMaximum() - m_MinMaxFilter->GetMinimum());
-  std::cout << "Current m_ImageScaleFactor: " << m_ImageScaleFactor << "          - ScalarImageWrapper.cxx " << std::endl;
+  // std::cout << "Current m_ImageScaleFactor: " << m_ImageScaleFactor << "          - ScalarImageWrapper.cxx " << std::endl;
 }
 
 template<class TTraits, class TBase>

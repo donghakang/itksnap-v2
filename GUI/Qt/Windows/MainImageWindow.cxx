@@ -1644,6 +1644,8 @@ void MainImageWindow::ExportScreenshot(int panelIndex)
         true,
         from_utf8(finput));
 
+  // qDebug("abc    " + fuser.toLatin1());
+
   // If nothing selected, exit
   if(fuser.length() == 0)
     return;

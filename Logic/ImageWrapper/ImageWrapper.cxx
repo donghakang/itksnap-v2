@@ -948,7 +948,6 @@ void
 ImageWrapper<TTraits,TBase>
 ::UpdateImagePointer(ImageType *newImage, ImageBaseType *referenceSpace, ITKTransformType *transform)
 {
-  std::cout << "(ImageWrapper.cxx) Update Image Pointer" << std::endl;
   // If there is no reference space, we assume that the reference space is the same as the image
   referenceSpace = referenceSpace ? referenceSpace : newImage;
 
@@ -1075,7 +1074,6 @@ void
 ImageWrapper<TTraits,TBase>
 ::SetImage(ImagePointer newImage, ImageBaseType *refSpace, ITKTransformType *transform)
 { 
-  std::cout << "(ImageWrapper.cxx) SetImage" << std::endl;
   UpdateImagePointer(newImage, refSpace, transform);
 }
 

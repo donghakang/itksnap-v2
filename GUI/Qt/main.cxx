@@ -11,6 +11,7 @@
 #include <QSurfaceFormat>
 #endif
 
+#include "SNAPCommon.h"
 #include "SNAPQApplication.h"
 #include "MainImageWindow.h"
 #include "SliceViewPanel.h"
@@ -114,38 +115,45 @@ void usage(const char * progname) {
   // Print usage info and exit
   cout << "ITK-SnAP Command Line Usage:" << endl;
   cout << "   " << progname << " [options] [main_image]" << endl;
-  cout << "   -b                   : Update coming soon ..." << endl;
+  cout << "   -b                        : Update coming soon ..." << endl;
   cout << "Image Options:" << endl;
-  cout << "   -g FILE              : Load the main image from FILE" << endl;
-  cout << "   -s FILE              : Load the segmentation image from FILE" << endl;
-  cout << "   -l FILE              : Load label descriptions from FILE" << endl;
-  cout << "   -o FILE [FILE+]      : Load additional images from FILE" << endl;
-  cout << "                        :   (multiple files may be provided)" << endl;
-  cout << "   -w FILE              : Load workspace from FILE" << endl;
-  cout << "                        :   (-w cannot be mixed with -g,-s,-l,-o options)" << endl;
+  cout << "   -g FILE                       : Load the main image from FILE" << endl;
+  cout << "   -s FILE                       : Load the segmentation image from FILE" << endl;
+  cout << "   -l FILE                       : Load label descriptions from FILE" << endl;
+  cout << "   -o FILE [FILE+]               : Load additional images from FILE" << endl;
+  cout << "                                 :   (multiple files may be provided)" << endl;
+  cout << "   -w FILE                       : Load workspace from FILE" << endl;
+  cout << "                                 :   (-w cannot be mixed with -g,-s,-l,-o options)" << endl;
   cout << "Additional Options:" << endl;
-  cout << "   --intensity N N      : Setup intensity level and window for Linear Contrast Adjustment" << endl;
-  cout << "   --intensity-default  : Setup intensity level=-500, window=1200" << endl;
-  cout << "   -z FACTOR            : Specify initial zoom in screen pixels/mm" << endl;
-  cout << "   --cwd PATH           : Start with PATH as the initial directory" << endl;
-  cout << "   --threads N          : Limit maximum number of CPU cores used to N." << endl;
-  cout << "   --scale N            : Scale all GUI elements by factor of N (e.g., 2)." << endl;
-  cout << "   --geometry WxH+X+Y   : Initial geometry of the main window." << endl;
-  cout << "Debugging/Testing Options:" << endl;
+  cout << "   --intensity <Level> <Window>  : Setup intensity level and window for Linear Contrast Adjustment" << endl;
+  cout << "   --intensity-default           : Setup intensity level=-500, window=1200" << endl;
+  cout << "   -z FACTOR                     : Specify initial zoom in screen pixels/mm" << endl;
+  cout << "   --cwd PATH                    : Start with PATH as the initial directory" << endl;
+  cout << "   --threads N                   : Limit maximum number of CPU cores used to N." << endl;
+  cout << "   --scale N                     : Scale all GUI elements by factor of N (e.g., 2)." << endl;
+  cout << "   --geometry WxH+X+Y            : Initial geometry of the main window." << endl;
+  cout << "Export Options:" << endl;
+  // cout << "   -out-s   TYPE FORMAT      : Export image slice of TYPE in FORMAT image format"<< endl; 
+  // cout << "   -out-ss  TYPE FORMAT      : Export screenshot of TYPE in FORMAT image format"<< endl; 
+  // cout << "   -out-sss TYPE FORMAT      : Export screenshot series of TYPE in FORMAT image format"<< endl; 
+  // cout << "                                 (available TYPE: --axial, --coronal, --sagittal) " << endl;
+  // cout << "                                 (available FORMAT: --png, --tiff, -tif, -jpg, -jpeg) " << endl;
+  cout << "   --export-ss-axial DIR        : " << endl;
+  cout << "Debugging/Testing Options       :" << endl;
   #ifdef SNAP_DEBUG_EVENTS
-  cout << "   --debug-events       : Dump information regarding UI events" << endl;
-  #endif // SNAP_DEBUG_EVENTS
-  cout << "   --test list          : List available tests. " << endl;
-  cout << "   --test TESTID        : Execute a test. " << endl;
-  cout << "   --testdir DIR        : Set the root directory for tests. " << endl;
-  cout << "   --testacc factor     : Adjust the interval between test commands by factor (e.g., 0.5). " << endl;
-  cout << "   --css file           : Read stylesheet from file." << endl;
-  cout << "   --opengl MAJOR MINOR : Set the OpenGL major and minor version. Experimental." << endl;
-  cout << "   --testgl             : Diagnose OpenGL/VTK issues." << endl;
-  cout << "Platform-Specific Options:" << endl;
+  cout << "   --debug-events               : Dump information regarding UI events" << endl;
+  #endif // SNAP_DEBUG_EVENTS   
+  cout << "   --test list                  : List available tests. " << endl;
+  cout << "   --test TESTID                : Execute a test. " << endl;
+  cout << "   --testdir DIR                : Set the root directory for tests. " << endl;
+  cout << "   --testacc factor             : Adjust the interval between test commands by factor (e.g., 0.5). " << endl;
+  cout << "   --css file                   : Read stylesheet from file." << endl;
+  cout << "   --opengl MAJOR MINOR         : Set the OpenGL major and minor version. Experimental." << endl;
+  cout << "   --testgl                     : Diagnose OpenGL/VTK issues." << endl;
+  cout << "Platform-Specific Options       :" << endl;
   #if QT_VERSION < 0x050000
   #ifdef Q_WS_X11
-  cout << "   --x11-db             : Enable widget double buffering on X11. By default it is off." << endl;
+  cout << "   --x11-db                  : Enable widget double buffering on X11. By default it is off." << endl;
   #endif
   #endif
 }
@@ -156,7 +164,7 @@ void setupParser(CommandLineArgumentParser & parser) {}
  * This class describes the command-line options parsed from the command line.
  */
 const int INTENSITY_LEVEL = -500;         // default intensity value
-const int INTENSITY_WINDOW = 1100;
+const int INTENSITY_WINDOW = 1500;
 
 struct CommandLineRequest {
   public: std::string fnMain;
@@ -183,6 +191,11 @@ struct CommandLineRequest {
 
   // Intensity (Linear Contrast)
   std::string intensity_level, intensity_window;
+
+
+  // Export
+  std::string export_directory;
+
 
   // Current working directory
   std::string cwd;
@@ -350,6 +363,10 @@ int parse(int argc, char * argv[], CommandLineRequest & argdata) {
   // Intensity for Linear Contrast Adjustment
   parser.AddOption("--intensity", 2);
   parser.AddOption("--intensity-default", 0);
+  parser.AddSynonim("--intensity", "-i");
+
+  // Export 
+  parser.AddOption("--export-ss-axial", 1);
 
   // Obtain the result
   CommandLineArgumentParseResult parseResult;
@@ -439,6 +456,12 @@ int parse(int argc, char * argv[], CommandLineRequest & argdata) {
     }
 
 
+    // If no main, no export
+    if (!have_main && parseResult.IsOptionPresent("--export-ss-axial")) {
+      cerr << "Error: Option --intensity-default must be used togehter with option -g" << endl;
+      return -1;
+    }
+
     // Load main image file
     if (have_main) {
       // Load the segmentation if supplied
@@ -466,6 +489,10 @@ int parse(int argc, char * argv[], CommandLineRequest & argdata) {
         // TODO: when intensity is opened. 
         argdata.intensity_level  = to_string(INTENSITY_LEVEL);
         argdata.intensity_window = to_string(INTENSITY_WINDOW);
+      }
+
+      if (parseResult.IsOptionPresent("--export-ss-axial")) {
+        argdata.export_directory = parseResult.GetOptionParameter("--export-ss-axial");
       }
 
     } // if main image filename supplied
@@ -805,7 +832,7 @@ int main(int argc, char * argv[]) {
             }
           }
 
-          // TODO: Intensity Check
+          // Intensity Update
           if (argdata.intensity_level.length() > 0 && argdata.intensity_window.length() > 0) {
             try {
               int level = atoi(argdata.intensity_level.c_str());
@@ -815,6 +842,42 @@ int main(int argc, char * argv[]) {
               cerr << "--intensity requires 2 integers followed by the command";
               return -1;
             }
+          }
+
+          // TODO: Export 
+          if (argdata.export_directory.length() > 0) {
+            int direction = driver->GetDisplayWindowForAnatomicalDirection(ANATOMY_AXIAL);     // ANATOMY_AXIAL
+            // ExportScreenshot (MainImageWindow.cxx)
+
+            std::string finput = gui->GenerateScreenshotFilename();
+            std::string fuser  = argdata.export_directory.c_str();
+
+            if (fuser.length() == 0) {
+              cerr << "this command requries directory followed by the command";
+              return -1;
+            } 
+
+            finput += ".png";
+            fuser += finput;
+
+            // What panel is this?
+            QtAbstractOpenGLBox *target = NULL;
+            int panelIndex = 0;
+            if(panelIndex == 3)
+              {
+              // target = mainwin->GetSlicePanel(3)->Get3DView();   // ui cannot be declared.
+              }
+            else
+              {
+              SliceViewPanel *svp = reinterpret_cast<SliceViewPanel *>(mainwin->GetSlicePanel(0));    // panel1, panel2, panel3D
+              target = svp->GetSliceView();
+              }
+
+            // Call the screenshot saving method, which will execute asynchronously
+            target->SaveScreenshot(fuser);
+
+            // Store the last filename
+            gui->SetLastScreenshotFileName(fuser);
           }
 
         } catch (std::exception & exc) {
