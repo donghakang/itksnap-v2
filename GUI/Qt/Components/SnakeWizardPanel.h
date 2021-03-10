@@ -113,6 +113,14 @@ private slots:
 
   void on_btnThreshDetail_clicked();
 
+  void on_btnThresholdAir_clicked();
+
+  void on_btnThresholdDPI_clicked();
+
+  void on_btnThresholdTissue_clicked();
+  
+  void on_btnThresholdBone_clicked();
+
   void on_btnClusterDetail_clicked();
 
   void on_btnClassifyClearExamples_clicked();

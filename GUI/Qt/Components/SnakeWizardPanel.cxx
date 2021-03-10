@@ -464,6 +464,29 @@ void SnakeWizardPanel::on_btnThreshDetail_clicked()
   m_SpeedDialog->ShowDialog();
 }
 
+void SnakeWizardPanel::on_btnThresholdAir_clicked() {
+  std::cout << "Air Clicked" << std::endl;
+  m_Model->ChangeThreshold(-1024.0, -800.0);
+}
+
+void SnakeWizardPanel::on_btnThresholdDPI_clicked() {
+  // m_Model->SetThresholdLowerValue(-800.0);
+  // m_Model->SetThresholdUpperValue(-200.0);
+  std::cout << "DPI Clicked" << std::endl;
+}
+
+void SnakeWizardPanel::on_btnThresholdTissue_clicked() {
+  // m_Model->SetThresholdLowerValue(-200.0);
+  // m_Model->SetThresholdUpperValue(250.0);
+  std::cout << "Tissue Clicked" << std::endl;
+}
+
+void SnakeWizardPanel::on_btnThresholdBone_clicked() {
+  // m_Model->SetThresholdLowerValue(250.0);
+  // m_Model->SetThresholdUpperValue(3071.0);
+  std::cout << "Bone Clicked" << std::endl;
+}
+
 void SnakeWizardPanel::on_btnClusterDetail_clicked()
 {
   m_SpeedDialog->ShowDialog();

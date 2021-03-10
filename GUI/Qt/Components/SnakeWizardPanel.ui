@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>191</width>
-    <height>654</height>
+    <height>771</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -413,7 +413,7 @@ border-right: 0px;</string>
              <string>Lower threshold only</string>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="pgThreshold">
              <layout class="QGridLayout" name="gridLayout_3">
@@ -429,8 +429,29 @@ border-right: 0px;</string>
               <property name="verticalSpacing">
                <number>4</number>
               </property>
-              <item row="2" column="0" colspan="2">
-               <spacer name="verticalSpacer_9">
+              <item row="6" column="0">
+               <widget class="QLabel" name="label_18">
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Upper&lt;br/&gt;threshold:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+               </widget>
+              </item>
+              <item row="10" column="0" colspan="2">
+               <widget class="QLabel" name="label_24">
+                <property name="text">
+                 <string>Default Threshold:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="0" colspan="2">
+               <widget class="QDoubleSlider" name="inThreshUpperSlider">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="0" colspan="2">
+               <spacer name="verticalSpacer_8">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
                 </property>
@@ -444,6 +465,32 @@ border-right: 0px;</string>
                  </size>
                 </property>
                </spacer>
+              </item>
+              <item row="3" column="1">
+               <widget class="QDoubleSpinBox" name="inThreshLowerSpin">
+                <property name="keyboardTracking">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="15" column="0" colspan="2" alignment="Qt::AlignHCenter">
+               <widget class="QPushButton" name="btnThreshDetail">
+                <property name="minimumSize">
+                 <size>
+                  <width>120</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>120</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>More ...</string>
+                </property>
+               </widget>
               </item>
               <item row="1" column="0" colspan="2">
                <widget class="QWidget" name="grpThreshMode" native="true">
@@ -584,69 +631,21 @@ border-right: 0px;</string>
                 </layout>
                </widget>
               </item>
-              <item row="4" column="0" colspan="2">
-               <widget class="QDoubleSlider" name="inThreshLowerSlider">
+              <item row="14" column="0" colspan="2">
+               <spacer name="verticalSpacer_7">
                 <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
+                 <enum>Qt::Vertical</enum>
                 </property>
-               </widget>
-              </item>
-              <item row="8" column="0" colspan="2">
-               <widget class="QDoubleSlider" name="inThreshUpperSlider">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QDoubleSpinBox" name="inThreshLowerSpin">
-                <property name="keyboardTracking">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="6" column="1">
-               <widget class="QDoubleSpinBox" name="inThreshUpperSpin">
-                <property name="keyboardTracking">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="6" column="0">
-               <widget class="QLabel" name="label_18">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Upper&lt;br/&gt;threshold:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-               </widget>
-              </item>
-              <item row="10" column="0" colspan="2" alignment="Qt::AlignHCenter">
-               <widget class="QPushButton" name="btnThreshDetail">
-                <property name="minimumSize">
+                <property name="sizeHint" stdset="0">
                  <size>
-                  <width>120</width>
-                  <height>0</height>
+                  <width>20</width>
+                  <height>40</height>
                  </size>
                 </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>120</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>More ...</string>
-                </property>
-               </widget>
+               </spacer>
               </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label_15">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Lower&lt;br/&gt;threshold:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="0" colspan="2">
-               <spacer name="verticalSpacer_8">
+              <item row="2" column="0" colspan="2">
+               <spacer name="verticalSpacer_9">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
                 </property>
@@ -661,18 +660,12 @@ border-right: 0px;</string>
                 </property>
                </spacer>
               </item>
-              <item row="9" column="0" colspan="2">
-               <spacer name="verticalSpacer_7">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
+              <item row="6" column="1">
+               <widget class="QDoubleSpinBox" name="inThreshUpperSpin">
+                <property name="keyboardTracking">
+                 <bool>false</bool>
                 </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
+               </widget>
               </item>
               <item row="0" column="0" colspan="2">
                <widget class="QLabel" name="label_19">
@@ -680,6 +673,77 @@ border-right: 0px;</string>
                  <string>Threshold mode:</string>
                 </property>
                </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_15">
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Lower&lt;br/&gt;threshold:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0" colspan="2">
+               <widget class="QDoubleSlider" name="inThreshLowerSlider">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item row="11" column="0" colspan="2">
+               <layout class="QHBoxLayout" name="horizontalLayout_11">
+                <item>
+                 <widget class="QToolButton" name="btnThresholdAir">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Air &lt;/span&gt;(-1024HU ~ -800HU)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="text">
+                   <string>...</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QToolButton" name="btnThresholdDPI">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;DPI &lt;/span&gt;(-800HU ~ -200HU)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="text">
+                   <string>...</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QToolButton" name="btnThresholdTissue">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tissue &lt;/span&gt;(-200HU ~ 250HU)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="text">
+                   <string>...</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QToolButton" name="btnThresholdBone">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Bone &lt;/span&gt;(250HU ~ 3071HU)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="text">
+                   <string>...</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_6">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
               </item>
              </layout>
             </widget>
@@ -1599,10 +1663,10 @@ border-right: 0px;</string>
             <property name="showGrid">
              <bool>true</bool>
             </property>
-            <attribute name="horizontalHeaderDefaultSectionSize">
+            <attribute name="horizontalHeaderMinimumSectionSize">
              <number>32</number>
             </attribute>
-            <attribute name="horizontalHeaderMinimumSectionSize">
+            <attribute name="horizontalHeaderDefaultSectionSize">
              <number>32</number>
             </attribute>
             <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
@@ -1617,10 +1681,10 @@ border-right: 0px;</string>
             <attribute name="verticalHeaderCascadingSectionResizes">
              <bool>true</bool>
             </attribute>
-            <attribute name="verticalHeaderDefaultSectionSize">
+            <attribute name="verticalHeaderMinimumSectionSize">
              <number>18</number>
             </attribute>
-            <attribute name="verticalHeaderMinimumSectionSize">
+            <attribute name="verticalHeaderDefaultSectionSize">
              <number>18</number>
             </attribute>
            </widget>

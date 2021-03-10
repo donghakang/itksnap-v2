@@ -202,6 +202,12 @@ public:
   /** Called when entering the evolution page */
   void OnEvolutionPageFinish();
 
+
+
+
+  void ChangeThreshold(double min, double max);
+
+
   /**
    * Perform a single step of snake evolution. Returns true if the evolution
    * has converged

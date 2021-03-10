@@ -909,7 +909,10 @@ SnakeWizardModel
 }
 
 
-
+void SnakeWizardModel::ChangeThreshold(double min, double max) {
+  this->SetThresholdLowerValue(min);
+  this->SetThresholdUpperValue(max);
+}
 
 
 bool SnakeWizardModel::GetPreviewValue(bool &value)
