@@ -3,6 +3,7 @@
 #include "AnnotationModel.h"
 #include "GenericSliceView.h"
 #include "SliceViewPanel.h"
+// #include "SliceDefaultViewPanel.h"
 
 AnnotationInteractionMode::AnnotationInteractionMode(GenericSliceView *parent)
   : SliceWindowInteractionDelegateWidget(parent)

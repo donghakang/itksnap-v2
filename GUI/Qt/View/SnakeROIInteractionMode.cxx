@@ -66,6 +66,7 @@ void SnakeROIInteractionMode::mouseReleaseEvent(QMouseEvent *ev)
 }
 
 #include <SliceViewPanel.h>
+// #include "SliceDefaultViewPanel.h"
 
 void SnakeROIInteractionMode::enterEvent(QEvent *)
 {

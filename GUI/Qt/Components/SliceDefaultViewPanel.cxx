@@ -1,5 +1,5 @@
-#include "SliceViewPanel.h"
-#include "ui_SliceViewPanel.h"
+#include "SliceDefaultViewPanel.h"
+#include "ui_SliceDefaultViewPanel.h"
 
 #include "GlobalUIModel.h"
 #include "SNAPEvents.h"
@@ -37,9 +37,9 @@
 #include <QStackedLayout>
 #include <QMenu>
 
-SliceViewPanel::SliceViewPanel(QWidget *parent) :
+SliceDefaultViewPanel::SliceDefaultViewPanel(QWidget *parent) :
     SNAPComponent(parent),
-    ui(new Ui::SliceViewPanel)
+    ui(new Ui::SliceDefaultViewPanel)
 {
   ui->setupUi(this);
 
@@ -160,18 +160,18 @@ SliceViewPanel::SliceViewPanel(QWidget *parent) :
   m_ContextToolButton->setStyleSheet("QToolButton::menu-indicator { image: none; }");
 }
 
-SliceViewPanel::~SliceViewPanel()
+SliceDefaultViewPanel::~SliceDefaultViewPanel()
 {
   delete ui;
   delete m_DrawingCrosshairCursor;
 }
 
-GenericSliceView * SliceViewPanel::GetSliceView()
+GenericSliceView * SliceDefaultViewPanel::GetSliceView()
 {
   return ui->sliceView;
 }
 
-void SliceViewPanel::Initialize(GlobalUIModel *model, unsigned int index)
+void SliceDefaultViewPanel::Initialize(GlobalUIModel *model, unsigned int index)
 {
   // Store the model
   this->m_GlobalUI = model;
@@ -288,7 +288,7 @@ void SliceViewPanel::Initialize(GlobalUIModel *model, unsigned int index)
              SLOT(OnHoveredLayerChange(const EventBucket &)));
 }
 
-void SliceViewPanel::onModelUpdate(const EventBucket &eb)
+void SliceDefaultViewPanel::onModelUpdate(const EventBucket &eb)
 {
   if(eb.HasEvent(ToolbarModeChangeEvent()) ||
      eb.HasEvent(StateMachineChangeEvent()))
@@ -303,7 +303,7 @@ void SliceViewPanel::onModelUpdate(const EventBucket &eb)
   ui->sliceView->update();
 }
 
-void SliceViewPanel::on_inSlicePosition_valueChanged(int value)
+void SliceDefaultViewPanel::on_inSlicePosition_valueChanged(int value)
 {
   // Update the text output
   int pos = ui->inSlicePosition->value();
@@ -311,7 +311,7 @@ void SliceViewPanel::on_inSlicePosition_valueChanged(int value)
   ui->lblSliceInfo->setText(QString("%1 of %2").arg(pos+1).arg(lim+1));
 }
 
-void SliceViewPanel::ConfigureEventChain(QWidget *w)
+void SliceDefaultViewPanel::ConfigureEventChain(QWidget *w)
 {
   // Remove all event filters from the slice view
   QObjectList kids = ui->sliceView->children();
@@ -337,7 +337,7 @@ void SliceViewPanel::ConfigureEventChain(QWidget *w)
 // TODO: implement semi-transparent rendering on widgets on top of the
 // OpenGL scene using code from
 // http://www.qtcentre.org/wiki/index.php?title=Accelerate_your_Widgets_with_OpenGL
-void SliceViewPanel::enterEvent(QEvent *)
+void SliceDefaultViewPanel::enterEvent(QEvent *)
 {
   /*
   ui->mainToolbar->show();
@@ -345,7 +345,7 @@ void SliceViewPanel::enterEvent(QEvent *)
   */
 }
 
-void SliceViewPanel::leaveEvent(QEvent *)
+void SliceDefaultViewPanel::leaveEvent(QEvent *)
 {
   /*
   ui->mainToolbar->hide();
@@ -355,7 +355,7 @@ void SliceViewPanel::leaveEvent(QEvent *)
 
 }
 
-void SliceViewPanel::SetActiveMode(QWidget *mode, bool clearChildren)
+void SliceDefaultViewPanel::SetActiveMode(QWidget *mode, bool clearChildren)
 {
   // If the widget does not have a stacked layout, do nothing, we've reached
   // the end of the recursion
@@ -381,7 +381,7 @@ void SliceViewPanel::SetActiveMode(QWidget *mode, bool clearChildren)
     }
 }
 
-void SliceViewPanel::OnToolbarModeChange()
+void SliceDefaultViewPanel::OnToolbarModeChange()
 {
   // Get the renderer and configure its overlays
   GenericSliceRenderer *ren = (GenericSliceRenderer *) ui->sliceView->GetRenderer();
@@ -460,13 +460,13 @@ void SliceViewPanel::OnToolbarModeChange()
     }
 }
 
-void SliceViewPanel::on_btnZoomToFit_clicked()
+void SliceDefaultViewPanel::on_btnZoomToFit_clicked()
 {
   m_GlobalUI->GetSliceCoordinator()->ResetViewToFitInOneWindow(m_Index);
 
 }
 
-void SliceViewPanel::onContextMenu()
+void SliceDefaultViewPanel::onContextMenu()
 {
   if(m_GlobalUI->GetGlobalState()->GetToolbarMode() == POLYGON_DRAWING_MODE)
     {
@@ -488,7 +488,7 @@ void SliceViewPanel::onContextMenu()
     }
 }
 
-void SliceViewPanel::SetMouseMotionTracking(bool enable)
+void SliceDefaultViewPanel::SetMouseMotionTracking(bool enable)
 {
   ui->sliceView->setMouseTracking(enable);
   // TODO: in the future, consider using a better cursor for polygon drawing operations
@@ -500,7 +500,7 @@ void SliceViewPanel::SetMouseMotionTracking(bool enable)
     */
 }
 
-void SliceViewPanel::on_btnExpand_clicked()
+void SliceDefaultViewPanel::on_btnExpand_clicked()
 {
   // Get the layout applied when the button is pressed
   DisplayLayoutModel *dlm = m_GlobalUI->GetDisplayLayoutModel();
@@ -510,7 +510,7 @@ void SliceViewPanel::on_btnExpand_clicked()
   dlm->GetViewPanelLayoutModel()->SetValue(layout);
 }
 
-void SliceViewPanel::UpdateExpandViewButton()
+void SliceDefaultViewPanel::UpdateExpandViewButton()
 {
   // Get the layout applied when the button is pressed
   DisplayLayoutModel *dlm = m_GlobalUI->GetDisplayLayoutModel();
@@ -547,30 +547,30 @@ void SliceViewPanel::UpdateExpandViewButton()
 }
 
 
-void SliceViewPanel::on_btnScreenshot_clicked()
+void SliceDefaultViewPanel::on_btnScreenshot_clicked()
 {
   MainImageWindow *parent = findParentWidget<MainImageWindow>(this);
   parent->ExportScreenshot(m_Index);
 }
 
-void SliceViewPanel::on_btnToggleLayout_clicked()
+void SliceDefaultViewPanel::on_btnToggleLayout_clicked()
 {
   m_GlobalUI->GetDisplayLayoutModel()->ToggleSliceViewLayerLayout();
 }
 
-void SliceViewPanel::on_actionZoom_In_triggered()
+void SliceDefaultViewPanel::on_actionZoom_In_triggered()
 {
   // Zoom in
   m_GlobalUI->GetSliceCoordinator()->ZoomInOrOutInOneWindow(m_Index, 1.1);
 }
 
-void SliceViewPanel::on_actionZoom_Out_triggered()
+void SliceDefaultViewPanel::on_actionZoom_Out_triggered()
 {
   // Zoom out
   m_GlobalUI->GetSliceCoordinator()->ZoomInOrOutInOneWindow(m_Index, 1.0 / 1.1);
 }
 
-void SliceViewPanel::OnHoveredLayerChange(const EventBucket &eb)
+void SliceDefaultViewPanel::OnHoveredLayerChange(const EventBucket &eb)
 {
   // Determine the position where to draw the button
   const SliceViewportLayout::SubViewport *vp = m_SliceModel->GetHoveredViewport();
@@ -610,37 +610,37 @@ void SliceViewPanel::OnHoveredLayerChange(const EventBucket &eb)
 
 
 
-void SliceViewPanel::on_actionAnnotationAcceptLine_triggered()
+void SliceDefaultViewPanel::on_actionAnnotationAcceptLine_triggered()
 {
   m_GlobalUI->GetAnnotationModel(m_Index)->AcceptLine();
 }
 
-void SliceViewPanel::on_actionAnnotationClearLine_triggered()
+void SliceDefaultViewPanel::on_actionAnnotationClearLine_triggered()
 {
   m_GlobalUI->GetAnnotationModel(m_Index)->CancelLine();
 }
 
-void SliceViewPanel::on_actionAnnotationSelectAll_triggered()
+void SliceDefaultViewPanel::on_actionAnnotationSelectAll_triggered()
 {
   m_GlobalUI->GetAnnotationModel(m_Index)->SelectAllOnSlice();
 }
 
-void SliceViewPanel::on_actionAnnotationDelete_triggered()
+void SliceDefaultViewPanel::on_actionAnnotationDelete_triggered()
 {
   m_GlobalUI->GetAnnotationModel(m_Index)->DeleteSelectedOnSlice();
 }
 
-void SliceViewPanel::on_actionAnnotationNext_triggered()
+void SliceDefaultViewPanel::on_actionAnnotationNext_triggered()
 {
   m_GlobalUI->GetAnnotationModel(m_Index)->GoToNextAnnotation();
 }
 
-void SliceViewPanel::on_actionAnnotationPrevious_triggered()
+void SliceDefaultViewPanel::on_actionAnnotationPrevious_triggered()
 {
   m_GlobalUI->GetAnnotationModel(m_Index)->GoToPreviousAnnotation();
 }
 
-void SliceViewPanel::on_actionAnnotationEdit_triggered()
+void SliceDefaultViewPanel::on_actionAnnotationEdit_triggered()
 {
   // Show the annotation editor
   AnnotationEditDialog *dialog = new AnnotationEditDialog(this);

@@ -693,40 +693,40 @@ border-right: 0px;</string>
                 <item>
                  <widget class="QToolButton" name="btnThresholdAir">
                   <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Air &lt;/span&gt;(-1024HU ~ -800HU)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Air &lt;/span&gt;&lt;/p&gt;&lt;p&gt;(-1024HU ~ -800HU)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="text">
-                   <string>...</string>
+                   <string>Air</string>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QToolButton" name="btnThresholdDPI">
                   <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;DPI &lt;/span&gt;(-800HU ~ -200HU)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;DPI&lt;/span&gt;&lt;/p&gt;&lt;p&gt;(-800HU ~ -200HU)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="text">
-                   <string>...</string>
+                   <string>DPI</string>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QToolButton" name="btnThresholdTissue">
                   <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tissue &lt;/span&gt;(-200HU ~ 250HU)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tissue&lt;/span&gt;&lt;/p&gt;&lt;p&gt;(-200HU ~ 250HU)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="text">
-                   <string>...</string>
+                   <string>Tissue</string>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QToolButton" name="btnThresholdBone">
                   <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Bone &lt;/span&gt;(250HU ~ 3071HU)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Bone&lt;/span&gt;&lt;/p&gt;&lt;p&gt;(250HU ~ 3071HU)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="text">
-                   <string>...</string>
+                   <string>Bone</string>
                   </property>
                  </widget>
                 </item>

@@ -37,6 +37,8 @@ public:
 
   GenericView3D *Get3DView();
 
+  void Automatic3DView();
+
 signals:
 
   void renderProgress(int progress);

@@ -329,6 +329,8 @@ private slots:
 
   void on_actionNext_Display_Layout_triggered();
 
+  void on_actionOpen_3D_Image_triggered();
+
 protected:
 
   // bool eventFilter(QObject *obj, QEvent *event);

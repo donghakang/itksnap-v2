@@ -659,6 +659,7 @@ SET(UI_QT_CXX
   GUI/Qt/Components/SNAPQApplication.cxx
   GUI/Qt/Components/SNAPQtCommon.cxx
   GUI/Qt/Components/SliceViewPanel.cxx
+  GUI/Qt/Components/SliceDefaultViewPanel.cxx
   GUI/Qt/Components/SynchronizationInspector.cxx
   GUI/Qt/Components/TagListWidget.cxx
   GUI/Qt/Components/ViewPanel3D.cxx
@@ -751,6 +752,7 @@ SET(UI_MOC_HEADERS
   GUI/Qt/Components/SNAPComponent.h
   GUI/Qt/Components/SNAPQApplication.h
   GUI/Qt/Components/SliceViewPanel.h
+  GUI/Qt/Components/SliceDefaultViewPanel.h
   GUI/Qt/Components/SynchronizationInspector.h
   GUI/Qt/Components/TagListWidget.h
   GUI/Qt/Components/ViewPanel3D.h
@@ -856,6 +858,7 @@ SET(UI_FORMS
   GUI/Qt/Components/QtWarningDialog.ui
   GUI/Qt/Components/RecentHistoryItemsView.ui
   GUI/Qt/Components/SliceViewPanel.ui
+  GUI/Qt/Components/SliceDefaultViewPanel.ui
   GUI/Qt/Components/SnakeToolROIPanel.ui
   GUI/Qt/Components/SnakeWizardPanel.ui
   GUI/Qt/Components/SynchronizationInspector.ui

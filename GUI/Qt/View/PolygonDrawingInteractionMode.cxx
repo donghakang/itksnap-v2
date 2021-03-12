@@ -7,6 +7,7 @@
 #include "IRISApplication.h"
 #include "GlobalState.h"
 #include "GenericSliceView.h"
+#include "SliceDefaultViewPanel.h"
 
 #include <QMenu>
 

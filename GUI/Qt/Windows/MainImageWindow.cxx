@@ -191,8 +191,8 @@ MainImageWindow::MainImageWindow(QWidget *parent) :
 
   // Create the view panels array
   m_ViewPanels[0] = ui->panel0;
-  m_ViewPanels[1] = ui->panel1;
-  m_ViewPanels[2] = ui->panel2;
+  m_ViewPanels[1] = ui->panel2;
+  m_ViewPanels[2] = ui->panel1;
   m_ViewPanels[3] = ui->panel3D;
 
   // Initialize the dialogs
@@ -463,8 +463,8 @@ void MainImageWindow::Initialize(GlobalUIModel *model)
 
   // Initialize all the child panels
   ui->panel0->Initialize(model,0);
-  ui->panel1->Initialize(model,1);
-  ui->panel2->Initialize(model,2);
+  ui->panel2->Initialize(model,1);
+  ui->panel1->Initialize(model,2);
   ui->panel3D->Initialize(model);
 
   // Initialize the dialogs
@@ -2434,4 +2434,12 @@ void MainImageWindow::on_actionNext_Display_Layout_triggered()
   DisplayLayoutModel::ViewPanelLayout lo = m_Model->GetDisplayLayoutModel()->GetViewPanelLayout();
   lo = (DisplayLayoutModel::ViewPanelLayout)((lo + 1) % 5);
   m_Model->GetDisplayLayoutModel()->SetViewPanelLayout(lo);
+}
+
+
+
+// Open 3D Image view (ViewPanel3D)
+void MainImageWindow::on_actionOpen_3D_Image_triggered() {
+  std::cout << "Open 3D Image View happens here" << std::endl;
+  ui->panel3D->Automatic3DView();
 }

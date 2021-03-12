@@ -15,6 +15,7 @@
 #include "SNAPQApplication.h"
 #include "MainImageWindow.h"
 #include "SliceViewPanel.h"
+#include "SliceDefaultViewPanel.h"
 #include "ImageIODelegates.h"
 #include "IRISException.h"
 #include "IRISApplication.h"

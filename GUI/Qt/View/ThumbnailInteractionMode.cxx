@@ -37,6 +37,7 @@
 #include <SNAPQtCommon.h>
 #include "GenericSliceView.h"
 #include "SliceViewPanel.h"
+// #include "SliceDefaultViewPanel.h"
 
 
 ThumbnailInteractionMode::ThumbnailInteractionMode(GenericSliceView *parent) :

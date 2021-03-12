@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SliceViewPanel</class>
- <widget class="QWidget" name="SliceViewPanel">
+ <class>SliceDefaultViewPanel</class>
+ <widget class="QWidget" name="SliceDefaultViewPanel">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>542</width>
+    <width>561</width>
     <height>382</height>
    </rect>
   </property>
@@ -194,14 +194,47 @@ font-size:11px;
              <number>0</number>
             </property>
             <item>
+             <widget class="QToolButton" name="btnAxialView">
+              <property name="minimumSize">
+               <size>
+                <width>39</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>39</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Axial</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="btnSagittalView">
+              <property name="text">
+               <string>Coronal</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="btnCoronalView">
+              <property name="text">
+               <string>Sagittal</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="horizontalSpacer">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
-                <width>40</width>
-                <height>20</height>
+                <width>225</width>
+                <height>17</height>
                </size>
               </property>
              </spacer>
