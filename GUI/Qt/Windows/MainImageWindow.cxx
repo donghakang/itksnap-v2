@@ -193,7 +193,7 @@ MainImageWindow::MainImageWindow(QWidget *parent) :
   m_ViewPanels[0] = ui->panel0;
   m_ViewPanels[1] = ui->panel2;
   m_ViewPanels[2] = ui->panel1;
-  m_ViewPanels[3] = ui->panel3D;
+  m_ViewPanels[3] = ui->panel_default;
 
   // Initialize the dialogs
   m_LabelEditor = new LabelEditorDialog(this);
@@ -351,6 +351,10 @@ MainImageWindow::MainImageWindow(QWidget *parent) :
   this->HookupShortcutToAction(QKeySequence("{"), ui->actionActivatePreviousSegmentationLayer);
   this->HookupShortcutToAction(QKeySequence("}"), ui->actionActivateNextSegmentationLayer);
 
+  // Intensity
+  this->HookupShortcutToAction(QKeySequence("i"), ui->actionSegmentationToggle);
+  this->HookupShortcutToAction(QKeySequence("o"), ui->actionSegmentationToggle);
+
   // Common modifiers
   const QString mod_option(QChar(0x2325));
   const QString mod_shift(QChar(0x21e7));
@@ -463,9 +467,10 @@ void MainImageWindow::Initialize(GlobalUIModel *model)
 
   // Initialize all the child panels
   ui->panel0->Initialize(model,0);
-  ui->panel2->Initialize(model,1);
   ui->panel1->Initialize(model,2);
-  ui->panel3D->Initialize(model);
+  ui->panel2->Initialize(model,1);
+  ui->panel_default->Initialize(model, 0);
+  ui->panel_default->IsDefaultMode();
 
   // Initialize the dialogs
   m_LabelEditor->SetModel(model->GetLabelEditorModel());
@@ -1052,9 +1057,9 @@ SliceViewPanel * MainImageWindow::GetSlicePanel(unsigned int i)
   if(i == 0)
     return ui->panel0;
   else if (i == 1)
-    return ui->panel1;
-  else if (i == 2)
     return ui->panel2;
+  else if (i == 2)
+    return ui->panel1;
   else
     return NULL;
 }
@@ -1654,7 +1659,8 @@ void MainImageWindow::ExportScreenshot(int panelIndex)
   QtAbstractOpenGLBox *target = NULL;
   if(panelIndex == 3)
     {
-    target = ui->panel3D->Get3DView();
+    // target = ui->panel3D->Get3DView();
+    // target = ui->panel_default->GetView();
     }
   else
     {
@@ -2441,5 +2447,5 @@ void MainImageWindow::on_actionNext_Display_Layout_triggered()
 // Open 3D Image view (ViewPanel3D)
 void MainImageWindow::on_actionOpen_3D_Image_triggered() {
   std::cout << "Open 3D Image View happens here" << std::endl;
-  ui->panel3D->Automatic3DView();
+  // ui->panel3D->Automatic3DView();
 }

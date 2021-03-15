@@ -129,6 +129,7 @@ SliceViewPanel::SliceViewPanel(QWidget *parent) :
   // Also lay out the pages
   QStackedLayout *loPages = new QStackedLayout();
   loPages->addWidget(ui->pageDefault);
+  loPages->addWidget(ui->pageDefaultMore);            // panel without segmentation
   loPages->addWidget(ui->pagePolygonDraw);
   loPages->addWidget(ui->pagePolygonEdit);
   loPages->addWidget(ui->pagePolygonInactive);
@@ -290,14 +291,17 @@ void SliceViewPanel::Initialize(GlobalUIModel *model, unsigned int index)
 
 void SliceViewPanel::onModelUpdate(const EventBucket &eb)
 {
+  
   if(eb.HasEvent(ToolbarModeChangeEvent()) ||
      eb.HasEvent(StateMachineChangeEvent()))
     {
+      std::cout << "(SliceViewPanel::onModelUpdate()) -- ******** progress" <<  std::endl;
     OnToolbarModeChange();
     }
   if(eb.HasEvent(DisplayLayoutModel::ViewPanelLayoutChangeEvent()) ||
      eb.HasEvent(DisplayLayoutModel::LayerLayoutChangeEvent()))
     {
+      std::cout << "(SliceViewPanel::onModelUpdate()) -- ******** layour layout" <<  std::endl;
     UpdateExpandViewButton();
     }
   ui->sliceView->update();
@@ -432,6 +436,8 @@ void SliceViewPanel::OnToolbarModeChange()
   // Need to change to the appropriate page
   QStackedLayout *loPages =
       static_cast<QStackedLayout *>(ui->toolbar->layout());
+
+
   if(m_GlobalUI->GetGlobalState()->GetToolbarMode() == POLYGON_DRAWING_MODE)
     {
     switch(m_GlobalUI->GetPolygonDrawingModel(m_Index)->GetState())
@@ -452,18 +458,31 @@ void SliceViewPanel::OnToolbarModeChange()
     else if(am->GetAnnotationMode() == ANNOTATION_SELECT)
       loPages->setCurrentWidget(ui->pageAnnotateSelect);
     else
-      loPages->setCurrentWidget(ui->pageDefault);
+      loPages->setCurrentWidget(ui->pageDefault);         //TODO: fix this back to pageDefault
     }
   else
     {
-    loPages->setCurrentWidget(ui->pageDefault);
+    loPages->setCurrentWidget(ui->pageDefault);           //TODO: fix this back to pageDefault
     }
+
+  
+  if (this->DEFAULT_MODE) {
+    loPages->setCurrentWidget(ui->pageDefaultMore);
+  }
+}
+
+void SliceViewPanel::zoomToFit() {
+  m_GlobalUI->GetSliceCoordinator()->ResetViewToFitInOneWindow(m_Index);
 }
 
 void SliceViewPanel::on_btnZoomToFit_clicked()
 {
-  m_GlobalUI->GetSliceCoordinator()->ResetViewToFitInOneWindow(m_Index);
+  this->zoomToFit();
+}
 
+void SliceViewPanel::on_btnZoomToFit_2_clicked()
+{
+  this->zoomToFit();
 }
 
 void SliceViewPanel::onContextMenu()
@@ -519,7 +538,7 @@ void SliceViewPanel::UpdateExpandViewButton()
 
   // Set the appropriate icon
   static const char* iconNames[] =
-    { "fourviews", "axial", "coronal", "sagittal", "3d" };
+    { "fourviews", "axial", "sagittal", "coronal", "default" };
 
   QString iconFile = QString(":/root/dl_%1.png").arg(iconNames[layout]);
   ui->btnExpand->setIcon(QIcon(iconFile));
@@ -604,11 +623,42 @@ void SliceViewPanel::OnHoveredLayerChange(const EventBucket &eb)
     }
 }
 
+void SliceViewPanel::IsDefaultMode() {
+  std::cout << "default mode" << std::endl;
+  this->DEFAULT_MODE = true;
+  
+}
 
 
+void SliceViewPanel::resetTo(unsigned int index) {
+  std::cout << "++++++++++++++" << index << std::endl;
+  this->m_Index = index;
 
+  // Get the slice model
+  m_SliceModel = m_GlobalUI->GetSliceModel(index);
 
+  // Initialize the slice view
+  ui->sliceView->SetModel(m_SliceModel);
 
+  // Update
+  this->UpdateExpandViewButton();
+  ui->sliceView->update();
+}
+
+void SliceViewPanel::on_btnAxialView_clicked() {
+  std::cout << "btn Axial clicked" << std::endl;
+  this->resetTo(0);
+}
+
+void SliceViewPanel::on_btnCoronalView_clicked() {
+  std::cout << "btn Coronal clicked" << std::endl;
+  this->resetTo(1);
+}
+
+void SliceViewPanel::on_btnSagittalView_clicked() {
+  std::cout << "btn Sagittal clicked" << std::endl;
+  this->resetTo(2);
+}
 
 void SliceViewPanel::on_actionAnnotationAcceptLine_triggered()
 {

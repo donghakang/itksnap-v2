@@ -73,7 +73,6 @@ SliceDefaultViewPanel::SliceDefaultViewPanel(QWidget *parent) :
   m_MenuPolyEditing->addAction(ui->actionClearPolygon);
 
   // Connect the actions to the toolbar buttons (sucks to do this by hand)
-  ui->btnAcceptPolygon->setDefaultAction(ui->actionAccept);
   ui->btnPastePolygon->setDefaultAction(ui->actionPaste);
   ui->btnClearDrawing->setDefaultAction(ui->actionClearDrawing);
   ui->btnCloseLoop->setDefaultAction(ui->actionComplete);
@@ -171,14 +170,15 @@ GenericSliceView * SliceDefaultViewPanel::GetSliceView()
   return ui->sliceView;
 }
 
-void SliceDefaultViewPanel::Initialize(GlobalUIModel *model, unsigned int index)
+void SliceDefaultViewPanel::Initialize(GlobalUIModel *model)
 {
   // Store the model
   this->m_GlobalUI = model;
-  this->m_Index = index;
+  this->m_Index = 0;
 
   // Get the slice model
-  m_SliceModel = m_GlobalUI->GetSliceModel(index);
+  m_SliceModel = m_GlobalUI->GetSliceModel(0);
+  unsigned int index = 0;
 
   // Initialize the slice view
   ui->sliceView->SetModel(m_SliceModel);
@@ -490,7 +490,7 @@ void SliceDefaultViewPanel::onContextMenu()
 
 void SliceDefaultViewPanel::SetMouseMotionTracking(bool enable)
 {
-  ui->sliceView->setMouseTracking(enable);
+  // ui->sliceView->setMouseTracking(enable);
   // TODO: in the future, consider using a better cursor for polygon drawing operations
   /*
   if(enable)

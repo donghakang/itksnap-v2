@@ -38,6 +38,7 @@ public:
   // Callback for when the toolbar changes
   void SetMouseMotionTracking(bool enable);
 
+  void IsDefaultMode();
 
 private slots:
   void on_actionAnnotationEdit_triggered();
@@ -46,6 +47,7 @@ private slots:
   void on_inSlicePosition_valueChanged(int value);
 
   void on_btnZoomToFit_clicked();
+  void on_btnZoomToFit_2_clicked();
 
   void onModelUpdate(const EventBucket &eb);
 
@@ -77,7 +79,14 @@ private slots:
 
   void on_actionAnnotationPrevious_triggered();
 
+  void on_btnAxialView_clicked();
+  void on_btnCoronalView_clicked();
+  void on_btnSagittalView_clicked();
+
+
 private:
+  bool DEFAULT_MODE = false;
+
   Ui::SliceViewPanel *ui;
 
   // Popup menus used for polygon operations
@@ -125,6 +134,9 @@ private:
   /** Update the expand view / contract view button based on the state */
   void UpdateExpandViewButton();
 
+
+  void zoomToFit();
+  void resetTo(unsigned int index);
 };
 
 #endif // SLICEVIEWPANEL_H

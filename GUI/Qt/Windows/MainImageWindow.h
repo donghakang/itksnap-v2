@@ -33,6 +33,7 @@
 
 class GenericSliceView;
 class SliceViewPanel;
+class SliceDefaultViewPanel;
 class GlobalUIModel;
 class QDockWidget;
 class SnakeWizardPanel;
