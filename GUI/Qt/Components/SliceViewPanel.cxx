@@ -140,9 +140,16 @@ SliceViewPanel::SliceViewPanel(QWidget *parent) :
 
   // Send wheel events from Crosshairs mode to the slider
   ui->imCrosshairs->SetWheelEventTargetWidget(ui->inSlicePosition);
+  ui->imCrosshairs->SetWheelEventIntensityMaxWidget(ui->inMaxIntensityPosition);
+  ui->imCrosshairs->SetWheelEventIntensityMinWidget(ui->inMinIntensityPosition);
 
   // Set page size on the slice position widget
   ui->inSlicePosition->setPageStep(5);
+  ui->inMaxIntensityPosition->setPageStep(5);
+  ui->inMinIntensityPosition->setPageStep(5);
+  
+  ui->inMaxIntensityPosition->setVisible(false);
+  ui->inMinIntensityPosition->setVisible(false);
 
   // Set up the drawing cursor
   QBitmap bmBitmap(":/root/crosshair_cursor_bitmap.png");
@@ -236,7 +243,7 @@ void SliceViewPanel::Initialize(GlobalUIModel *model, unsigned int index)
   // Listen to all (?) events from the snake wizard as well
   connectITK(m_GlobalUI->GetSnakeWizardModel(), IRISEvent());
 
-  // Widget coupling
+  //TODO: Widget coupling 
   makeCoupling(ui->inSlicePosition, m_SliceModel->GetSliceIndexModel());  
 
   // Activation
@@ -295,13 +302,11 @@ void SliceViewPanel::onModelUpdate(const EventBucket &eb)
   if(eb.HasEvent(ToolbarModeChangeEvent()) ||
      eb.HasEvent(StateMachineChangeEvent()))
     {
-      std::cout << "(SliceViewPanel::onModelUpdate()) -- ******** progress" <<  std::endl;
     OnToolbarModeChange();
     }
   if(eb.HasEvent(DisplayLayoutModel::ViewPanelLayoutChangeEvent()) ||
      eb.HasEvent(DisplayLayoutModel::LayerLayoutChangeEvent()))
     {
-      std::cout << "(SliceViewPanel::onModelUpdate()) -- ******** layour layout" <<  std::endl;
     UpdateExpandViewButton();
     }
   ui->sliceView->update();
@@ -314,6 +319,15 @@ void SliceViewPanel::on_inSlicePosition_valueChanged(int value)
   int lim = ui->inSlicePosition->maximum();
   ui->lblSliceInfo->setText(QString("%1 of %2").arg(pos+1).arg(lim+1));
 }
+
+void SliceViewPanel::on_inMaxIntensityPosition_valueChanged(int value) {
+  std::cout << "max intensity   ";
+}
+
+void SliceViewPanel::on_inMinIntensityPosition_valueChanged(int value) {
+  std::cout << "min intensity   ";
+}
+
 
 void SliceViewPanel::ConfigureEventChain(QWidget *w)
 {
@@ -626,14 +640,12 @@ void SliceViewPanel::OnHoveredLayerChange(const EventBucket &eb)
 }
 
 void SliceViewPanel::IsDefaultMode() {
-  std::cout << "default mode" << std::endl;
   this->DEFAULT_MODE = true;
   
 }
 
 
 void SliceViewPanel::resetTo(unsigned int index) {
-  std::cout << "++++++++++++++" << index << std::endl;
   this->m_Index = index;
 
   // Get the slice model

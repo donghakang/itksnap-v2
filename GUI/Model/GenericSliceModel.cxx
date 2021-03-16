@@ -86,8 +86,6 @@ void GenericSliceModel::Initialize(GlobalUIModel *model, int index)
   // Set the window ID
   m_Id = index;
 
-  std::cout << index << std::endl;
-
   // The slice is not yet initialized
   m_SliceInitialized = false;
 

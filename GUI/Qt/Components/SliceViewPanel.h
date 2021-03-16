@@ -45,6 +45,8 @@ private slots:
 
 private slots:
   void on_inSlicePosition_valueChanged(int value);
+  void on_inMaxIntensityPosition_valueChanged(int value);
+  void on_inMinIntensityPosition_valueChanged(int value);
 
   void on_btnZoomToFit_clicked();
   void on_btnZoomToFit_2_clicked();

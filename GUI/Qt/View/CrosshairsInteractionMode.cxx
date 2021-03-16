@@ -302,12 +302,21 @@ void CrosshairsInteractionMode::wheelEvent(QWheelEvent *event)
       }
     }
   else if(event->modifiers() == Qt::ControlModifier) {
-    std::cout << "Press control and move   ";
-
-    std::cout << scrollLines  << std::endl;
+    QWheelEvent evnew(
+          event->pos(), event->globalPos(), event->delta(),
+          event->buttons(), event->modifiers(),
+          event->orientation());
+    QCoreApplication::sendEvent(m_WheelEventIntensityMinTarget, &evnew);
+    event->accept();
   }
   else if(event->modifiers() == Qt::AltModifier) {
     std::cout << "Press alt and move" << std::endl;
+    QWheelEvent evnew(
+          event->pos(), event->globalPos(), event->delta(),
+          event->buttons(), event->modifiers(),
+          event->orientation());
+    QCoreApplication::sendEvent(m_WheelEventIntensityMaxTarget, &evnew);
+    event->accept();
   }
   else if(m_WheelEventTarget)
     {
@@ -336,3 +345,10 @@ void CrosshairsInteractionMode::SetWheelEventTargetWidget(QWidget *w)
   m_WheelEventTarget = w;
 }
 
+void CrosshairsInteractionMode::SetWheelEventIntensityMaxWidget(QWidget *w) {
+  m_WheelEventIntensityMaxTarget = w;
+}
+
+void CrosshairsInteractionMode::SetWheelEventIntensityMinWidget(QWidget *w) {
+  m_WheelEventIntensityMinTarget = w;
+}

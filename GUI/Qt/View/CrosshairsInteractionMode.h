@@ -66,6 +66,8 @@ public:
 
   // Set the widget to which the wheel events should be forwarded
   void SetWheelEventTargetWidget(QWidget *w);
+  void SetWheelEventIntensityMaxWidget(QWidget *w);
+  void SetWheelEventIntensityMinWidget(QWidget *w);
 
 signals:
 
@@ -84,6 +86,7 @@ protected:
   // Written by Dongha Kang
   // Widget to wheel events to be forwarded
   QWidget *m_WheelEventIntensityMaxTarget;
+  QWidget *m_WheelEventIntensityMinTarget;
 
   // Internal used to emulate right/middle button
   Qt::MouseButton GetButtonForEvent(QMouseEvent *ev);
