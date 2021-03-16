@@ -43,7 +43,10 @@ CrosshairsInteractionMode::CrosshairsInteractionMode(GenericSliceView *parent) :
 
 
   m_WheelEventTarget = NULL;
-  m_Model = NULL;
+  m_WheelEventIntensityMaxTarget = NULL;
+  m_WheelEventIntensityMinTarget = NULL;
+
+  m_Model = NULL;                   // OrthogonalSliceCursorNavigationModel -> 
 
   SetMouseButtonBehaviorToCrosshairsMode();
   setAttribute(Qt::WA_AcceptTouchEvents, true);
@@ -298,7 +301,14 @@ void CrosshairsInteractionMode::wheelEvent(QWheelEvent *event)
       event->accept();
       }
     }
+  else if(event->modifiers() == Qt::ControlModifier) {
+    std::cout << "Press control and move   ";
 
+    std::cout << scrollLines  << std::endl;
+  }
+  else if(event->modifiers() == Qt::AltModifier) {
+    std::cout << "Press alt and move" << std::endl;
+  }
   else if(m_WheelEventTarget)
     {
     QWheelEvent evnew(
@@ -325,3 +335,4 @@ void CrosshairsInteractionMode::SetWheelEventTargetWidget(QWidget *w)
 {
   m_WheelEventTarget = w;
 }
+

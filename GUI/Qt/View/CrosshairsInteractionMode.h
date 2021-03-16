@@ -81,6 +81,10 @@ protected:
   // Widget to which wheel events are forwarded
   QWidget *m_WheelEventTarget;
 
+  // Written by Dongha Kang
+  // Widget to wheel events to be forwarded
+  QWidget *m_WheelEventIntensityMaxTarget;
+
   // Internal used to emulate right/middle button
   Qt::MouseButton GetButtonForEvent(QMouseEvent *ev);
   Qt::MouseButton m_LastPressEmulatedButton;

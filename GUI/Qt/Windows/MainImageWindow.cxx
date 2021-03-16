@@ -473,8 +473,8 @@ void MainImageWindow::Initialize(GlobalUIModel *model)
   ui->panel0->Initialize(model,0);
   ui->panel1->Initialize(model,2);
   ui->panel2->Initialize(model,1);
-  // ui->panel_default->Initialize(model);
-  // ui->panel_default->IsDefaultMode();
+  ui->panel_default->Initialize(model, 0);
+  ui->panel_default->IsDefaultMode();
 
   // Initialize the dialogs
   m_LabelEditor->SetModel(model->GetLabelEditorModel());
@@ -1065,8 +1065,8 @@ SliceViewPanel * MainImageWindow::GetSlicePanel(unsigned int i)
   else if (i == 2)
     return ui->panel1;
   else
-    // return ui->panel_default;
-    return NULL;
+    return ui->panel_default;
+    // return NULL;
 }
 
 void MainImageWindow::closeEvent(QCloseEvent *event)
@@ -1664,9 +1664,9 @@ void MainImageWindow::ExportScreenshot(int panelIndex)
   QtAbstractOpenGLBox *target = NULL;
   if(panelIndex == 3)
     {
-    target = ui->panel_default->Get3DView();
-    // SliceViewPanel *svp = reinterpret_cast<SliceViewPanel *>(m_ViewPanels[panelIndex]);
-    // target = svp->GetSliceView();
+    // target = ui->panel_default->Get3DView();
+    SliceViewPanel *svp = reinterpret_cast<SliceViewPanel *>(m_ViewPanels[panelIndex]);
+    target = svp->GetSliceView();
     }
   else
     {
@@ -2459,7 +2459,6 @@ void MainImageWindow::on_actionNext_Display_Layout_triggered()
 
 // Open 3D Image view (ViewPanel3D)
 void MainImageWindow::on_actionOpen_3D_Image_triggered() {
-  std::cout << "Open 3D Image View happens here" << std::endl;
   // ui->panel3D->Automatic3DView();
   m_View3DDialog->Update();
   RaiseDialog(m_View3DDialog);

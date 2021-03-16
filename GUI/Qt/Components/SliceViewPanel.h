@@ -80,7 +80,9 @@ private slots:
   void on_actionAnnotationPrevious_triggered();
 
   void on_btnAxialView_clicked();
+
   void on_btnCoronalView_clicked();
+  
   void on_btnSagittalView_clicked();
 
 

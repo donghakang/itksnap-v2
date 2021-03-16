@@ -59,7 +59,9 @@ void SNAPQApplication::setMainWindow(MainImageWindow *mainwin)
 
 bool SNAPQApplication::notify(QObject *object, QEvent *event)
 {
-  try { return QApplication::notify(object, event); }
+  try { 
+    return QApplication::notify(object, event); 
+  }
   catch(std::exception &exc)
   {
     // Crash!
