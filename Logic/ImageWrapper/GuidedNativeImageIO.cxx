@@ -849,7 +849,6 @@ GuidedNativeImageIO
         m_NativeComponents = m_DICOMImagesPerIPP;
       }
     } else {
-      std::cout << "------------------------------(GuidedNativeImageIO.cxx) NON_DICOM " << std::endl;
       // Non-DICOM: read from single image
       // We no longer use ImageFileReader here because of an issue: the 
       // m_IOBase may have an open file handle (from call to ReadImageInfo)

@@ -54,6 +54,7 @@
 #include "ImageWrapperBase.h"
 #include "IRISImageData.h"
 #include "AboutDialog.h"
+#include "View3DDialog.h"
 #include "HistoryManager.h"
 #include "DefaultBehaviorSettings.h"
 #include "SynchronizationModel.h"
@@ -270,6 +271,9 @@ MainImageWindow::MainImageWindow(QWidget *parent) :
   // Create the about dialog
   m_AboutDialog = new AboutDialog(this);
 
+  // Create the 3D view dialog
+  m_View3DDialog = new View3DDialog(this);
+
   // Create the preferences dialog
   m_PreferencesDialog = new PreferencesDialog(this);
 
@@ -352,8 +356,8 @@ MainImageWindow::MainImageWindow(QWidget *parent) :
   this->HookupShortcutToAction(QKeySequence("}"), ui->actionActivateNextSegmentationLayer);
 
   // Intensity
-  this->HookupShortcutToAction(QKeySequence("i"), ui->actionSegmentationToggle);
-  this->HookupShortcutToAction(QKeySequence("o"), ui->actionSegmentationToggle);
+  this->HookupShortcutToAction(QKeySequence("i"), ui->actionIncreaseIntensity);
+  this->HookupShortcutToAction(QKeySequence("o"), ui->actionDecreaseIntensity);
 
   // Common modifiers
   const QString mod_option(QChar(0x2325));
@@ -469,8 +473,8 @@ void MainImageWindow::Initialize(GlobalUIModel *model)
   ui->panel0->Initialize(model,0);
   ui->panel1->Initialize(model,2);
   ui->panel2->Initialize(model,1);
-  ui->panel_default->Initialize(model, 0);
-  ui->panel_default->IsDefaultMode();
+  // ui->panel_default->Initialize(model);
+  // ui->panel_default->IsDefaultMode();
 
   // Initialize the dialogs
   m_LabelEditor->SetModel(model->GetLabelEditorModel());
@@ -483,6 +487,7 @@ void MainImageWindow::Initialize(GlobalUIModel *model)
   m_InterpolateLabelsDialog->SetModel(model->GetInterpolateLabelModel());
   m_RegistrationDialog->SetModel(model->GetRegistrationModel());
   m_DSSDialog->SetModel(model->GetDistributedSegmentationModel());
+  m_View3DDialog->SetModel(model);
 
   // Initialize the docked panels
   m_ControlPanel->SetModel(model);
@@ -789,7 +794,6 @@ void MainImageWindow::UpdateCanvasDimensions()
       {
       Vector2ui tiling =
           m_Model->GetDisplayLayoutModel()->GetSliceViewLayerTilingModel()->GetValue();
-
       // Compute the tiling aspect ratio
       double tilingAR = tiling(1) * 1.0 / tiling(0);
 
@@ -1061,6 +1065,7 @@ SliceViewPanel * MainImageWindow::GetSlicePanel(unsigned int i)
   else if (i == 2)
     return ui->panel1;
   else
+    // return ui->panel_default;
     return NULL;
 }
 
@@ -1659,8 +1664,9 @@ void MainImageWindow::ExportScreenshot(int panelIndex)
   QtAbstractOpenGLBox *target = NULL;
   if(panelIndex == 3)
     {
-    // target = ui->panel3D->Get3DView();
-    // target = ui->panel_default->GetView();
+    target = ui->panel_default->Get3DView();
+    // SliceViewPanel *svp = reinterpret_cast<SliceViewPanel *>(m_ViewPanels[panelIndex]);
+    // target = svp->GetSliceView();
     }
   else
     {
@@ -1779,6 +1785,13 @@ void MainImageWindow::on_actionSegmentationToggle_triggered()
   m_Model->SetSegmentationVisibility(!value);
 }
 
+void MainImageWindow::on_actionIncreaseIntensity_triggered() {
+  m_Model->IncreaseContrastAllLayers();
+}
+
+void MainImageWindow::on_actionDecreaseIntensity_triggered() {
+  m_Model->DecreaseContrastAllLayers();
+}
 
 void MainImageWindow::on_actionLoadLabels_triggered()
 {
@@ -2448,4 +2461,6 @@ void MainImageWindow::on_actionNext_Display_Layout_triggered()
 void MainImageWindow::on_actionOpen_3D_Image_triggered() {
   std::cout << "Open 3D Image View happens here" << std::endl;
   // ui->panel3D->Automatic3DView();
+  m_View3DDialog->Update();
+  RaiseDialog(m_View3DDialog);
 }

@@ -151,11 +151,18 @@ public:
 
 
   /*
-   * Written By 강동하
+   * Written By Dongha Kang
    * This function is to set level and window as specific value
   */
   virtual void DefaultFitContrast(); 
 
+  /**
+   * Written By Dongha Kang
+   * This function is to adjust contrast level by a step. 
+   */
+  virtual void CalculateT(Vector2d irange, Vector2d MinMax);
+  virtual void IncreaseMaximumContrast();
+  virtual void DecreaseMaximumContrast();
 
   /**
    * Has the intensity curve been adjusted from its default (reset) state?

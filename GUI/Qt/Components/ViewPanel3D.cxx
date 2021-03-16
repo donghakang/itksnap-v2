@@ -58,6 +58,27 @@ GenericView3D *ViewPanel3D::Get3DView()
   return ui->view3d;
 }
 
+void ViewPanel3D::Update() {
+
+  std::cout << "update 3d view" << std::endl;
+
+  try
+  {
+    // Tell the model to update itself
+    m_Model->UpdateSegmentationMesh(m_Model->GetParentUI()->GetProgressCommand());
+    // m_Model->UpdateSegmentationMesh(m_RenderProgressCommand);
+  }
+  catch (IRISException &IRISexc)
+  {
+    QMessageBox::warning(this, "Problem generating mesh", IRISexc.what());
+  }
+
+  // TODO: Delete this later - should be automatic!
+  ui->view3d->repaint();
+  std::cout << "update 3d view --- end" << std::endl;
+}
+
+
 void ViewPanel3D::Automatic3DView()
 {
   std::cout << "Automatic 3D View" << std::endl;
@@ -100,19 +121,7 @@ void ViewPanel3D::onModelUpdate(const EventBucket &bucket)
 
 void ViewPanel3D::on_btnUpdateMesh_clicked()
 {
-  try
-  {
-    // Tell the model to update itself
-    m_Model->UpdateSegmentationMesh(m_Model->GetParentUI()->GetProgressCommand());
-    // m_Model->UpdateSegmentationMesh(m_RenderProgressCommand);
-  }
-  catch (IRISException &IRISexc)
-  {
-    QMessageBox::warning(this, "Problem generating mesh", IRISexc.what());
-  }
-
-  // TODO: Delete this later - should be automatic!
-  ui->view3d->repaint();
+  this->Update();
 }
 
 void ViewPanel3D::Initialize(GlobalUIModel *globalUI)

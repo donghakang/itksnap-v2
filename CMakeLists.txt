@@ -685,6 +685,7 @@ SET(UI_QT_CXX
   GUI/Qt/View/SnakeROIInteractionMode.cxx
   GUI/Qt/View/ThumbnailInteractionMode.cxx
   GUI/Qt/Windows/AboutDialog.cxx
+  GUI/Qt/Windows/View3DDialog.cxx
   GUI/Qt/Windows/AnnotationEditDialog.cxx
   GUI/Qt/Windows/DropActionDialog.cxx
   GUI/Qt/Windows/ImageIODialog.cxx
@@ -779,6 +780,7 @@ SET(UI_MOC_HEADERS
   GUI/Qt/View/TestOpenGLDialog.h
   GUI/Qt/View/ThumbnailInteractionMode.h
   GUI/Qt/Windows/AboutDialog.h
+  GUI/Qt/Windows/View3DDialog.h
   GUI/Qt/Windows/AnnotationEditDialog.h
   GUI/Qt/Windows/DropActionDialog.h
   GUI/Qt/Windows/ImageIODialog.h
@@ -865,6 +867,7 @@ SET(UI_FORMS
   GUI/Qt/Components/ViewPanel3D.ui
   GUI/Qt/Components/ZoomInspector.ui
   GUI/Qt/Windows/AboutDialog.ui
+  GUI/Qt/Windows/View3DDialog.ui
   GUI/Qt/Windows/AnnotationEditDialog.ui
   GUI/Qt/Windows/DropActionDialog.ui
   GUI/Qt/Windows/ImageIODialog.ui

@@ -523,8 +523,10 @@ void SliceViewPanel::on_btnExpand_clicked()
 {
   // Get the layout applied when the button is pressed
   DisplayLayoutModel *dlm = m_GlobalUI->GetDisplayLayoutModel();
+  std::cout << m_Index << std::endl;
   DisplayLayoutModel::ViewPanelLayout layout =
       dlm->GetViewPanelExpandButtonActionModel(m_Index)->GetValue();
+
   // Apply this layout
   dlm->GetViewPanelLayoutModel()->SetValue(layout);
 }

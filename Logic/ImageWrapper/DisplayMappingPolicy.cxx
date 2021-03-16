@@ -393,8 +393,6 @@ void
 AbstractContinuousImageDisplayMappingPolicy
 ::DefaultFitContrast() {
 
-  // TODO: Control Histogram
-
   // Compute the unit coordinate values that correspond to min and max
   Vector2d irange = this->GetNativeImageRangeForCurve();
   int level = -500;
@@ -412,6 +410,38 @@ AbstractContinuousImageDisplayMappingPolicy
   // Set the window and level
   this->GetIntensityCurve()->ScaleControlPointsToWindow(t0, t1);
 }
+
+void 
+AbstractContinuousImageDisplayMappingPolicy
+::CalculateT(Vector2d irange, Vector2d MinMax) {
+  float t1 = (MinMax[1] - irange[0]) / (irange[1] - irange[0]);
+  float t0 = (MinMax[0] - irange[0]) / (irange[1] - irange[0]);
+
+  std::cout << "max: " << MinMax[1] << "    min: " << MinMax[0] << std::endl;
+
+  this->GetIntensityCurve()->ScaleControlPointsToWindow(t0, t1);
+}
+
+void
+AbstractContinuousImageDisplayMappingPolicy
+::IncreaseMaximumContrast() {
+  Vector2d irange = this->GetNativeImageRangeForCurve();
+  Vector2d MinMax = this->GetCurveMinMaxNative();
+  MinMax[1] += 40;
+
+  CalculateT(irange, MinMax);
+}
+
+void
+AbstractContinuousImageDisplayMappingPolicy
+::DecreaseMaximumContrast() {
+  Vector2d irange = this->GetNativeImageRangeForCurve();
+  Vector2d MinMax = this->GetCurveMinMaxNative();
+  MinMax[1] -= 40;
+
+  CalculateT(irange, MinMax);
+}
+
 
 bool AbstractContinuousImageDisplayMappingPolicy::IsContrastInDefaultState()
 {

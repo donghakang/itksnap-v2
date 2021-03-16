@@ -64,7 +64,7 @@ font-size:13px;
          <widget class="SliceViewPanel" name="panel1" native="true"/>
         </item>
         <item row="1" column="0">
-         <widget class="SliceViewPanel" name="panel_default" native="true">
+         <widget class="ViewPanel3D" name="panel_default" native="true">
           <property name="styleSheet">
            <string notr="true"/>
           </property>
@@ -537,6 +537,13 @@ color:rgb(103, 103, 103);
      <addaction name="actionAutoContrastGlobal"/>
      <addaction name="actionResetContrastGlobal"/>
     </widget>
+    <widget class="QMenu" name="menuToolsAppearance">
+     <property name="title">
+      <string>Appearance</string>
+     </property>
+     <addaction name="actionIncreaseIntensity"/>
+     <addaction name="actionDecreaseIntensity"/>
+    </widget>
     <addaction name="separator"/>
     <addaction name="actionLayerInspector"/>
     <addaction name="separator"/>
@@ -554,6 +561,8 @@ color:rgb(103, 103, 103);
     <addaction name="actionDSS"/>
     <addaction name="separator"/>
     <addaction name="actionInterpolate_Labels"/>
+    <addaction name="separator"/>
+    <addaction name="menuToolsAppearance"/>
     <addaction name="separator"/>
     <addaction name="actionPreferences"/>
     <addaction name="separator"/>
@@ -1211,6 +1220,22 @@ color:rgb(103, 103, 103);
    </property>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Spray Paint Mode&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Used to add voxels to the surfaces of existing segmentations. &lt;br/&gt;&lt;/p&gt;&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td style=&quot; padding-left:5; padding-right:5; padding-top:0; padding-bottom:0;&quot;&gt;&lt;p&gt;&lt;img src=&quot;:/root/icons8_mouse_left_click_16.png&quot;/&gt;&lt;/p&gt;&lt;/td&gt;&lt;td style=&quot; padding-left:5; padding-right:5; padding-top:0; padding-bottom:0;&quot;&gt;&lt;p&gt;Press and hold to apply spray paint. &lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot; padding-left:5; padding-right:5; padding-top:0; padding-bottom:0;&quot;&gt;&lt;p&gt;&lt;img src=&quot;:/root/icons8_mouse_right_click_16.png&quot;/&gt;&lt;/p&gt;&lt;/td&gt;&lt;td style=&quot; padding-left:5; padding-right:5; padding-top:0; padding-bottom:0;&quot;&gt;&lt;p&gt;Hold and drag to zoom in / zoom out.&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot; padding-left:5; padding-right:5; padding-top:0; padding-bottom:0;&quot;/&gt;&lt;td style=&quot; padding-left:5; padding-right:5; padding-top:0; padding-bottom:0;&quot;/&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionIncreaseIntensity">
+   <property name="text">
+    <string>Increase intensity</string>
+   </property>
+   <property name="shortcut">
+    <string>O</string>
+   </property>
+  </action>
+  <action name="actionDecreaseIntensity">
+   <property name="text">
+    <string>Increase Opacity</string>
+   </property>
+   <property name="shortcut">
+    <string>I</string>
    </property>
   </action>
   <action name="actionOverlayVisibilityToggleAll">

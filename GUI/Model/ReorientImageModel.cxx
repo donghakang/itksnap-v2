@@ -10,7 +10,6 @@
 
 ReorientImageModel::ReorientImageModel()
 {
-  std::cout<<"fffffffff"<<std::endl;
   // Initialized cached values
   m_CurrentRAIValue = "";
   m_CurrentOrientationIsOblique = false;

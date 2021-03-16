@@ -373,6 +373,7 @@ bool GlobalUIModel::CheckState(UIState state)
   return false;
 }
 
+// CONTRAST
 void GlobalUIModel::AutoContrastAllLayers()
 {
   GenericImageData *id = m_Driver->GetCurrentImageData();
@@ -398,6 +399,32 @@ void GlobalUIModel::ResetContrastAllLayers()
       policy->GetIntensityCurve()->Reset();
     }
 }
+
+void GlobalUIModel::IncreaseContrastAllLayers() {
+  GenericImageData *id = m_Driver->GetCurrentImageData();
+  for(LayerIterator it = id->GetLayers(MAIN_ROLE | OVERLAY_ROLE); !it.IsAtEnd(); ++it)
+    {
+    ImageWrapperBase *layer = it.GetLayer();
+    AbstractContinuousImageDisplayMappingPolicy *policy =
+        dynamic_cast<AbstractContinuousImageDisplayMappingPolicy *>(layer->GetDisplayMapping());
+    if(policy)
+      policy->IncreaseMaximumContrast();
+    }
+}
+
+void GlobalUIModel::DecreaseContrastAllLayers() {
+  GenericImageData *id = m_Driver->GetCurrentImageData();
+  for(LayerIterator it = id->GetLayers(MAIN_ROLE | OVERLAY_ROLE); !it.IsAtEnd(); ++it)
+    {
+    ImageWrapperBase *layer = it.GetLayer();
+    AbstractContinuousImageDisplayMappingPolicy *policy =
+        dynamic_cast<AbstractContinuousImageDisplayMappingPolicy *>(layer->GetDisplayMapping());
+    if(policy)
+      policy->DecreaseMaximumContrast();
+    }
+}
+
+
 
 void GlobalUIModel::ToggleOverlayVisibility()
 {

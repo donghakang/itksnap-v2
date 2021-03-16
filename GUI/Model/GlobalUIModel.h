@@ -329,6 +329,12 @@ public:
   /** Auto-adjust contrast in all image layers */
   void ResetContrastAllLayers();
 
+  // Written by Dongha Kang
+  /** Manual-Adjust Contrast in all image layers by 1 */
+  void IncreaseContrastAllLayers();
+  void DecreaseContrastAllLayers();
+
+
   /** A function for switching between segmentation layers when there multiple */
   void CycleSelectedSegmentationLayer(int direction);
 

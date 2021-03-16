@@ -41,6 +41,7 @@ class EventBucket;
 class QModelIndex;
 class QProgressDialog;
 class AboutDialog;
+class View3DDialog;
 class QStackedWidget;
 
 class LabelEditorDialog;
@@ -207,7 +208,12 @@ private slots:
 
   void on_actionSaveSegmentation_triggered();
 
-  void on_actionSaveSegmentationAs_triggered();
+  void on_actionSaveSegmentationAs_triggered(); 
+
+
+  void on_actionIncreaseIntensity_triggered();
+  void on_actionDecreaseIntensity_triggered();
+
 
 
   void on_actionOverlayVisibilityToggleAll_triggered();
@@ -418,6 +424,8 @@ private:
   RegistrationDialog *m_RegistrationDialog;
 
   DistributedSegmentationDialog *m_DSSDialog;
+
+  View3DDialog *m_View3DDialog;
 
   // A timer used to animate components
   QTimer *m_AnimateTimer;
