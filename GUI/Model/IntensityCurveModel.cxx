@@ -36,6 +36,14 @@ IntensityCurveModel::IntensityCurveModel()
           &Self::GetIntensityRangeIndexedValueAndRange,
           &Self::SetIntensityRangeIndexedValue);
 
+  // Written by Dongha Kang
+  // for SliceViewPanel
+  for(int i = 0; i < 4; i++)
+    m_ManualIntensityRangeModel[i] = wrapIndexedGetterSetterPairAsProperty(
+          this, i,
+          &Self::GetManualIntensityRangeIndexedValueAndRange,
+          &Self::SetManualIntensityRangeIndexedValue);        
+
   // Histogram bin size and other controls
   m_HistogramBinSizeModel = wrapGetterSetterPairAsProperty(
         this,
@@ -51,6 +59,7 @@ IntensityCurveModel::IntensityCurveModel()
         this,
         &Self::GetHistogramScale,
         &Self::SetHistogramScale);
+
 
   // Model events are also state changes for GUI activation
   Rebroadcast(this, ModelUpdateEvent(), StateMachineChangeEvent());
@@ -497,6 +506,125 @@ void IntensityCurveModel::SetIntensityRangeIndexedValue(int index, double value)
 
 
 
+// Written by Dongha Kang
+//enum IntensityRangePropertyType { MINIMUM = 0, MAXIMUM, LEVEL, WINDOW };
+// 업데이트 될때마다 트리거가 된다.
+bool
+IntensityCurveModel
+::GetManualIntensityRangeIndexedValueAndRange(
+    int index,
+    double &value,
+    NumericValueRange<double> *range)
+{
+  if(!this->GetCurve())
+    return false;
+
+  // Get the range of the curve in image units
+  Vector2d crange = this->GetCurveRange();
+
+  // Level and window
+  switch(index)
+    {
+    case 0 : value = crange[0]; break;
+    case 1 : value = crange[1]; break;
+    case 2 : value = (crange[0] + crange[1]) / 2; break;
+    case 3 : value = (crange[1] - crange[0]); break;
+    }
+  // std::cout << "crange: " << crange[0] << ", " << crange[1] << std::endl;
+  // Compute range and step if needed
+  if(range)
+    {
+    // The range for the window and level are basically unlimited. To be safe, we
+    // set it to be two orders of magnitude greater than the largest absolute
+    // value in the image.
+    Vector2d irange = this->GetNativeImageRangeForCurve();
+    double step = pow(10, floor(0.5 + log10(irange[1] - irange[0]) - 3));
+    double order = log10(std::max(fabs(irange[0]), fabs(irange[1])));
+    double maxabsval = pow(10, ceil(order)+2);
+    // std::cout << "irange: " << irange[0] << ", " << irange[1] << std::endl;
+    // std::cout << "step  : " << step << std::endl;
+    // std::cout << "order : " << order << std::endl;
+    // std::cout << "maxabs: " << maxabsval << std::endl << std::endl;
+    // Set the ranges for each of the four properties
+    switch(index)
+      {
+      case 0 :
+      case 1 :
+      case 2 :
+        range->Minimum = -maxabsval;
+        range->Maximum = maxabsval;
+        break;
+      case 3 :
+        range->Minimum = 0.0;
+        range->Maximum = maxabsval;
+        break;
+      }
+    range->StepSize = step;
+    }
+
+  // Value is valid
+  return true;
+}
+
+
+// 결과 값이 바뀔때 마다 트리거 된다.
+void 
+IntensityCurveModel::
+SetManualIntensityRangeIndexedValue(int index, double value)
+{
+  // Get the curve
+  IntensityCurveInterface *curve = this->GetCurve();
+
+  // Get the intensity range and curve range in image units
+  Vector2d irange = this->GetNativeImageRangeForCurve();
+  Vector2d crange = this->GetCurveRange();
+
+  // Get the current window and level
+  double win = crange[1] - crange[0];
+  double level = (crange[0] + crange[1]) / 2;
+  double step = pow(10, floor(0.5 + log10(irange[1] - irange[0]) - 3));
+
+  std::cout << index << "   value : " << value << std::endl;
+
+  // How we set the output range depends on what property was changed
+  switch(index)
+    {
+    case 0:         // min
+      crange[0] = value;
+      if(crange[0] >= crange[1])
+        crange[1] = crange[0] + step;
+      break;
+    case 1:         // max
+      crange[1] = value;
+      if(crange[1] <= crange[0])
+        crange[0] = crange[1] - step;
+      break;
+    case 2:         // level (mid-range)
+      crange[0] = value - win / 2;
+      crange[1] = value + win / 2;
+      break;
+    case 3:         // window
+      if(value <= 0)
+        value = step;
+      crange[0] = level - value / 2;
+      crange[1] = level + value / 2;
+      break;
+    }
+
+  // Map the range into curve units
+  double t0 = (crange[0] - irange[0]) / (irange[1] - irange[0]);
+  double t1 = (crange[1] - irange[0]) / (irange[1] - irange[0]);
+
+
+  curve->ScaleControlPointsToWindow(t0, t1); 
+}
+
+
+
+
+
+
+
 bool
 IntensityCurveModel
 ::GetMovingControlPointPositionAndRange(
@@ -633,6 +761,13 @@ IntensityCurveModel::GetIntensityRangeModel(
     IntensityRangePropertyType index) const
 {
   return m_IntensityRangeModel[index];
+}
+
+AbstractRangedDoubleProperty *
+IntensityCurveModel::GetManualIntensityRangeModel(
+    IntensityRangePropertyType index) const
+{
+  return m_ManualIntensityRangeModel[index];
 }
 
 void IntensityCurveModel::OnAutoFitWindow()

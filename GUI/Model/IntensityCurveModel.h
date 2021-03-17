@@ -39,6 +39,10 @@ public:
 
   irisGetSetMacro(ObserverTag, unsigned long)
 
+  // irisGetMacro(MaxIntensityIndexModel, AbstractRangedIntProperty *)
+  // irisGetMacro(MinIntensityIndexModel, AbstractRangedIntProperty *)
+
+
   IntensityCurveLayerProperties();
   virtual ~IntensityCurveLayerProperties();
 
@@ -161,7 +165,6 @@ public:
   irisGetMacro(HistogramBinSizeModel, AbstractRangedIntProperty *)
   irisGetMacro(HistogramCutoffModel, AbstractRangedDoubleProperty *)
   irisGetMacro(HistogramScaleModel, AbstractSimpleBooleanProperty *)
-
   // This enum lists the types of global intensity range properties for which
   // separate models are defined
   enum IntensityRangePropertyType { MINIMUM = 0, MAXIMUM, LEVEL, WINDOW };
@@ -169,6 +172,10 @@ public:
   // Access the models for the intensity min, max, level and window. These
   // models are specified by an index
   AbstractRangedDoubleProperty *GetIntensityRangeModel(
+      IntensityRangePropertyType index) const;
+
+  // Access the models for the intensity in SliceViewPanel through the mouse interaction 
+  AbstractRangedDoubleProperty *GetManualIntensityRangeModel(
       IntensityRangePropertyType index) const;
 
   void OnAutoFitWindow();
@@ -236,6 +243,14 @@ protected:
   // Histogram bin size access methods
   bool GetHistogramScale(bool &value);
   void SetHistogramScale(bool value);
+
+
+  // Written by Dongha Kang
+  SmartPtr<AbstractRangedDoubleProperty> m_ManualIntensityRangeModel[4];
+  bool GetManualIntensityRangeIndexedValueAndRange(int index,
+                                      double &value,
+                                      NumericValueRange<double> *range);
+  void SetManualIntensityRangeIndexedValue(int index, double value);
 
 };
 

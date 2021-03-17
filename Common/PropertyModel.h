@@ -71,6 +71,13 @@ template<class TVal> struct NumericValueRange
   void Set(TVal min, TVal max, TVal step)
     { Minimum = min; Maximum = max; StepSize = step; }
 
+  void Get() {
+    std::cout << "Minimum: " << Minimum << std::endl;
+    std::cout << "Maximum: " << Maximum << std::endl;
+    std::cout << "StepSize: " << StepSize << std::endl;
+
+  }
+
   bool operator == (const Self &comp)
   {
     return (Minimum == comp.Minimum) && (Maximum == comp.Maximum) && (StepSize == comp.StepSize);

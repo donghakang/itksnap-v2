@@ -742,9 +742,11 @@ bool GenericSliceModel
     return false;
 
   value = this->GetSliceIndex();
+  // std::cout << "value: " << value << std::endl; 
   if(domain)
     {
     domain->Set(0, this->GetNumberOfSlices()-1, 1);
+    // domain->Get();
     }
   return true;
 }

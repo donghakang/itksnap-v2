@@ -33,6 +33,7 @@
 #include <QBitmap>
 #include <QToolButton>
 #include "AnnotationEditDialog.h"
+#include "IntensityCurveModel.h"
 
 #include <QStackedLayout>
 #include <QMenu>
@@ -46,6 +47,7 @@ SliceViewPanel::SliceViewPanel(QWidget *parent) :
   // Initialize
   m_GlobalUI = NULL;
   m_SliceModel = NULL;
+  m_IntensityModel = NULL;
 
   // Create my own renderers
   m_SnakeModeRenderer = SnakeModeRenderer::New();
@@ -148,8 +150,8 @@ SliceViewPanel::SliceViewPanel(QWidget *parent) :
   ui->inMaxIntensityPosition->setPageStep(5);
   ui->inMinIntensityPosition->setPageStep(5);
   
-  ui->inMaxIntensityPosition->setVisible(false);
-  ui->inMinIntensityPosition->setVisible(false);
+  // ui->inMaxIntensityPosition->setVisible(false);        // not-visible scroll bars that deals with 
+  // ui->inMinIntensityPosition->setVisible(false);
 
   // Set up the drawing cursor
   QBitmap bmBitmap(":/root/crosshair_cursor_bitmap.png");
@@ -187,6 +189,7 @@ void SliceViewPanel::Initialize(GlobalUIModel *model, unsigned int index)
 
   // Get the slice model
   m_SliceModel = m_GlobalUI->GetSliceModel(index);
+  m_IntensityModel = m_GlobalUI->GetIntensityCurveModel();
 
   // Initialize the slice view
   ui->sliceView->SetModel(m_SliceModel);
@@ -243,8 +246,15 @@ void SliceViewPanel::Initialize(GlobalUIModel *model, unsigned int index)
   // Listen to all (?) events from the snake wizard as well
   connectITK(m_GlobalUI->GetSnakeWizardModel(), IRISEvent());
 
+  
+
   //TODO: Widget coupling 
   makeCoupling(ui->inSlicePosition, m_SliceModel->GetSliceIndexModel());  
+  makeCoupling(ui->inMinIntensityPosition, m_IntensityModel->GetManualIntensityRangeModel(IntensityCurveModel::LEVEL));
+  makeCoupling(ui->inMaxIntensityPosition, m_IntensityModel->GetManualIntensityRangeModel(IntensityCurveModel::WINDOW));
+  // makeCoupling(ui->inMinIntensityPosition, )
+
+  
 
   // Activation
   activateOnFlag(this, m_GlobalUI, UIF_BASEIMG_LOADED);
@@ -321,11 +331,9 @@ void SliceViewPanel::on_inSlicePosition_valueChanged(int value)
 }
 
 void SliceViewPanel::on_inMaxIntensityPosition_valueChanged(int value) {
-  std::cout << "max intensity   ";
 }
 
 void SliceViewPanel::on_inMinIntensityPosition_valueChanged(int value) {
-  std::cout << "min intensity   ";
 }
 
 

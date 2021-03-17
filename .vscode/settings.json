@@ -71,6 +71,16 @@
         "typeinfo": "cpp",
         "unordered_map": "cpp",
         "utility": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "codecvt": "cpp",
+        "condition_variable": "cpp",
+        "random": "cpp",
+        "strstream": "cpp",
+        "thread": "cpp",
+        "valarray": "cpp",
+        "*.tcc": "cpp",
+        "memory_resource": "cpp",
+        "cfenv": "cpp",
+        "cinttypes": "cpp"
     }
 }

@@ -5,6 +5,7 @@
 #include <GlobalState.h>
 
 class GenericSliceView;
+class IntensityCurveModel;
 class QMenu;
 class QtInteractionDelegateWidget;
 class SnakeModeRenderer;
@@ -104,6 +105,9 @@ private:
 
   // Slice model
   GenericSliceModel *m_SliceModel;
+
+  // Intensity model
+  IntensityCurveModel *m_IntensityModel;
 
   // Custom cursor for drawing operations
   QCursor *m_DrawingCrosshairCursor;

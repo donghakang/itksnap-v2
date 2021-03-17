@@ -310,7 +310,6 @@ void CrosshairsInteractionMode::wheelEvent(QWheelEvent *event)
     event->accept();
   }
   else if(event->modifiers() == Qt::AltModifier) {
-    std::cout << "Press alt and move" << std::endl;
     QWheelEvent evnew(
           event->pos(), event->globalPos(), event->delta(),
           event->buttons(), event->modifiers(),
