@@ -41,6 +41,7 @@ public:
 
   void IsDefaultMode();
 
+
 private slots:
   void on_actionAnnotationEdit_triggered();
 

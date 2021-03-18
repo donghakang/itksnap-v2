@@ -304,11 +304,13 @@ void SliceViewPanel::Initialize(GlobalUIModel *model, unsigned int index)
 
   connectITK(m_SliceModel->GetHoveredImageIsThumbnailModel(), ValueChangedEvent(),
              SLOT(OnHoveredLayerChange(const EventBucket &)));
+
+  // --- Segmentation Not Visible in Panel-Default
+
 }
 
 void SliceViewPanel::onModelUpdate(const EventBucket &eb)
 {
-  
   if(eb.HasEvent(ToolbarModeChangeEvent()) ||
      eb.HasEvent(StateMachineChangeEvent()))
     {
@@ -328,6 +330,7 @@ void SliceViewPanel::on_inSlicePosition_valueChanged(int value)
   int pos = ui->inSlicePosition->value();
   int lim = ui->inSlicePosition->maximum();
   ui->lblSliceInfo->setText(QString("%1 of %2").arg(pos+1).arg(lim+1));
+  
 }
 
 
