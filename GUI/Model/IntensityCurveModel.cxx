@@ -470,7 +470,6 @@ void IntensityCurveModel::SetIntensityRangeIndexedValue(int index, double value)
   double win = crange[1] - crange[0];
   double level = (crange[0] + crange[1]) / 2;
   double step = pow(10, floor(0.5 + log10(irange[1] - irange[0]) - 3));
-
   // How we set the output range depends on what property was changed
   switch(index)
     {
@@ -530,7 +529,6 @@ IntensityCurveModel
     case 2 : value = (crange[0] + crange[1]) / 2; break;
     case 3 : value = (crange[1] - crange[0]); break;
     }
-  // std::cout << "crange: " << crange[0] << ", " << crange[1] << std::endl;
   // Compute range and step if needed
   if(range)
     {
@@ -541,10 +539,6 @@ IntensityCurveModel
     double step = pow(10, floor(0.5 + log10(irange[1] - irange[0]) - 3));
     double order = log10(std::max(fabs(irange[0]), fabs(irange[1])));
     double maxabsval = pow(10, ceil(order)+2);
-    // std::cout << "irange: " << irange[0] << ", " << irange[1] << std::endl;
-    // std::cout << "step  : " << step << std::endl;
-    // std::cout << "order : " << order << std::endl;
-    // std::cout << "maxabs: " << maxabsval << std::endl << std::endl;
     // Set the ranges for each of the four properties
     switch(index)
       {
@@ -583,8 +577,6 @@ SetManualIntensityRangeIndexedValue(int index, double value)
   double win = crange[1] - crange[0];
   double level = (crange[0] + crange[1]) / 2;
   double step = pow(10, floor(0.5 + log10(irange[1] - irange[0]) - 3));
-
-  std::cout << index << "   value : " << value << std::endl;
 
   // How we set the output range depends on what property was changed
   switch(index)

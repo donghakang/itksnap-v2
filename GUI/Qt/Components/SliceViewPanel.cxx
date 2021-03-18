@@ -142,16 +142,16 @@ SliceViewPanel::SliceViewPanel(QWidget *parent) :
 
   // Send wheel events from Crosshairs mode to the slider
   ui->imCrosshairs->SetWheelEventTargetWidget(ui->inSlicePosition);
-  ui->imCrosshairs->SetWheelEventIntensityMaxWidget(ui->inMaxIntensityPosition);
-  ui->imCrosshairs->SetWheelEventIntensityMinWidget(ui->inMinIntensityPosition);
+  ui->imCrosshairs->SetWheelEventIntensityMaxWidget(ui->inWindowIntensityPosition);
+  ui->imCrosshairs->SetWheelEventIntensityMinWidget(ui->inLevelIntensityPosition);
 
   // Set page size on the slice position widget
   ui->inSlicePosition->setPageStep(5);
-  ui->inMaxIntensityPosition->setPageStep(5);
-  ui->inMinIntensityPosition->setPageStep(5);
-  
-  // ui->inMaxIntensityPosition->setVisible(false);        // not-visible scroll bars that deals with 
-  // ui->inMinIntensityPosition->setVisible(false);
+  ui->inWindowIntensityPosition->setPageStep(100);
+  ui->inLevelIntensityPosition->setPageStep(100);
+
+  // ui->inWindowIntensityPosition->setVisible(false);        // not-visible scroll bars that deals with 
+  // ui->inLevelIntensityPosition->setVisible(false);
 
   // Set up the drawing cursor
   QBitmap bmBitmap(":/root/crosshair_cursor_bitmap.png");
@@ -250,9 +250,9 @@ void SliceViewPanel::Initialize(GlobalUIModel *model, unsigned int index)
 
   //TODO: Widget coupling 
   makeCoupling(ui->inSlicePosition, m_SliceModel->GetSliceIndexModel());  
-  makeCoupling(ui->inMinIntensityPosition, m_IntensityModel->GetManualIntensityRangeModel(IntensityCurveModel::LEVEL));
-  makeCoupling(ui->inMaxIntensityPosition, m_IntensityModel->GetManualIntensityRangeModel(IntensityCurveModel::WINDOW));
-  // makeCoupling(ui->inMinIntensityPosition, )
+  makeCoupling(ui->inLevelIntensityPosition, m_IntensityModel->GetManualIntensityRangeModel(IntensityCurveModel::LEVEL));
+  makeCoupling(ui->inWindowIntensityPosition, m_IntensityModel->GetManualIntensityRangeModel(IntensityCurveModel::WINDOW));
+  // makeCoupling(ui->inLevelIntensityPosition, )
 
   
 
@@ -330,12 +330,9 @@ void SliceViewPanel::on_inSlicePosition_valueChanged(int value)
   ui->lblSliceInfo->setText(QString("%1 of %2").arg(pos+1).arg(lim+1));
 }
 
-void SliceViewPanel::on_inMaxIntensityPosition_valueChanged(int value) {
-}
 
-void SliceViewPanel::on_inMinIntensityPosition_valueChanged(int value) {
-}
-
+void SliceViewPanel::on_inLevelIntensityPosition_valueChanged(int value) {  }
+void SliceViewPanel::on_inWindowIntensityPosition_valueChanged(int value) {  }
 
 void SliceViewPanel::ConfigureEventChain(QWidget *w)
 {

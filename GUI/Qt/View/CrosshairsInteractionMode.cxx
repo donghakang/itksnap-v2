@@ -308,6 +308,7 @@ void CrosshairsInteractionMode::wheelEvent(QWheelEvent *event)
           event->orientation());
     QCoreApplication::sendEvent(m_WheelEventIntensityMinTarget, &evnew);
     event->accept();
+    std::cout << "LEVEL: " << QApplication::wheelScrollLines() << std::endl;
   }
   else if(event->modifiers() == Qt::AltModifier) {
     QWheelEvent evnew(
@@ -316,6 +317,7 @@ void CrosshairsInteractionMode::wheelEvent(QWheelEvent *event)
           event->orientation());
     QCoreApplication::sendEvent(m_WheelEventIntensityMaxTarget, &evnew);
     event->accept();
+    std::cout << "WINDO: " << QApplication::wheelScrollLines() << std::endl;
   }
   else if(m_WheelEventTarget)
     {
