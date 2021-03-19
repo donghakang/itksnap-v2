@@ -181,11 +181,15 @@ GenericSliceView * SliceViewPanel::GetSliceView()
   return ui->sliceView;
 }
 
-void SliceViewPanel::Initialize(GlobalUIModel *model, unsigned int index)
+void SliceViewPanel::Initialize(GlobalUIModel *model, unsigned int index, bool default_mode)
 {
   // Store the model
   this->m_GlobalUI = model;
   this->m_Index = index;
+  if (default_mode) {
+    std::cout << "INDEX: " << index << std::endl;
+    this->DEFAULT_MODE = true;
+  }
 
   // Get the slice model
   m_SliceModel = m_GlobalUI->GetSliceModel(index);
@@ -504,7 +508,15 @@ void SliceViewPanel::on_btnZoomToFit_clicked()
 
 void SliceViewPanel::on_btnZoomToFit_2_clicked()
 {
-  this->zoomToFit();
+  // this->zoomToFit();
+  // std::cout << this->m_SliceModel->GetImageData()->GetNumberOfSegmentation() << std::endl;
+  std::cout << this->m_SliceModel->GetImageData()->GetNumberOfLayers(MAIN_ROLE);
+  std::cout << "    " << this->m_SliceModel->GetImageData()->GetNumberOfLayers(OVERLAY_ROLE);
+  std::cout << "    " << this->m_SliceModel->GetImageData()->GetNumberOfLayers(LABEL_ROLE) << std::endl;
+  std::cout << this->m_GlobalUI->GetSliceModel(0)->GetImageData()->GetNumberOfLayers(MAIN_ROLE);
+  std::cout << "    " << this->m_GlobalUI->GetSliceModel(0)->GetImageData()->GetNumberOfLayers(OVERLAY_ROLE);
+  std::cout << "    " << this->m_GlobalUI->GetSliceModel(0)->GetImageData()->GetNumberOfLayers(LABEL_ROLE) << std::endl << std::endl;
+  this->m_SliceModel->GetImageData()->GetMain()->SetSticky(false);
 }
 
 void SliceViewPanel::onContextMenu()

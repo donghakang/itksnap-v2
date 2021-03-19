@@ -26,7 +26,6 @@ View3DDialog::View3DDialog(QWidget *parent) :
 }
 
 void View3DDialog::SetModel(GlobalUIModel *model) {
-  std::cout<< "setmodel" << std::endl;
   this->m_Model = model;
 
   ui->panel3D->Initialize(model);

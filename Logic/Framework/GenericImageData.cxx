@@ -283,7 +283,6 @@ GenericImageData
   while (m_Wrappers[OVERLAY_ROLE].size() > 0)
     UnloadOverlayLast();
 }
-
 void
 GenericImageData
 ::UnloadOverlayLast()
@@ -533,6 +532,11 @@ std::list<ImageWrapperBase *> GenericImageData::FindLayersByRole(int role_filter
 int GenericImageData::GetNumberOfOverlays()
 {
   return m_Wrappers[OVERLAY_ROLE].size();
+}
+
+int GenericImageData::GetNumberOfSegmentation()
+{
+  return m_Wrappers[LABEL_ROLE].size();
 }
 
 ImageWrapperBase *GenericImageData::GetLastOverlay()

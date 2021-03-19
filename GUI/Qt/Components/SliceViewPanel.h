@@ -29,7 +29,7 @@ public:
   ~SliceViewPanel();
 
   // Register the data model with this widget
-  void Initialize(GlobalUIModel *model, unsigned int index);
+  void Initialize(GlobalUIModel *model, unsigned int index, bool default_mode = false);
 
   // Get the index of this panel
   irisGetMacro(Index, unsigned int)

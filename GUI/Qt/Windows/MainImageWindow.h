@@ -79,6 +79,9 @@ public:
 
   SliceViewPanel *GetSlicePanel(unsigned int i);
 
+  // Get Default Slice View Panel
+  SliceDefaultViewPanel *GetDefaultSlicePanel();
+
   // Initialize with a model
   void Initialize(GlobalUIModel *model);
 

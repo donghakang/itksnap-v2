@@ -123,18 +123,6 @@ public:
   ImageWrapperBase* GetMain()
   {
     assert(m_MainImageWrapper->IsInitialized());
-    
-    // std::cout << "GenericImageData.h - GetMain()" << std::endl;
-    // IntensityCurveInterface *curve = m_MainImageWrapper->GetDisplayMapping()->GetIntensityCurve();
-    // assert(curve);
-      
-    // // Get the control point range
-    // float t0, y0, t1, y1;
-    // curve->GetControlPoint(0, t0, y0);
-    // curve->GetControlPoint(1, t1, y1);
-
-    // std::cout << "------ " << t0 << ", " << t1 << std::endl;
-
     return m_MainImageWrapper;
   }
 
@@ -194,6 +182,9 @@ public:
    */
   std::list<ImageWrapperBase *> FindLayersByRole(int role_filter = ALL_ROLES);
 
+
+  // Written by Dongha Kang
+  int GetNumberOfSegmentation();
   int GetNumberOfOverlays();
 
   ImageWrapperBase *GetLastOverlay();
@@ -395,6 +386,12 @@ protected:
 
   // Generate an appropriate default nickname for a particular role
   std::string GenerateNickname(LayerRole role);
+
+
+
+
+
+
 };
 
 #endif

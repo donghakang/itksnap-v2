@@ -473,8 +473,7 @@ void MainImageWindow::Initialize(GlobalUIModel *model)
   ui->panel0->Initialize(model,0);
   ui->panel1->Initialize(model,2);
   ui->panel2->Initialize(model,1);
-  ui->panel_default->Initialize(model, 0);
-  ui->panel_default->IsDefaultMode();
+  ui->panel_default->Initialize(model, 0, true);
 
   // Initialize the dialogs
   m_LabelEditor->SetModel(model->GetLabelEditorModel());

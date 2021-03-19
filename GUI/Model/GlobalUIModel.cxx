@@ -296,7 +296,7 @@ GlobalUIModel::GlobalUIModel()
   Rebroadcast(this, CursorUpdateEvent(), LabelUnderCursorChangedEvent());
   Rebroadcast(m_Driver->GetColorLabelTable(), SegmentationLabelChangeEvent(),
               LabelUnderCursorChangedEvent());
-
+  
   Rebroadcast(m_Driver, SegmentationChangeEvent(), LabelUnderCursorChangedEvent());
   Rebroadcast(m_Driver, SegmentationChangeEvent(), StateMachineChangeEvent());
 

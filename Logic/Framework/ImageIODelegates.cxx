@@ -208,10 +208,14 @@ LoadSegmentationImageDelegate
 
 ImageWrapperBase *LoadSegmentationImageDelegate::UpdateApplicationWithImage(GuidedNativeImageIO *io)
 {
-  if(m_Driver->IsSnakeModeActive())
+  if(m_Driver->IsSnakeModeActive()) {
+    std::cout << "SNAP" << std::endl;
     return m_Driver->UpdateSNAPSegmentationImage(io);
-  else
+  }
+  else {
+    std::cout << "IRIS" << std::endl;
     return m_Driver->UpdateIRISSegmentationImage(io, this->GetMetaDataRegistry(), m_AdditiveMode);
+  }
 }
 
 LoadSegmentationImageDelegate::LoadSegmentationImageDelegate()

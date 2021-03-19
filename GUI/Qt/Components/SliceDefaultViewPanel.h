@@ -5,6 +5,7 @@
 #include <GlobalState.h>
 
 class GenericSliceView;
+class IntensityCurveModel;
 class QMenu;
 class QtInteractionDelegateWidget;
 class SnakeModeRenderer;
@@ -17,8 +18,6 @@ namespace Ui {
     class SliceDefaultViewPanel;
 }
 
-
-
 class SliceDefaultViewPanel : public SNAPComponent
 {
   Q_OBJECT
@@ -30,61 +29,54 @@ public:
   // Register the data model with this widget
   void Initialize(GlobalUIModel *model);
 
-  // Get the index of this panel
-  irisGetMacro(Index, unsigned int)
-
   GenericSliceView *GetSliceView();
 
   // Callback for when the toolbar changes
   void SetMouseMotionTracking(bool enable);
 
 
-private slots:
-  void on_actionAnnotationEdit_triggered();
+// private slots:
+//   void on_inSlicePosition_valueChanged(int value);
+//   void on_inWindowIntensityPosition_valueChanged(int value);
+//   void on_inLevelIntensityPosition_valueChanged(int value);
 
-private slots:
-  void on_inSlicePosition_valueChanged(int value);
+//   void on_btnZoomToFit_clicked();
+//   void on_btnZoomToFit_2_clicked();
 
-  void on_btnZoomToFit_clicked();
+//   void onModelUpdate(const EventBucket &eb);
 
-  void onModelUpdate(const EventBucket &eb);
+//   void OnToolbarModeChange();
 
-  void OnToolbarModeChange();
+//   void onContextMenu();
 
-  void onContextMenu();
+//   void on_btnExpand_clicked();
 
-  void on_btnExpand_clicked();
+//   void on_btnScreenshot_clicked();
 
-  void on_btnScreenshot_clicked();
+//   void on_btnToggleLayout_clicked();
 
-  void on_btnToggleLayout_clicked();
+//   void on_actionZoom_In_triggered();
 
-  void on_actionZoom_In_triggered();
+//   void on_actionZoom_Out_triggered();
 
-  void on_actionZoom_Out_triggered();
+//   void OnHoveredLayerChange(const EventBucket &eb);
 
-  void OnHoveredLayerChange(const EventBucket &eb);
+//   void on_btnAxialView_clicked();
 
-  void on_actionAnnotationAcceptLine_triggered();
+//   void on_btnCoronalView_clicked();
+  
+//   void on_btnSagittalView_clicked();
 
-  void on_actionAnnotationClearLine_triggered();
-
-  void on_actionAnnotationSelectAll_triggered();
-
-  void on_actionAnnotationDelete_triggered();
-
-  void on_actionAnnotationNext_triggered();
-
-  void on_actionAnnotationPrevious_triggered();
 
 private:
+
   Ui::SliceDefaultViewPanel *ui;
 
-  // Popup menus used for polygon operations
-  QMenu *m_MenuPolyInactive, *m_MenuPolyEditing, *m_MenuPolyDrawing;
+//   // Popup menus used for polygon operations
+//   QMenu *m_MenuPolyInactive, *m_MenuPolyEditing, *m_MenuPolyDrawing;
 
-  // Current event filter on the crosshair widget
-  QWidget *m_CurrentEventFilter;
+//   // Current event filter on the crosshair widget
+//   QWidget *m_CurrentEventFilter;
 
   // Global UI pointer
   GlobalUIModel *m_GlobalUI;
@@ -92,39 +84,42 @@ private:
   // Slice model
   GenericSliceModel *m_SliceModel;
 
-  // Custom cursor for drawing operations
-  QCursor *m_DrawingCrosshairCursor;
+  // Intensity model
+  IntensityCurveModel *m_IntensityModel;
 
-  // Context menu tool button
-  QToolButton *m_ContextToolButton;
+//   // Custom cursor for drawing operations
+//   QCursor *m_DrawingCrosshairCursor;
 
-  // Some renderers don't require a separate widget (no user interaction)
-  // and so they are owned by this panel.
-  SmartPtr<SnakeModeRenderer> m_SnakeModeRenderer;
-  SmartPtr<SliceWindowDecorationRenderer> m_DecorationRenderer;
+//   // Context menu tool button
+//   QToolButton *m_ContextToolButton;
 
-  // Index of the panel
-  unsigned int m_Index;
+//   // Some renderers don't require a separate widget (no user interaction)
+//   // and so they are owned by this panel.
+//   SmartPtr<SnakeModeRenderer> m_SnakeModeRenderer;
+//   SmartPtr<SliceWindowDecorationRenderer> m_DecorationRenderer;
 
-  void SetActiveMode(QWidget *mode, bool clearChildren = true);
 
-  /**
-  The common setup is to have an event filter chain
-    widget -- crosshair -- active_mode -- thumbnail
-  In other words, all events first go to the thumbnail,
-  then to the active mode, then to the crosshair mode
-  */
-  void ConfigureEventChain(QWidget *w);
+//   void SetActiveMode(QWidget *mode, bool clearChildren = true);
 
-  /**
-   * Listen to mouse enter/exit events in order to show and hide toolbars
-   */
-  void enterEvent(QEvent *);
-  void leaveEvent(QEvent *);
+//   /**
+//   The common setup is to have an event filter chain
+//     widget -- crosshair -- active_mode -- thumbnail
+//   In other words, all events first go to the thumbnail,
+//   then to the active mode, then to the crosshair mode
+//   */
+//   void ConfigureEventChain(QWidget *w);
 
-  /** Update the expand view / contract view button based on the state */
-  void UpdateExpandViewButton();
+//   /**
+//    * Listen to mouse enter/exit events in order to show and hide toolbars
+//    */
+//   void enterEvent(QEvent *);
+//   void leaveEvent(QEvent *);
 
+//   /** Update the expand view / contract view button based on the state */
+//   void UpdateExpandViewButton();
+
+
+//   void zoomToFit();
 };
 
 #endif // SLICEDEFAULTVIEWPANEL_H
