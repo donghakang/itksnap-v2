@@ -630,7 +630,7 @@ GenericSliceWindow::OnDragAndDrop(const FLTKEvent &event)
 {
   // Check if it is a real file
   if(event.Id == FL_PASTE)
-    {
+  {
     if(itksys::SystemTools::FileExists(Fl::event_text(), true))
       {
       m_ParentUI->OpenDraggedContent(Fl::event_text(), true);

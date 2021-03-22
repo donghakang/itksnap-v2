@@ -23,6 +23,8 @@ protected:
 
   void DrawNicknames();
 
+  void DrawIntensity();
+
   SliceWindowDecorationRenderer();
   virtual ~SliceWindowDecorationRenderer();
 

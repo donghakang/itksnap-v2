@@ -7,6 +7,7 @@
 #include "IRISApplication.h"
 #include "DisplayLayoutModel.h"
 #include "GenericImageData.h"
+#include "IntensityCurveModel.h"
 
 SliceWindowDecorationRenderer::SliceWindowDecorationRenderer()
 {
@@ -22,7 +23,7 @@ void SliceWindowDecorationRenderer::paintGL()
   DrawOrientationLabels();
   DrawRulers();
   DrawNicknames();
-
+  DrawIntensity();
 }
 
 void SliceWindowDecorationRenderer::DrawOrientationLabels()
@@ -381,3 +382,84 @@ void SliceWindowDecorationRenderer::DrawRulers()
   glPopMatrix();
   glPopAttrib();
 }
+
+
+void SliceWindowDecorationRenderer::DrawIntensity()
+{
+   // Draw the nicknames
+  GenericSliceModel *parentModel = this->GetParentRenderer()->GetModel();
+  GlobalUIModel *parentGlobalModel = parentModel->GetParentUI();
+  Vector2d minmax = parentGlobalModel->GetIntensityCurveModel()->GetCurveRange();
+  
+  SNAPAppearanceSettings *as =
+      parentModel->GetParentUI()->GetAppearanceSettings();
+
+  // Get the properties for the labels
+  const OpenGLAppearanceElement *elt =
+      as->GetUIElement(SNAPAppearanceSettings::RULER);
+
+  // Leave if the labels are disabled
+  if(!elt->GetVisible()) return;
+
+
+
+
+  // Get the viewport properties (retina-capable)
+  float vppr = parentModel->GetSizeReporter()->GetViewportPixelRatio();
+
+  // Get the dimensions of the non-thumbnail area where the decorations go
+  Vector2ui vp_pos, vp_size;
+  parentModel->GetNonThumbnailViewport(vp_pos, vp_size);
+
+  // Convert into logical pixel units
+  Vector2f vp = to_float(vp_size) / vppr;
+
+  glPushAttrib(GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT | GL_DEPTH_BUFFER_BIT);
+  glPushMatrix();
+  glLoadIdentity();
+  glScaled(vppr, vppr, 1.0);
+
+  elt->ApplyLineSettings();
+  elt->ApplyColor();
+
+  // The ruler bar should be as large as possible but less than one half
+  // of the screen width (not to go over the markers)
+  double maxw = 0.5 * vp[0] - 20.0;
+  maxw = maxw < 5 ? 5 : maxw;
+
+  double zoom = parentModel->GetViewZoom() / vppr;
+  double scale = 1.0;
+  while(zoom * scale > maxw) scale /= 10.0;
+  while(zoom * scale < 0.1 * maxw) scale *= 10.0;
+
+
+  // Based on the log of the scale, determine the unit
+  std::ostringstream oss;
+  oss << "LEVEL : " << (minmax[0] + minmax[1]) / 2 << "\n";
+  oss << "WINDOW : " << minmax[1] - minmax[0];
+
+  // Get the fontsize in GL pixels
+  int font_size = elt->GetFontSize();
+
+  // Create the font info
+  AbstractRendererPlatformSupport::FontInfo font_info =
+        { AbstractRendererPlatformSupport::SANS, (int)(font_size * vppr), false };
+
+  // See if we can squeeze the label under the ruler
+
+    this->m_PlatformSupport->RenderTextInOpenGL(
+        oss.str().c_str(),
+        font_size, 12, vp[0] / 2.0, font_size * 2,
+        font_info, 
+        AbstractRendererPlatformSupport::LEFT, 
+        AbstractRendererPlatformSupport::BOTTOM, 
+        elt->GetColor(), 
+        elt->GetAlpha());
+
+
+  glPopMatrix();
+  glPopAttrib();
+}
+
+
+
