@@ -399,6 +399,13 @@ GenericImageData
   return (m_Wrappers[OVERLAY_ROLE].size() > 0);
 }
 
+bool
+GenericImageData
+::AreSegmentationsLoaded()
+{
+  return (this->IsMainLoaded() && this->GetNumberOfLayers(LABEL_ROLE) == 0);
+}
+
 void
 GenericImageData
 ::SetCrosshairs(const Vector3ui &crosshairs)

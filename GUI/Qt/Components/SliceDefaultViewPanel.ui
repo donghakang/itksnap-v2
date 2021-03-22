@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>564</width>
-    <height>399</height>
+    <width>576</width>
+    <height>549</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -169,6 +169,12 @@ font-size:11px;
       <item>
        <widget class="QWidget" name="toolbar" native="true">
         <layout class="QVBoxLayout" name="verticalLayout">
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
          <item>
           <widget class="QWidget" name="pageDefaultMore" native="true">
            <property name="minimumSize">
@@ -178,8 +184,14 @@ font-size:11px;
             </size>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <item>
-             <widget class="QToolButton" name="btnAxial">
+             <widget class="QToolButton" name="btnAxialView">
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
@@ -200,7 +212,7 @@ font-size:11px;
              </widget>
             </item>
             <item>
-             <widget class="QToolButton" name="btnCoronal">
+             <widget class="QToolButton" name="btnCoronalView">
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
@@ -221,7 +233,7 @@ font-size:11px;
              </widget>
             </item>
             <item>
-             <widget class="QToolButton" name="btnSagittal">
+             <widget class="QToolButton" name="btnSagittalView">
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
@@ -255,7 +267,7 @@ font-size:11px;
              </spacer>
             </item>
             <item>
-             <widget class="QToolButton" name="btnZoomToFit_2">
+             <widget class="QToolButton" name="btnZoomToFit">
               <property name="maximumSize">
                <size>
                 <width>16777215</width>

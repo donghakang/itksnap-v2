@@ -155,11 +155,14 @@ void SliceDefaultViewPanel::Initialize(GlobalUIModel *model)
   this->m_GlobalUI = model;
 
   // Get the slice model
-  m_SliceModel = m_GlobalUI->GetSliceModel(0);
+  m_SliceModel = m_GlobalUI->GetSliceModel(AXIAL);
+  
   m_IntensityModel = m_GlobalUI->GetIntensityCurveModel();
 
+
+  // m_SliceModel->GetImageData()
   // Initialize the slice view
-  ui->sliceView->SetModel(m_SliceModel);
+  ui->sliceView->SetDefaultModel(m_SliceModel);
 
 
   // Initialize the interaction modes
@@ -170,8 +173,8 @@ void SliceDefaultViewPanel::Initialize(GlobalUIModel *model)
 //   // // ui->labelQuickList->SetModel(m_GlobalUI);
 
   // Initialize the 'orphan' renderers (without a custom widget)
-  GenericSliceRenderer *parentRenderer =
-      static_cast<GenericSliceRenderer *>(ui->sliceView->GetRenderer());
+  // GenericSliceRenderer *parentRenderer =
+  //     static_cast<GenericSliceRenderer *>(ui->sliceView->GetRenderer());
 
 }
 //   // m_DecorationRenderer->SetParentRenderer(parentRenderer);
@@ -460,10 +463,12 @@ void SliceDefaultViewPanel::Initialize(GlobalUIModel *model)
 //   m_GlobalUI->GetSliceCoordinator()->ResetViewToFitInOneWindow(m_Index);
 // }
 
-// void SliceDefaultViewPanel::on_btnZoomToFit_clicked()
-// {
-//   this->zoomToFit();
-// }
+void SliceDefaultViewPanel::on_btnZoomToFit_clicked()
+{
+  std::cout << " SEGMENTATION   " << m_SliceModel->GetSliceSize(); 
+  
+  std::cout << "     OFFF" << std::endl;
+}
 
 // void SliceDefaultViewPanel::on_btnZoomToFit_2_clicked()
 // {
@@ -616,32 +621,31 @@ void SliceDefaultViewPanel::Initialize(GlobalUIModel *model)
 // }
 
 
-// void SliceDefaultViewPanel::resetTo(unsigned int index) {
-//   this->m_Index = index;
+void SliceDefaultViewPanel::resetTo(unsigned int index) {
 
-//   // Get the slice model
-//   m_SliceModel = m_GlobalUI->GetSliceModel(index);
+  // Get the slice model
+  m_SliceModel = m_GlobalUI->GetSliceModel(index);
 
-//   // Initialize the slice view
-//   ui->sliceView->SetModel(m_SliceModel);
+  // Initialize the slice view
+  ui->sliceView->SetDefaultModel(m_SliceModel);
 
-//   // Update
-//   this->UpdateExpandViewButton();
-//   ui->sliceView->update();
-// }
+  // Update
+  // this->UpdateExpandViewButton();
+  ui->sliceView->update();
+}
 
-// void SliceDefaultViewPanel::on_btnAxialView_clicked() {
-//   std::cout << "btn Axial clicked" << std::endl;
-//   this->resetTo(0);
-// }
+void SliceDefaultViewPanel::on_btnAxialView_clicked() {
+  std::cout << "btn Axial clicked" << std::endl;
+  this->resetTo(AXIAL);
+}
 
-// void SliceDefaultViewPanel::on_btnCoronalView_clicked() {
-//   std::cout << "btn Coronal clicked" << std::endl;
-//   this->resetTo(1);
-// }
+void SliceDefaultViewPanel::on_btnCoronalView_clicked() {
+  std::cout << "btn Coronal clicked" << std::endl;
+  this->resetTo(CORONAL);
+}
 
-// void SliceDefaultViewPanel::on_btnSagittalView_clicked() {
-//   std::cout << "btn Sagittal clicked" << std::endl;
-//   this->resetTo(2);
-// }
+void SliceDefaultViewPanel::on_btnSagittalView_clicked() {
+  std::cout << "btn Sagittal clicked" << std::endl;
+  this->resetTo(SAGITTAL);
+}
 

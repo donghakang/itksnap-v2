@@ -18,6 +18,10 @@ namespace Ui {
     class SliceDefaultViewPanel;
 }
 
+enum view {
+  AXIAL, CORONAL, SAGITTAL
+};
+
 class SliceDefaultViewPanel : public SNAPComponent
 {
   Q_OBJECT
@@ -34,13 +38,15 @@ public:
   // Callback for when the toolbar changes
   void SetMouseMotionTracking(bool enable);
 
+  void resetTo(unsigned int index);
 
-// private slots:
+
+private slots:
 //   void on_inSlicePosition_valueChanged(int value);
 //   void on_inWindowIntensityPosition_valueChanged(int value);
 //   void on_inLevelIntensityPosition_valueChanged(int value);
 
-//   void on_btnZoomToFit_clicked();
+  void on_btnZoomToFit_clicked();
 //   void on_btnZoomToFit_2_clicked();
 
 //   void onModelUpdate(const EventBucket &eb);
@@ -61,11 +67,11 @@ public:
 
 //   void OnHoveredLayerChange(const EventBucket &eb);
 
-//   void on_btnAxialView_clicked();
+  void on_btnAxialView_clicked();
 
-//   void on_btnCoronalView_clicked();
+  void on_btnCoronalView_clicked();
   
-//   void on_btnSagittalView_clicked();
+  void on_btnSagittalView_clicked();
 
 
 private:

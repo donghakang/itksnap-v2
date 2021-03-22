@@ -60,7 +60,7 @@ public:
 
   FIRES(ModelUpdateEvent)
 
-  void SetModel(GenericSliceModel *model);
+  void SetModel(GenericSliceModel *model, bool DEFAULT_MODE=false);
 
   void initializeGL() ITK_OVERRIDE;
   virtual void resizeGL(int w, int h, int device_pixel_ratio) ITK_OVERRIDE;
@@ -136,6 +136,9 @@ protected:
   bool IsTiledMode() const;
 
   GenericSliceModel *m_Model;
+
+  // Written by Dongha Kang
+  bool m_DefaultMode = false;       // this is only for default mode. That deals with no segmentation
 
   // Whether rendering to thumbnail or not
   bool m_DrawingZoomThumbnail, m_DrawingLayerThumbnail;

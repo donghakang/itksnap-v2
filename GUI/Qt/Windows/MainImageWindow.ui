@@ -64,10 +64,10 @@ font-size:13px;
          <widget class="SliceViewPanel" name="panel1" native="true"/>
         </item>
         <item row="1" column="0">
-         <widget class="SliceViewPanel" name="panel_default" native="true">
-          <property name="styleSheet">
+         <widget class="SliceDefaultViewPanel" name="panel_default" native="true">
+          <!-- <property name="styleSheet">
            <string notr="true"/>
-          </property>
+          </property> -->
          </widget>
         </item>
         <item row="1" column="1">

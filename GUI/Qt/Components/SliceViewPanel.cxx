@@ -191,12 +191,12 @@ void SliceViewPanel::Initialize(GlobalUIModel *model, unsigned int index, bool d
     this->DEFAULT_MODE = true;
   }
 
-  // Get the slice model
-  m_SliceModel = m_GlobalUI->GetSliceModel(index);
+  // Get the slice model  
+  m_SliceModel = m_GlobalUI->GetSliceModel(index);             // index 에 맞춰서, 정보를 가져온다. 이때, index가 어떤 값일 경우 GlobalUI를 바꾸는 방법밖에 없다.
   m_IntensityModel = m_GlobalUI->GetIntensityCurveModel();
 
   // Initialize the slice view
-  ui->sliceView->SetModel(m_SliceModel);
+  ui->sliceView->SetModel(m_SliceModel);                       // 앞서 가져온 Slice Model을 지정한다. 여기서 Segmentation이 없어야 한다.
 
   // Initialize the interaction modes
   ui->imCrosshairs->SetModel(m_GlobalUI->GetCursorNavigationModel(index));

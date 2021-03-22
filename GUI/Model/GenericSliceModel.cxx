@@ -116,7 +116,7 @@ void GenericSliceModel::Initialize(GlobalUIModel *model, int index)
 
   // The current component in selected layer model depends both on the selected model
   // and on the layer metadata changes
-  m_CurrentComponentInSelectedLayerModel->Rebroadcast(selLayerModel, ValueChangedEvent(), DomainChangedEvent());
+  // m_CurrentComponentInSelectedLayerModel->Rebroadcast(selLayerModel, ValueChangedEvent(), DomainChangedEvent());
   m_CurrentComponentInSelectedLayerModel->Rebroadcast(m_Driver, WrapperMetadataChangeEvent(), DomainChangedEvent());
   m_CurrentComponentInSelectedLayerModel->Rebroadcast(model, LayerChangeEvent(), DomainChangedEvent());
 }

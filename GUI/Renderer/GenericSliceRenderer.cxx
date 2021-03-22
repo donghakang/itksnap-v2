@@ -48,9 +48,11 @@ GenericSliceRenderer
 }
 
 void
-GenericSliceRenderer::SetModel(GenericSliceModel *model)
+GenericSliceRenderer::SetModel(GenericSliceModel *model, bool DEFAULT_MODE)
 {
   this->m_Model = model;
+
+  if (DEFAULT_MODE) this->m_DefaultMode = true;
 
   // Record and rebroadcast changes in the model
   Rebroadcast(m_Model, ModelUpdateEvent(), ModelUpdateEvent());
@@ -94,6 +96,10 @@ GenericSliceRenderer::SetModel(GenericSliceModel *model)
   Rebroadcast(m_Model->GetHoveredImageIsThumbnailModel(), ValueChangedEvent(), AppearanceUpdateEvent());
 
 }
+
+
+
+
 
 void GenericSliceRenderer::OnUpdate()
 {
@@ -738,7 +744,10 @@ void GenericSliceRenderer::DrawSegmentationTexture()
     if(seg_layer)
       {
       Texture *texture = this->GetTextureForLayer(seg_layer);
-      texture->DrawTransparent(alpha);
+      // MODIFIED:
+      // Segmentation is not visible, when panel is 'panel_default'
+      if (this->m_DefaultMode) texture->DrawTransparent(0);
+      else texture->DrawTransparent(alpha);    
       }
     }
   }

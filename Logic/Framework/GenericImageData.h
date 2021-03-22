@@ -289,6 +289,9 @@ public:
    */
   bool AreOverlaysLoaded();
 
+
+  bool AreSegmentationsLoaded();
+
   /**
    * Set the cursor (crosshairs) position, in pixel coordinates
    */

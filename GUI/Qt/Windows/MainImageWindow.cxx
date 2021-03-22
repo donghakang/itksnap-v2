@@ -473,7 +473,7 @@ void MainImageWindow::Initialize(GlobalUIModel *model)
   ui->panel0->Initialize(model,0);
   ui->panel1->Initialize(model,2);
   ui->panel2->Initialize(model,1);
-  ui->panel_default->Initialize(model, 0, true);
+  ui->panel_default->Initialize(model);
 
   // Initialize the dialogs
   m_LabelEditor->SetModel(model->GetLabelEditorModel());
@@ -1064,9 +1064,14 @@ SliceViewPanel * MainImageWindow::GetSlicePanel(unsigned int i)
   else if (i == 2)
     return ui->panel1;
   else
-    return ui->panel_default;
-    // return NULL;
+    // return ui->panel_default;
+    return NULL;
 }
+
+SliceDefaultViewPanel * MainImageWindow::GetDefaultSlicePanel() {
+  return ui->panel_default;
+}
+
 
 void MainImageWindow::closeEvent(QCloseEvent *event)
 {
@@ -1664,8 +1669,8 @@ void MainImageWindow::ExportScreenshot(int panelIndex)
   if(panelIndex == 3)
     {
     // target = ui->panel_default->Get3DView();
-    SliceViewPanel *svp = reinterpret_cast<SliceViewPanel *>(m_ViewPanels[panelIndex]);
-    target = svp->GetSliceView();
+    // SliceViewPanel *svp = reinterpret_cast<SliceViewPanel *>(m_ViewPanels[panelIndex]);
+    // target = svp->GetSliceView();
     }
   else
     {
@@ -1765,7 +1770,7 @@ void MainImageWindow::ExportScreenshotSeries(AnatomicalDirection direction)
 }
 
 
-
+// Segmentation change on button
 void MainImageWindow::on_actionSegmentationIncreaseOpacity_triggered()
 {
   int opacity = m_Model->GetSegmentationOpacity();
@@ -1780,9 +1785,13 @@ void MainImageWindow::on_actionSegmentationDecreaseOpacity_triggered()
 
 void MainImageWindow::on_actionSegmentationToggle_triggered()
 {
-  bool value = m_Model->GetSegmentationVisibility();
-  m_Model->SetSegmentationVisibility(!value);
+  bool value = m_Model->GetSegmentationVisibility();                // m_Model = (GlobalUIModel)
+  m_Model->SetSegmentationVisibility(!value);   
 }
+
+
+
+
 
 void MainImageWindow::on_actionIncreaseIntensity_triggered() {
   m_Model->IncreaseContrastAllLayers();
@@ -1790,6 +1799,13 @@ void MainImageWindow::on_actionIncreaseIntensity_triggered() {
 
 void MainImageWindow::on_actionDecreaseIntensity_triggered() {
   m_Model->DecreaseContrastAllLayers();
+
+  std::cout << m_Model->GetSliceModel(0)->GetImageData()->GetNumberOfSegmentation() << "  " << m_Model->GetSliceModel(0)->GetImageData()->GetNumberOfLayers() << "  " << m_Model->GetSliceModel(0)->GetImageData()->GetNumberOfOverlays() << std::endl;
+  // std::cout << m_Model->GetSliceModel(0)->GetImageData()->GetNumberOfSegmentation() << "  " << m_Model->GetSliceModel(0)->GetImageData()->GetNumberOfLayers() << "  " << m_Model->GetSliceModel(0)->GetImageData()->GetNumberOfOverlays() << std::endl;
+
+
+  std::cout << m_Model->GetSliceModel(1)->GetImageData()->GetNumberOfSegmentation() << "  " << m_Model->GetSliceModel(1)->GetImageData()->GetNumberOfLayers() << "  " << m_Model->GetSliceModel(1)->GetImageData()->GetNumberOfOverlays() << std::endl;
+  std::cout << m_Model->GetSliceModel(2)->GetImageData()->GetNumberOfSegmentation() << "  " << m_Model->GetSliceModel(2)->GetImageData()->GetNumberOfLayers() << "  " << m_Model->GetSliceModel(2)->GetImageData()->GetNumberOfOverlays() << std::endl;
 }
 
 void MainImageWindow::on_actionLoadLabels_triggered()

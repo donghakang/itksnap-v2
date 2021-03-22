@@ -47,6 +47,7 @@ public:
 
   // Set the model (state) for this widget
   void SetModel(GenericSliceModel *model);
+  void SetDefaultModel(GenericSliceModel *model);
 
   // Return the renderer
   irisGetMacro(Renderer, AbstractRenderer *)
