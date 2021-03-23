@@ -14,9 +14,7 @@
 #include "SnakeROIModel.h"
 #include "SliceWindowCoordinator.h"
 #include "PolygonDrawingModel.h"
-#include "AnnotationModel.h"
 #include "InteractiveRegistrationModel.h"
-#include "AnnotationRenderer.h"
 #include "QtWidgetActivator.h"
 #include "SnakeModeRenderer.h"
 #include "SnakeWizardModel.h"
@@ -32,19 +30,10 @@
 #include <QCursor>
 #include <QBitmap>
 #include <QToolButton>
-#include "AnnotationEditDialog.h"
 #include "IntensityCurveModel.h"
 
 #include <QStackedLayout>
 #include <QMenu>
-
-
-/**
- * Written by Dongha Kang
- * - 현재는 이미지를 보여지기만 한다. imThumbnail에서 Segmentation오류가 뜨며, 그것이 마우스 컨트롤을 좌우하는 sliceView이다. 
- * 나중에 업데이트 할때 제일 먼저 실천해야하며, Registration,또한 업데이트 하면 된다.
- * 
- */
 
 SliceDefaultViewPanel::SliceDefaultViewPanel(QWidget *parent) :
     SNAPComponent(parent),
@@ -57,12 +46,7 @@ SliceDefaultViewPanel::SliceDefaultViewPanel(QWidget *parent) :
   m_SliceModel = NULL;
   m_IntensityModel = NULL;
 
-  // // Create my own renderers
-  // m_SnakeModeRenderer = SnakeModeRenderer::New();
-  // m_DecorationRenderer = SliceWindowDecorationRenderer::New();
-
-  // QString menuStyle = "font-size: 12px;";
-
+  QString menuStyle = "font-size: 12px;";
 
   // // Connect the actions to the toolbar buttons (sucks to do this by hand)
   // ui->btnAcceptPolygon->setDefaultAction(ui->actionAccept);
@@ -75,8 +59,8 @@ SliceDefaultViewPanel::SliceDefaultViewPanel(QWidget *parent) :
   // ui->btnUndoLast->setDefaultAction(ui->actionUndo);
 
 
-  // this->addAction(ui->actionZoom_In);
-  // this->addAction(ui->actionZoom_Out);
+  this->addAction(ui->actionZoom_In);
+  this->addAction(ui->actionZoom_Out);
 
   // // Connect the context menu signal from polygon mode to this widget
   // connect(ui->imPolygon, SIGNAL(contextMenuRequested()), SLOT(onContextMenu()));
@@ -95,30 +79,24 @@ SliceDefaultViewPanel::SliceDefaultViewPanel(QWidget *parent) :
   // // the sliceView. The actual propagation of events is handled by the
   // // event filter logic.
   // /*
-  // QStackedLayout *loMain = new QStackedLayout();
-  // loMain->setContentsMargins(0,0,0,0);
-  // loMain->addWidget(ui->imCrosshairs);
-  // loMain->addWidget(ui->imZoomPan);
-  // loMain->addWidget(ui->imThumbnail);
+  QStackedLayout *loMain = new QStackedLayout();
+  loMain->setContentsMargins(0,0,0,0);
+  loMain->addWidget(ui->imCrosshairs);
+  loMain->addWidget(ui->imZoomPan);
+  loMain->addWidget(ui->imThumbnail);
   // loMain->addWidget(ui->imPolygon);
   // loMain->addWidget(ui->imSnakeROI);
   // loMain->addWidget(ui->imPaintbrush);
-  // delete ui->sliceView->layout();
-  // ui->sliceView->setLayout(loMain);
+  delete ui->sliceView->layout();
+  ui->sliceView->setLayout(loMain);
   // */
 
-  // // Configure the initial event chain
-  // m_CurrentEventFilter = NULL;
-  // ConfigureEventChain(ui->imCrosshairs);
+  // Configure the initial event chain
+  m_CurrentEventFilter = NULL;
+  ConfigureEventChain(ui->imCrosshairs);
 
-  // // Also lay out the pages
-  // QStackedLayout *loPages = new QStackedLayout();
-  // loPages->addWidget(ui->pageDefaultMore);            // panel without segmentation
-  // delete ui->toolbar->layout();
-  // ui->toolbar->setLayout(loPages);
-
-  // // Send wheel events from Crosshairs mode to the slider
-  // ui->imCrosshairs->SetWheelEventTargetWidget(ui->inSlicePosition);
+  // Send wheel events from Crosshairs mode to the slider
+  ui->imCrosshairs->SetWheelEventTargetWidget(ui->inSlicePosition);
   // ui->imCrosshairs->SetWheelEventIntensityMaxWidget(ui->inWindowIntensityPosition);
   // ui->imCrosshairs->SetWheelEventIntensityMinWidget(ui->inLevelIntensityPosition);
 
@@ -135,16 +113,6 @@ SliceDefaultViewPanel::SliceDefaultViewPanel(QWidget *parent) :
   // QBitmap bmMask(":/root/crosshair_cursor_mask.png");
   // m_DrawingCrosshairCursor = new QCursor(bmBitmap, bmMask, 7, 7);
 
-  // // Configure the context tool button
-  // m_ContextToolButton = new QToolButton(ui->sliceView);
-  // m_ContextToolButton->setIcon(QIcon(":/root/context_gray_10.png"));
-  // m_ContextToolButton->setVisible(false);
-  // m_ContextToolButton->setAutoRaise(true);
-  // m_ContextToolButton->setIconSize(QSize(10,10));
-  // m_ContextToolButton->setMinimumSize(QSize(16,16));
-  // m_ContextToolButton->setMaximumSize(QSize(16,16));
-  // m_ContextToolButton->setPopupMode(QToolButton::InstantPopup);
-  // m_ContextToolButton->setStyleSheet("QToolButton::menu-indicator { image: none; }");
 }
 
 SliceDefaultViewPanel::~SliceDefaultViewPanel()
@@ -162,31 +130,27 @@ void SliceDefaultViewPanel::Initialize(GlobalUIModel *model)
   // Store the model
   this->m_GlobalUI = model;
   this->m_Index = AXIAL;
-
-
-  // Get the slice model
+  // Get the slice model  
   m_SliceModel = m_GlobalUI->GetSliceModel(AXIAL);
   
   m_IntensityModel = m_GlobalUI->GetIntensityCurveModel();
 
-
-  // m_SliceModel->GetImageData()
   // Initialize the slice view
   ui->sliceView->SetDefaultModel(m_SliceModel);
 
 
   // Initialize the interaction modes
   // ui->imCrosshairs->SetModel(m_GlobalUI->GetCursorNavigationModel(index));
-  // ui->imZoomPan->SetModel(m_GlobalUI->GetCursorNavigationModel(index));
-//   ui->imZoomPan->SetMouseButtonBehaviorToZoomPanMode();
+  ui->imZoomPan->SetModel(m_GlobalUI->GetCursorNavigationModel(this->m_Index));
+  ui->imZoomPan->SetMouseButtonBehaviorToZoomPanMode();
 
 //   // // ui->labelQuickList->SetModel(m_GlobalUI);
 
   // Initialize the 'orphan' renderers (without a custom widget)
-  // GenericSliceRenderer *parentRenderer =
-  //     static_cast<GenericSliceRenderer *>(ui->sliceView->GetRenderer());
+  GenericSliceRenderer *parentRenderer =
+      static_cast<GenericSliceRenderer *>(ui->sliceView->GetRenderer());
 
-
+}
 //   // m_DecorationRenderer->SetParentRenderer(parentRenderer);
 //   // m_SnakeModeRenderer->SetParentRenderer(parentRenderer);
 //   // m_SnakeModeRenderer->SetModel(m_GlobalUI->GetSnakeWizardModel());
@@ -201,10 +165,6 @@ void SliceDefaultViewPanel::Initialize(GlobalUIModel *model)
 //   // // Listen to toolbar change events
 //   // connectITK(m_GlobalUI, ToolbarModeChangeEvent());
 
-//   // // Listen to polygon and annotation model state change events
-//   // connectITK(m_GlobalUI->GetPolygonDrawingModel(index), StateMachineChangeEvent());
-//   // connectITK(m_GlobalUI->GetAnnotationModel(index), StateMachineChangeEvent());
-
 //   // // Listen to the Snake ROI model too
 //   // connectITK(m_GlobalUI->GetSnakeROIModel(index),
 //   //            ModelUpdateEvent());
@@ -212,9 +172,6 @@ void SliceDefaultViewPanel::Initialize(GlobalUIModel *model)
 //   // // Listen to paintbrush motion
 //   // connectITK(m_GlobalUI->GetPaintbrushModel(index),
 //   //            PaintbrushModel::PaintbrushMovedEvent());
-
-//   // // Listen to annotation changes
-//   // connectITK(m_GlobalUI->GetAnnotationModel(index), ModelUpdateEvent());
 
 //   // // Listen to registration changes
 //   // connectITK(m_GlobalUI->GetInteractiveRegistrationModel(index), ModelUpdateEvent());
@@ -224,14 +181,13 @@ void SliceDefaultViewPanel::Initialize(GlobalUIModel *model)
 
   
 
-  //TODO: Widget coupling 
-  makeCoupling(ui->inSlicePosition, m_SliceModel->GetSliceIndexModel());  
-  makeCoupling(ui->inLevelIntensityPosition, m_IntensityModel->GetManualIntensityRangeModel(IntensityCurveModel::LEVEL));
-  makeCoupling(ui->inWindowIntensityPosition, m_IntensityModel->GetManualIntensityRangeModel(IntensityCurveModel::WINDOW));
+//   // //TODO: Widget coupling 
+//   // makeCoupling(ui->inSlicePosition, m_SliceModel->GetSliceIndexModel());  
+//   // makeCoupling(ui->inLevelIntensityPosition, m_IntensityModel->GetManualIntensityRangeModel(IntensityCurveModel::LEVEL));
+//   // makeCoupling(ui->inWindowIntensityPosition, m_IntensityModel->GetManualIntensityRangeModel(IntensityCurveModel::WINDOW));
+//   // // makeCoupling(ui->inLevelIntensityPosition, )
 
-  ui->inWindowIntensityPosition->setVisible(false);        // not-visible scroll bars that deals with 
-  ui->inLevelIntensityPosition->setVisible(false);
-
+  
 
 //   // // Activation
 //   // activateOnFlag(this, m_GlobalUI, UIF_BASEIMG_LOADED);
@@ -253,17 +209,6 @@ void SliceDefaultViewPanel::Initialize(GlobalUIModel *model)
 //   // activateOnAllFlags(ui->actionUndo, pm, UIF_DRAWING, UIF_HAVEPOLYGON);
 //   // activateOnAllFlags(ui->actionClearPolygon, pm, UIF_EDITING, UIF_HAVEPOLYGON);
 
-//   // // Set up activation from the annotation model
-//   // AnnotationModel *am = m_GlobalUI->GetAnnotationModel(index);
-
-//   // activateOnFlag(ui->actionAnnotationAcceptLine, am, AnnotationModel::UIF_LINE_MODE_DRAWING);
-//   // activateOnFlag(ui->actionAnnotationClearLine, am, AnnotationModel::UIF_LINE_MODE_DRAWING);
-//   // activateOnFlag(ui->actionAnnotationEdit, am, AnnotationModel::UIF_SELECTION_SINGLE);
-//   // activateOnFlag(ui->actionAnnotationDelete, am, AnnotationModel::UIF_SELECTION_ANY);
-//   // activateOnFlag(ui->actionAnnotationNext, am, AnnotationModel::UIF_ANNOTATIONS_EXIST);
-//   // activateOnFlag(ui->actionAnnotationPrevious, am, AnnotationModel::UIF_ANNOTATIONS_EXIST);
-//   // activateOnFlag(ui->actionAnnotationPrevious, am, AnnotationModel::UIF_ANNOTATIONS_EXIST);
-
 //   // // Update the expand view button
 //   // this->UpdateExpandViewButton();
 
@@ -282,8 +227,6 @@ void SliceDefaultViewPanel::Initialize(GlobalUIModel *model)
 //   // connectITK(m_SliceModel->GetHoveredImageIsThumbnailModel(), ValueChangedEvent(),
 //   //            SLOT(OnHoveredLayerChange(const EventBucket &)));
 
-//   // // --- Segmentation Not Visible in Panel-Default
-
 // }
 
 // void SliceDefaultViewPanel::onModelUpdate(const EventBucket &eb)
@@ -299,7 +242,7 @@ void SliceDefaultViewPanel::Initialize(GlobalUIModel *model)
 //     UpdateExpandViewButton();
 //     }
 //   ui->sliceView->update();
-}
+// }
 
 void SliceDefaultViewPanel::on_inSlicePosition_valueChanged(int value)
 {
@@ -311,52 +254,50 @@ void SliceDefaultViewPanel::on_inSlicePosition_valueChanged(int value)
 }
 
 
-void SliceDefaultViewPanel::on_inLevelIntensityPosition_valueChanged(int value) {  }
-void SliceDefaultViewPanel::on_inWindowIntensityPosition_valueChanged(int value) {  }
+// void SliceDefaultViewPanel::on_inLevelIntensityPosition_valueChanged(int value) {  }
+// void SliceDefaultViewPanel::on_inWindowIntensityPosition_valueChanged(int value) {  }
 
-// void SliceDefaultViewPanel::ConfigureEventChain(QWidget *w)
-// {
-//   // Remove all event filters from the slice view
-//   QObjectList kids = ui->sliceView->children();
-//   for(QObjectList::Iterator it = kids.begin(); it!=kids.end(); ++it)
-//     ui->sliceView->removeEventFilter(*it);
+void SliceDefaultViewPanel::ConfigureEventChain(QWidget *w)
+{
+  // Remove all event filters from the slice view
+  QObjectList kids = ui->sliceView->children();
+  for(QObjectList::Iterator it = kids.begin(); it!=kids.end(); ++it)
+    ui->sliceView->removeEventFilter(*it);
 
-//   // Now add the event filters in the order in which we want them to react
-//   // to events. The last event filter is first to receive events, and should
-//   // thus be the thumbnail interaction mode. The first event filter is always
-//   // the crosshairs interaction mode, which is the fallback for all others.
-//   ui->sliceView->installEventFilter(ui->imCrosshairs);
+  // Now add the event filters in the order in which we want them to react
+  // to events. The last event filter is first to receive events, and should
+  // thus be the thumbnail interaction mode. The first event filter is always
+  // the crosshairs interaction mode, which is the fallback for all others.
+  ui->sliceView->installEventFilter(ui->imCrosshairs);
 
-//   // If the current mode is not crosshairs mode, add it as the filter
-//   if(w != ui->imCrosshairs)
-//     {
-//     ui->sliceView->installEventFilter(w);
-//     }
+  // If the current mode is not crosshairs mode, add it as the filter
+  if(w != ui->imCrosshairs)
+    {
+    ui->sliceView->installEventFilter(w);
+    }
 
-//   // The last guy in the chain is the thumbnail interactor
-//   ui->sliceView->installEventFilter(ui->imThumbnail);
-// }
+  // The last guy in the chain is the thumbnail interactor
+  ui->sliceView->installEventFilter(ui->imThumbnail);
+}
 
-// // TODO: implement semi-transparent rendering on widgets on top of the
-// // OpenGL scene using code from
-// // http://www.qtcentre.org/wiki/index.php?title=Accelerate_your_Widgets_with_OpenGL
-// void SliceDefaultViewPanel::enterEvent(QEvent *)
-// {
-//   /*
-//   ui->mainToolbar->show();
-//   ui->sidebar->show();
-//   */
-// }
+// TODO: implement semi-transparent rendering on widgets on top of the
+// OpenGL scene using code from
+// http://www.qtcentre.org/wiki/index.php?title=Accelerate_your_Widgets_with_OpenGL
+void SliceDefaultViewPanel::enterEvent(QEvent *)
+{
+  /*
+  ui->mainToolbar->show();
+  ui->sidebar->show();
+  */
+}
 
-// void SliceDefaultViewPanel::leaveEvent(QEvent *)
-// {
-//   /*
-//   ui->mainToolbar->hide();
-//   ui->sidebar->hide();
-//   */
-
-
-// }
+void SliceDefaultViewPanel::leaveEvent(QEvent *)
+{
+  /*
+  ui->mainToolbar->hide();
+  ui->sidebar->hide();
+  */
+}
 
 // void SliceDefaultViewPanel::SetActiveMode(QWidget *mode, bool clearChildren)
 // {
@@ -397,7 +338,6 @@ void SliceDefaultViewPanel::on_inWindowIntensityPosition_valueChanged(int value)
 //   ovTiled.clear();
 //   ovTiled.push_back(m_SnakeModeRenderer);
 //   ovTiled.push_back(ui->imCrosshairs->GetRenderer());
-//   ovTiled.push_back(ui->imAnnotation->GetRenderer());
 //   ovTiled.push_back(ui->imPolygon->GetRenderer());
 
 //   ovGlobal.clear();
@@ -411,10 +351,6 @@ void SliceDefaultViewPanel::on_inWindowIntensityPosition_valueChanged(int value)
 //     case PAINTBRUSH_MODE:
 //       ConfigureEventChain(ui->imPaintbrush);
 //       ovTiled.push_back(ui->imPaintbrush->GetRenderer());
-//       break;
-//     case ANNOTATION_MODE:
-//       ConfigureEventChain(ui->imAnnotation);
-//       ovTiled.push_back(ui->imAnnotation->GetRenderer());
 //       break;
 //     case REGISTRATION_MODE:
 //       ConfigureEventChain(ui->imRegistration);
@@ -449,16 +385,6 @@ void SliceDefaultViewPanel::on_inWindowIntensityPosition_valueChanged(int value)
 //         loPages->setCurrentWidget(ui->pagePolygonInactive); break;
 //       }
 //     }
-//   else if(m_GlobalUI->GetGlobalState()->GetToolbarMode() == ANNOTATION_MODE)
-//     {
-//     AnnotationModel *am = m_GlobalUI->GetAnnotationModel(m_Index);
-//     if(am->GetFlagDrawingLine())
-//       loPages->setCurrentWidget(ui->pageAnnotateLineActive);
-//     else if(am->GetAnnotationMode() == ANNOTATION_SELECT)
-//       loPages->setCurrentWidget(ui->pageAnnotateSelect);
-//     else
-//       loPages->setCurrentWidget(ui->pageDefault);         //TODO: fix this back to pageDefault
-//     }
 //   else
 //     {
 //     loPages->setCurrentWidget(ui->pageDefault);           //TODO: fix this back to pageDefault
@@ -470,14 +396,19 @@ void SliceDefaultViewPanel::on_inWindowIntensityPosition_valueChanged(int value)
 //   }
 // }
 
-void SliceDefaultViewPanel::zoomToFit() {
-  m_GlobalUI->GetSliceCoordinator()->ResetViewToFitInOneWindow(this->m_Index);
-}
+// void SliceDefaultViewPanel::zoomToFit() {
+//   m_GlobalUI->GetSliceCoordinator()->ResetViewToFitInOneWindow(m_Index);
+// }
 
 void SliceDefaultViewPanel::on_btnZoomToFit_clicked()
 {
-  this->zoomToFit();
+  std::cout << "btnZoomToFit   SEGMENTATION   " << m_SliceModel->GetSliceSize() << std::endl;
 }
+
+// void SliceDefaultViewPanel::on_btnZoomToFit_2_clicked()
+// {
+//   this->zoomToFit();
+// }
 
 // void SliceDefaultViewPanel::onContextMenu()
 // {
@@ -525,8 +456,7 @@ void SliceDefaultViewPanel::on_btnZoomToFit_clicked()
 //   dlm->GetViewPanelLayoutModel()->SetValue(layout);
 // }
 
-// void SliceDefaultViewPanel::UpdateExpandViewButton()
-// {
+void SliceDefaultViewPanel::UpdateExpandViewButton() {
 //   // Get the layout applied when the button is pressed
 //   DisplayLayoutModel *dlm = m_GlobalUI->GetDisplayLayoutModel();
 //   DisplayLayoutModel::ViewPanelLayout layout =
@@ -559,7 +489,7 @@ void SliceDefaultViewPanel::on_btnZoomToFit_clicked()
 //     {
 //     ui->btnToggleLayout->setIcon(QIcon(":/root/layout_tile_16.png"));
 //     }
-// }
+}
 
 
 // void SliceDefaultViewPanel::on_btnScreenshot_clicked()
@@ -573,17 +503,17 @@ void SliceDefaultViewPanel::on_btnZoomToFit_clicked()
 //   m_GlobalUI->GetDisplayLayoutModel()->ToggleSliceViewLayerLayout();
 // }
 
-// void SliceDefaultViewPanel::on_actionZoom_In_triggered()
-// {
-//   // Zoom in
-//   m_GlobalUI->GetSliceCoordinator()->ZoomInOrOutInOneWindow(m_Index, 1.1);
-// }
+void SliceDefaultViewPanel::on_actionZoom_In_triggered()
+{
+  // Zoom in
+  // m_GlobalUI->GetSliceCoordinator()->ZoomInOrOutInOneWindow(m_Index, 1.1);
+}
 
-// void SliceDefaultViewPanel::on_actionZoom_Out_triggered()
-// {
-//   // Zoom out
-//   m_GlobalUI->GetSliceCoordinator()->ZoomInOrOutInOneWindow(m_Index, 1.0 / 1.1);
-// }
+void SliceDefaultViewPanel::on_actionZoom_Out_triggered()
+{
+  // Zoom out
+  // m_GlobalUI->GetSliceCoordinator()->ZoomInOrOutInOneWindow(m_Index, 1.0 / 1.1);
+}
 
 // void SliceDefaultViewPanel::OnHoveredLayerChange(const EventBucket &eb)
 // {
@@ -640,18 +570,16 @@ void SliceDefaultViewPanel::resetTo(unsigned int index) {
 
 void SliceDefaultViewPanel::on_btnAxialView_clicked() {
   std::cout << "btn Axial clicked" << std::endl;
-  this->m_Index = AXIAL;
   this->resetTo(AXIAL);
 }
 
 void SliceDefaultViewPanel::on_btnCoronalView_clicked() {
   std::cout << "btn Coronal clicked" << std::endl;
-  this->m_Index = CORONAL;
   this->resetTo(CORONAL);
 }
 
 void SliceDefaultViewPanel::on_btnSagittalView_clicked() {
   std::cout << "btn Sagittal clicked" << std::endl;
-  this->m_Index = SAGITTAL;
   this->resetTo(SAGITTAL);
 }
+

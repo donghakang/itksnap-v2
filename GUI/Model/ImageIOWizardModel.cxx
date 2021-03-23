@@ -299,7 +299,6 @@ void ImageIOWizardModel::LoadImage(std::string filename)
 {
   // There is no loaded image to start with
   m_LoadedImage = NULL;
-  std::cout << "Load Image Starts Here" << std::endl;
   try
   {
     // Clear the warnings
@@ -348,7 +347,6 @@ void ImageIOWizardModel::LoadImage(std::string filename)
                         "Exception: %s", exc.what());
   }
 
-  std::cout << "Load Image finished" << std::endl;
 }
 
 

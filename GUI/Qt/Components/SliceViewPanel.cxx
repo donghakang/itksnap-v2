@@ -131,7 +131,6 @@ SliceViewPanel::SliceViewPanel(QWidget *parent) :
   // Also lay out the pages
   QStackedLayout *loPages = new QStackedLayout();
   loPages->addWidget(ui->pageDefault);
-  loPages->addWidget(ui->pageDefaultMore);            // panel without segmentation
   loPages->addWidget(ui->pagePolygonDraw);
   loPages->addWidget(ui->pagePolygonEdit);
   loPages->addWidget(ui->pagePolygonInactive);
@@ -144,14 +143,16 @@ SliceViewPanel::SliceViewPanel(QWidget *parent) :
   ui->imCrosshairs->SetWheelEventTargetWidget(ui->inSlicePosition);
   ui->imCrosshairs->SetWheelEventIntensityMaxWidget(ui->inWindowIntensityPosition);
   ui->imCrosshairs->SetWheelEventIntensityMinWidget(ui->inLevelIntensityPosition);
+  ui->imZoomPan->SetWheelEventIntensityMaxWidget(ui->inWindowIntensityPosition);
+  ui->imZoomPan->SetWheelEventIntensityMinWidget(ui->inLevelIntensityPosition);
 
   // Set page size on the slice position widget
   ui->inSlicePosition->setPageStep(5);
   ui->inWindowIntensityPosition->setPageStep(100);
   ui->inLevelIntensityPosition->setPageStep(100);
 
-  // ui->inWindowIntensityPosition->setVisible(false);        // not-visible scroll bars that deals with 
-  // ui->inLevelIntensityPosition->setVisible(false);
+  ui->inWindowIntensityPosition->setVisible(false);        // not-visible scroll bars that deals with 
+  ui->inLevelIntensityPosition->setVisible(false);
 
   // Set up the drawing cursor
   QBitmap bmBitmap(":/root/crosshair_cursor_bitmap.png");
@@ -181,15 +182,11 @@ GenericSliceView * SliceViewPanel::GetSliceView()
   return ui->sliceView;
 }
 
-void SliceViewPanel::Initialize(GlobalUIModel *model, unsigned int index, bool default_mode)
+void SliceViewPanel::Initialize(GlobalUIModel *model, unsigned int index)
 {
   // Store the model
   this->m_GlobalUI = model;
   this->m_Index = index;
-  if (default_mode) {
-    std::cout << "INDEX: " << index << std::endl;
-    this->DEFAULT_MODE = true;
-  }
 
   // Get the slice model  
   m_SliceModel = m_GlobalUI->GetSliceModel(index);             // index 에 맞춰서, 정보를 가져온다. 이때, index가 어떤 값일 경우 GlobalUI를 바꾸는 방법밖에 없다.
@@ -381,8 +378,6 @@ void SliceViewPanel::leaveEvent(QEvent *)
   ui->mainToolbar->hide();
   ui->sidebar->hide();
   */
-
-
 }
 
 void SliceViewPanel::SetActiveMode(QWidget *mode, bool clearChildren)
@@ -491,10 +486,7 @@ void SliceViewPanel::OnToolbarModeChange()
     loPages->setCurrentWidget(ui->pageDefault);           //TODO: fix this back to pageDefault
     }
 
-  
-  if (this->DEFAULT_MODE) {
-    loPages->setCurrentWidget(ui->pageDefaultMore);
-  }
+
 }
 
 void SliceViewPanel::zoomToFit() {
@@ -504,19 +496,6 @@ void SliceViewPanel::zoomToFit() {
 void SliceViewPanel::on_btnZoomToFit_clicked()
 {
   this->zoomToFit();
-}
-
-void SliceViewPanel::on_btnZoomToFit_2_clicked()
-{
-  // this->zoomToFit();
-  // std::cout << this->m_SliceModel->GetImageData()->GetNumberOfSegmentation() << std::endl;
-  std::cout << this->m_SliceModel->GetImageData()->GetNumberOfLayers(MAIN_ROLE);
-  std::cout << "    " << this->m_SliceModel->GetImageData()->GetNumberOfLayers(OVERLAY_ROLE);
-  std::cout << "    " << this->m_SliceModel->GetImageData()->GetNumberOfLayers(LABEL_ROLE) << std::endl;
-  std::cout << this->m_GlobalUI->GetSliceModel(0)->GetImageData()->GetNumberOfLayers(MAIN_ROLE);
-  std::cout << "    " << this->m_GlobalUI->GetSliceModel(0)->GetImageData()->GetNumberOfLayers(OVERLAY_ROLE);
-  std::cout << "    " << this->m_GlobalUI->GetSliceModel(0)->GetImageData()->GetNumberOfLayers(LABEL_ROLE) << std::endl << std::endl;
-  this->m_SliceModel->GetImageData()->GetMain()->SetSticky(false);
 }
 
 void SliceViewPanel::onContextMenu()
@@ -555,11 +534,11 @@ void SliceViewPanel::SetMouseMotionTracking(bool enable)
 
 void SliceViewPanel::on_btnExpand_clicked()
 {
+  std::cout << "EXPAND" << std::endl;
   // Get the layout applied when the button is pressed
   DisplayLayoutModel *dlm = m_GlobalUI->GetDisplayLayoutModel();
-  std::cout << m_Index << std::endl;
   DisplayLayoutModel::ViewPanelLayout layout =
-      dlm->GetViewPanelExpandButtonActionModel(m_Index)->GetValue();
+    dlm->GetViewPanelExpandButtonActionModel(m_Index)->GetValue();
 
   // Apply this layout
   dlm->GetViewPanelLayoutModel()->SetValue(layout);
@@ -659,40 +638,6 @@ void SliceViewPanel::OnHoveredLayerChange(const EventBucket &eb)
     }
 }
 
-void SliceViewPanel::IsDefaultMode() {
-  this->DEFAULT_MODE = true;
-  
-}
-
-
-void SliceViewPanel::resetTo(unsigned int index) {
-  this->m_Index = index;
-
-  // Get the slice model
-  m_SliceModel = m_GlobalUI->GetSliceModel(index);
-
-  // Initialize the slice view
-  ui->sliceView->SetModel(m_SliceModel);
-
-  // Update
-  this->UpdateExpandViewButton();
-  ui->sliceView->update();
-}
-
-void SliceViewPanel::on_btnAxialView_clicked() {
-  std::cout << "btn Axial clicked" << std::endl;
-  this->resetTo(0);
-}
-
-void SliceViewPanel::on_btnCoronalView_clicked() {
-  std::cout << "btn Coronal clicked" << std::endl;
-  this->resetTo(1);
-}
-
-void SliceViewPanel::on_btnSagittalView_clicked() {
-  std::cout << "btn Sagittal clicked" << std::endl;
-  this->resetTo(2);
-}
 
 void SliceViewPanel::on_actionAnnotationAcceptLine_triggered()
 {

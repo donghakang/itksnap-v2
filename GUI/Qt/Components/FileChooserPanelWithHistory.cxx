@@ -438,7 +438,6 @@ void FileChooserPanelWithHistory::setActiveFormat(QString format)
 
 void FileChooserPanelWithHistory::on_btnBrowse_clicked()
 {
-  std::cout << "-- Broswer Button Clicked (FileChooserPanelWithHistory.cxx)" << std::endl;
   // Get the file name
   QString sel;
 

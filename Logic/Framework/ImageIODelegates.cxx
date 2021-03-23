@@ -213,7 +213,6 @@ ImageWrapperBase *LoadSegmentationImageDelegate::UpdateApplicationWithImage(Guid
     return m_Driver->UpdateSNAPSegmentationImage(io);
   }
   else {
-    std::cout << "IRIS" << std::endl;
     return m_Driver->UpdateIRISSegmentationImage(io, this->GetMetaDataRegistry(), m_AdditiveMode);
   }
 }

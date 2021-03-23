@@ -182,12 +182,7 @@ GenericImageData::CreateAnatomicWrapper(GuidedNativeImageIO *io, ITKTransformTyp
     // Set properties
     wrapper->SetDisplayGeometry(m_DisplayGeometry);
     wrapper->SetImage(image, refSpace, transform);     // -> ImageWrappr.cxx -> LabelImageWrapper
-
-    // std::cout << "GenericImageData.cxx - wrapper-> " << wrapper->GetImageMinAsDouble() << std::endl;
-    // std::cout << "                                 " << wrapper->GetImageMaxAsDouble() << std::endl;
-    // std::cout << "                                 " << wrapper->GetImageMinNative() << std::endl;
-    // std::cout << "                                 " << wrapper->GetImageMaxNative() << std::endl;
-
+    
     wrapper->SetNativeMapping(mapper);
 
     for(int i = 0; i < 3; i++)

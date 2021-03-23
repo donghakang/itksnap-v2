@@ -22,7 +22,6 @@ View3DDialog::View3DDialog(QWidget *parent) :
 
   // Load the build information
   // ui->outBuild->setPlainText(QString::fromUtf8(SNAPBuildInfo));
-  std::cout<< "constructor" << std::endl;
 }
 
 void View3DDialog::SetModel(GlobalUIModel *model) {

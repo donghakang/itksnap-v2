@@ -59,9 +59,6 @@ GenericView3D *ViewPanel3D::Get3DView()
 }
 
 void ViewPanel3D::Update() {
-
-  std::cout << "update 3d view" << std::endl;
-
   try
   {
     // Tell the model to update itself
@@ -75,7 +72,6 @@ void ViewPanel3D::Update() {
 
   // TODO: Delete this later - should be automatic!
   ui->view3d->repaint();
-  std::cout << "update 3d view --- end" << std::endl;
 }
 
 

@@ -29,7 +29,7 @@ public:
   ~SliceViewPanel();
 
   // Register the data model with this widget
-  void Initialize(GlobalUIModel *model, unsigned int index, bool default_mode = false);
+  void Initialize(GlobalUIModel *model, unsigned int index);
 
   // Get the index of this panel
   irisGetMacro(Index, unsigned int)
@@ -38,8 +38,6 @@ public:
 
   // Callback for when the toolbar changes
   void SetMouseMotionTracking(bool enable);
-
-  void IsDefaultMode();
 
 
 private slots:
@@ -51,7 +49,6 @@ private slots:
   void on_inLevelIntensityPosition_valueChanged(int value);
 
   void on_btnZoomToFit_clicked();
-  void on_btnZoomToFit_2_clicked();
 
   void onModelUpdate(const EventBucket &eb);
 
@@ -83,15 +80,7 @@ private slots:
 
   void on_actionAnnotationPrevious_triggered();
 
-  void on_btnAxialView_clicked();
-
-  void on_btnCoronalView_clicked();
-  
-  void on_btnSagittalView_clicked();
-
-
 private:
-  bool DEFAULT_MODE = false;
 
   Ui::SliceViewPanel *ui;
 
@@ -145,7 +134,7 @@ private:
 
 
   void zoomToFit();
-  void resetTo(unsigned int index);
+
 };
 
 #endif // SLICEVIEWPANEL_H

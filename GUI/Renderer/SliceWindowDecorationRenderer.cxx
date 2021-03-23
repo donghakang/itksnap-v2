@@ -386,9 +386,18 @@ void SliceWindowDecorationRenderer::DrawRulers()
 
 void SliceWindowDecorationRenderer::DrawIntensity()
 {
-   // Draw the nicknames
+   // Draw the Intensity
   GenericSliceModel *parentModel = this->GetParentRenderer()->GetModel();
+  assert(parentModel);
   GlobalUIModel *parentGlobalModel = parentModel->GetParentUI();
+  assert(parentGlobalModel);
+  assert(parentGlobalModel->GetIntensityCurveModel());
+
+  // If there is no DisplayPolicy, it will cause assertion error with GetCurveRange()
+  // Therefore, if there is no DisplayPolicy, returns and wait for the next call.
+  if (!parentGlobalModel->GetIntensityCurveModel()->GetDisplayPolicy())
+    return;
+
   Vector2d minmax = parentGlobalModel->GetIntensityCurveModel()->GetCurveRange();
   
   SNAPAppearanceSettings *as =

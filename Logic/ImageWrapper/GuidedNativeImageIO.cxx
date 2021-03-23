@@ -871,7 +871,6 @@ GuidedNativeImageIO
       size_t nd_actual = m_IOBase -> GetNumberOfDimensions();
       size_t nd = (nd_actual > 3) ? 3 : nd_actual;
       
-      std::cout << "nd_actual, nd = " << nd_actual << ", " << nd << std::endl;
       for (unsigned int i = 0; i < nd; i++) {
         spc[i] = m_IOBase -> GetSpacing(i);
         org[i] = m_IOBase -> GetOrigin(i);

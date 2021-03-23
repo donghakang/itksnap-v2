@@ -1775,7 +1775,6 @@ void
 IRISApplication
 ::UnloadMainImage()
 {
-  std::cout << "(IRISApplication.cxx) UnloadMainImage -- starts" << std::endl;
   // Save the settings for this image
   if(m_CurrentImageData->IsMainLoaded()) {
       std::cout << "(IRISApplication.cxx) UnloadMainImage -- if main loaded" << std::endl;
@@ -1865,7 +1864,6 @@ IRISApplication
   // Unload the current image data
   del->UnloadCurrentImage();
 
-  std::cout << "(IRISApplication.cxx) ReadNativeImageData starts... " << std::endl;
 
   // Read the image body
   io->ReadNativeImageData();
@@ -1880,12 +1878,6 @@ IRISApplication
   // Store the IO hints inside of the image - in case it ever gets added
   // to a project
   layer->SetIOHints(*ioHints);
-
-  // Vector2d irange = layer->GetDisplayMapping()->GetNativeImageRangeForCurve();
-  // std::cout << "========================================" << std::endl;
-  // std::cout << irange[0] << ", " << irange[1]<<std::endl;
-  std::cout << "========================================" << std::endl;
-
 
   return layer;
 }

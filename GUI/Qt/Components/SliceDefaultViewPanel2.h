@@ -43,12 +43,13 @@ public:
 
 private slots:
   void on_inSlicePosition_valueChanged(int value);
-  void on_inWindowIntensityPosition_valueChanged(int value);
-  void on_inLevelIntensityPosition_valueChanged(int value);
+  // void on_inWindowIntensityPosition_valueChanged(int value);
+  // void on_inLevelIntensityPosition_valueChanged(int value);
 
   void on_btnZoomToFit_clicked();
+//   void on_btnZoomToFit_2_clicked();
 
-//   void onModelUpdate(const EventBucket &eb);
+  // void onModelUpdate(const EventBucket &eb);
 
 //   void OnToolbarModeChange();
 
@@ -60,9 +61,9 @@ private slots:
 
 //   void on_btnToggleLayout_clicked();
 
-//   void on_actionZoom_In_triggered();
+  void on_actionZoom_In_triggered();
 
-//   void on_actionZoom_Out_triggered();
+  void on_actionZoom_Out_triggered();
 
 //   void OnHoveredLayerChange(const EventBucket &eb);
 
@@ -77,11 +78,10 @@ private:
 
   Ui::SliceDefaultViewPanel *ui;
 
-//   // Popup menus used for polygon operations
-//   QMenu *m_MenuPolyInactive, *m_MenuPolyEditing, *m_MenuPolyDrawing;
+  // Current event filter on the crosshair widget
+  QWidget *m_CurrentEventFilter;
 
-//   // Current event filter on the crosshair widget
-//   QWidget *m_CurrentEventFilter;
+  unsigned int m_Index;
 
   // Global UI pointer
   GlobalUIModel *m_GlobalUI;
@@ -92,41 +92,28 @@ private:
   // Intensity model
   IntensityCurveModel *m_IntensityModel;
 
-  unsigned int m_Index;
-
-//   // Custom cursor for drawing operations
-//   QCursor *m_DrawingCrosshairCursor;
-
-//   // Context menu tool button
-//   QToolButton *m_ContextToolButton;
-
-//   // Some renderers don't require a separate widget (no user interaction)
-//   // and so they are owned by this panel.
-//   SmartPtr<SnakeModeRenderer> m_SnakeModeRenderer;
-//   SmartPtr<SliceWindowDecorationRenderer> m_DecorationRenderer;
-
 
 //   void SetActiveMode(QWidget *mode, bool clearChildren = true);
 
-//   /**
-//   The common setup is to have an event filter chain
-//     widget -- crosshair -- active_mode -- thumbnail
-//   In other words, all events first go to the thumbnail,
-//   then to the active mode, then to the crosshair mode
-//   */
-//   void ConfigureEventChain(QWidget *w);
+  /**
+  The common setup is to have an event filter chain
+    widget -- crosshair -- active_mode -- thumbnail
+  In other words, all events first go to the thumbnail,
+  then to the active mode, then to the crosshair mode
+  */
+  void ConfigureEventChain(QWidget *w);
 
-//   /**
-//    * Listen to mouse enter/exit events in order to show and hide toolbars
-//    */
-//   void enterEvent(QEvent *);
-//   void leaveEvent(QEvent *);
+  /**
+   * Listen to mouse enter/exit events in order to show and hide toolbars
+   */
+  void enterEvent(QEvent *);
+  void leaveEvent(QEvent *);
 
-//   /** Update the expand view / contract view button based on the state */
-//   void UpdateExpandViewButton();
+  /** Update the expand view / contract view button based on the state */
+  void UpdateExpandViewButton();
 
 
-  void zoomToFit();
+//   void zoomToFit();
 };
 
 #endif // SLICEDEFAULTVIEWPANEL_H

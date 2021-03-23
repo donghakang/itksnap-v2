@@ -362,6 +362,7 @@ MainImageWindow::MainImageWindow(QWidget *parent) :
   // Common modifiers
   const QString mod_option(QChar(0x2325));
   const QString mod_shift(QChar(0x21e7));
+  const QString mod_control(QChar(0x2318));
 
   // Generate tooltips for the complex actions
   ModeTooltipBuilder ttCrosshair("Crosshair Mode (1)",
@@ -371,6 +372,8 @@ MainImageWindow::MainImageWindow(QWidget *parent) :
   ttCrosshair.addMouseAction(ModeTooltipBuilder::LMB, "Pan (hold & drag)",mod_option);
   ttCrosshair.addMouseAction(ModeTooltipBuilder::SCROLL, "Go to next/previous image slice");
   ttCrosshair.addMouseAction(ModeTooltipBuilder::SCROLL, "Go to next/previous image component",mod_shift);
+  ttCrosshair.addMouseAction(ModeTooltipBuilder::SCROLL, "Change level intensity",mod_control);
+  ttCrosshair.addMouseAction(ModeTooltipBuilder::SCROLL, "Change window intensity",mod_option);
   ui->actionCrosshair->setToolTip(ttCrosshair.makeTooltip());
 
   ModeTooltipBuilder ttZoom("Zoom/Pan Mode (2)",
@@ -380,6 +383,8 @@ MainImageWindow::MainImageWindow(QWidget *parent) :
   ttZoom.addMouseAction(ModeTooltipBuilder::LMB, "Place and move the 3D cursor", mod_option);
   ttZoom.addMouseAction(ModeTooltipBuilder::SCROLL, "Scroll through image slices");
   ttZoom.addMouseAction(ModeTooltipBuilder::SCROLL, "Scroll through image components",mod_shift);
+  ttZoom.addMouseAction(ModeTooltipBuilder::SCROLL, "Change level intensity",mod_control);
+  ttZoom.addMouseAction(ModeTooltipBuilder::SCROLL, "Change window intensity",mod_option);
   ui->actionZoomPan->setToolTip(ttZoom.makeTooltip());
 
   ModeTooltipBuilder ttPolygon("Polygon Mode (3)",
@@ -389,6 +394,8 @@ MainImageWindow::MainImageWindow(QWidget *parent) :
   ttPolygon.addMouseAction(ModeTooltipBuilder::LMB, "Place and move the 3D cursor",mod_option);
   ttPolygon.addMouseAction(ModeTooltipBuilder::SCROLL, "Scroll through image slices");
   ttPolygon.addMouseAction(ModeTooltipBuilder::SCROLL, "Scroll through image components",mod_shift);
+  ttPolygon.addMouseAction(ModeTooltipBuilder::SCROLL, "Change level intensity",mod_control);
+  ttPolygon.addMouseAction(ModeTooltipBuilder::SCROLL, "Change window intensity",mod_option);
   ui->actionPolygon->setToolTip(ttPolygon.makeTooltip());
 
   ModeTooltipBuilder ttPaintbrush("Paintbrush Mode (4)",
@@ -399,6 +406,8 @@ MainImageWindow::MainImageWindow(QWidget *parent) :
   ttPaintbrush.addMouseAction(ModeTooltipBuilder::LMB, "Place and move the 3D cursor",mod_option);
   ttPaintbrush.addMouseAction(ModeTooltipBuilder::SCROLL, "Scroll through image slices");
   ttPaintbrush.addMouseAction(ModeTooltipBuilder::SCROLL, "Scroll through image components",mod_shift);
+  ttPaintbrush.addMouseAction(ModeTooltipBuilder::SCROLL, "Change level intensity",mod_control);
+  ttPaintbrush.addMouseAction(ModeTooltipBuilder::SCROLL, "Change window intensity",mod_option);
   ui->actionPaintbrush->setToolTip(ttPaintbrush.makeTooltip());
 
   ModeTooltipBuilder ttSnake("Active Contour (aka \"Snake\") Segmentation Mode (5)",
@@ -409,6 +418,8 @@ MainImageWindow::MainImageWindow(QWidget *parent) :
   ttSnake.addMouseAction(ModeTooltipBuilder::LMB, "Place and move the 3D cursor",mod_option);
   ttSnake.addMouseAction(ModeTooltipBuilder::SCROLL, "Scroll through image slices");
   ttSnake.addMouseAction(ModeTooltipBuilder::SCROLL, "Scroll through image components",mod_shift);
+  ttSnake.addMouseAction(ModeTooltipBuilder::SCROLL, "Change level intensity",mod_control);
+  ttSnake.addMouseAction(ModeTooltipBuilder::SCROLL, "Change window intensity",mod_option);
   ui->actionSnake->setToolTip(ttSnake.makeTooltip());
 
   ModeTooltipBuilder ttRuler("Image Annotation Mode (6)",
@@ -419,6 +430,8 @@ MainImageWindow::MainImageWindow(QWidget *parent) :
   ttRuler.addMouseAction(ModeTooltipBuilder::LMB, "Place and move the 3D cursor",mod_option);
   ttRuler.addMouseAction(ModeTooltipBuilder::SCROLL, "Scroll through image slices");
   ttRuler.addMouseAction(ModeTooltipBuilder::SCROLL, "Scroll through image components",mod_shift);
+  ttRuler.addMouseAction(ModeTooltipBuilder::SCROLL, "Change level intensity",mod_control);
+  ttRuler.addMouseAction(ModeTooltipBuilder::SCROLL, "Change window intensity",mod_option);
   ui->actionAnnotation->setToolTip(ttRuler.makeTooltip());
 
   // Translate the tooltips in all the widgets. This changes the apple symbols that are currently

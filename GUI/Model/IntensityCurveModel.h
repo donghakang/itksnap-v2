@@ -179,12 +179,17 @@ public:
       IntensityRangePropertyType index) const;
 
   void OnAutoFitWindow();
+  
+  AbstractContinuousImageDisplayMappingPolicy *GetDisplayPolicy();
+
+
+
 protected:
 
   IntensityCurveModel();
   virtual ~IntensityCurveModel();
 
-  AbstractContinuousImageDisplayMappingPolicy *GetDisplayPolicy();
+  
 
   // A size reporter delegate
   ViewportSizeReporter *m_ViewportReporter;

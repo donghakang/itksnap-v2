@@ -39,7 +39,6 @@
 GenericSliceView::GenericSliceView(QWidget *parent) :
   QtAbstractOpenGLBox(parent)
 {
-  std::cout << "GenericSliceView" << std::endl;
   m_Model = NULL;
   m_Renderer = GenericSliceRenderer::New();
 
@@ -61,7 +60,6 @@ void GenericSliceView::SetModel(GenericSliceModel *model)
   // Pass the model to the renderer
   m_Renderer->SetModel(m_Model);
 
-  std::cout << " call 3 times *** " << std::endl;
   // Listen to the update events on the model. In response, simply repaint
   connectITK(m_Model, ModelUpdateEvent());
   connectITK(m_Model, SliceModelGeometryChangeEvent());
@@ -78,7 +76,6 @@ void GenericSliceView::SetDefaultModel(GenericSliceModel *model) {
   // Pass the model to the renderer
   m_Renderer->SetModel(m_Model, true);
 
-  std::cout << " call 1 times * " << std::endl;
   // Listen to the update events on the model. In response, simply repaint
   connectITK(m_Model, ModelUpdateEvent());
   connectITK(m_Model, SliceModelGeometryChangeEvent());
