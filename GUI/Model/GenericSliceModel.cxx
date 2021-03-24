@@ -688,7 +688,7 @@ void GenericSliceModel::GetNonThumbnailViewport(Vector2ui &pos, Vector2ui &size)
   // Initialize to the entire view
   pos.fill(0);
   size = m_SizeReporter->GetViewportSize();
-
+  
   DisplayLayoutModel *dlm = this->GetParentUI()->GetDisplayLayoutModel();
   LayerLayout tiling = dlm->GetSliceViewLayerLayoutModel()->GetValue();
 
@@ -742,7 +742,6 @@ bool GenericSliceModel
     return false;
 
   value = this->GetSliceIndex();
-  // std::cout << "value: " << value << std::endl; 
   if(domain)
     {
     domain->Set(0, this->GetNumberOfSlices()-1, 1);

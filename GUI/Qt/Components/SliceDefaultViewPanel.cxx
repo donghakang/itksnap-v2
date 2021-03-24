@@ -268,9 +268,9 @@ void SliceDefaultViewPanel::Initialize(GlobalUIModel *model)
 //   // this->UpdateExpandViewButton();
 
 //   // // Listen to the events affecting the expand view button
-//   // DisplayLayoutModel *dlm = m_GlobalUI->GetDisplayLayoutModel();
-//   // connectITK(dlm, DisplayLayoutModel::ViewPanelLayoutChangeEvent());
-//   // connectITK(dlm, DisplayLayoutModel::LayerLayoutChangeEvent());
+  DisplayLayoutModel *dlm = m_GlobalUI->GetDisplayLayoutModel();
+  connectITK(dlm, DisplayLayoutModel::ViewPanelLayoutChangeEvent());
+  connectITK(dlm, DisplayLayoutModel::LayerLayoutChangeEvent());
 
 //   // // Arrange the rendering overlays and widgets based on current mode
 //   // this->OnToolbarModeChange();
@@ -284,21 +284,21 @@ void SliceDefaultViewPanel::Initialize(GlobalUIModel *model)
 
 //   // // --- Segmentation Not Visible in Panel-Default
 
-// }
+}
 
-// void SliceDefaultViewPanel::onModelUpdate(const EventBucket &eb)
-// {
+void SliceDefaultViewPanel::onModelUpdate(const EventBucket &eb)
+{
 //   if(eb.HasEvent(ToolbarModeChangeEvent()) ||
 //      eb.HasEvent(StateMachineChangeEvent()))
 //     {
 //     OnToolbarModeChange();
 //     }
-//   if(eb.HasEvent(DisplayLayoutModel::ViewPanelLayoutChangeEvent()) ||
-//      eb.HasEvent(DisplayLayoutModel::LayerLayoutChangeEvent()))
-//     {
-//     UpdateExpandViewButton();
-//     }
-//   ui->sliceView->update();
+  if(eb.HasEvent(DisplayLayoutModel::ViewPanelLayoutChangeEvent()) ||
+     eb.HasEvent(DisplayLayoutModel::LayerLayoutChangeEvent()))
+    {
+    UpdateExpandViewButton();
+    }
+  ui->sliceView->update();
 }
 
 void SliceDefaultViewPanel::on_inSlicePosition_valueChanged(int value)
@@ -513,60 +513,61 @@ void SliceDefaultViewPanel::on_btnZoomToFit_clicked()
 //     */
 // }
 
-// void SliceDefaultViewPanel::on_btnExpand_clicked()
-// {
-//   // Get the layout applied when the button is pressed
-//   DisplayLayoutModel *dlm = m_GlobalUI->GetDisplayLayoutModel();
-//   std::cout << m_Index << std::endl;
-//   DisplayLayoutModel::ViewPanelLayout layout =
-//       dlm->GetViewPanelExpandButtonActionModel(m_Index)->GetValue();
+void SliceDefaultViewPanel::on_btnExpand_clicked()
+{
+  // Get the layout applied when the button is pressed
+  DisplayLayoutModel *dlm = m_GlobalUI->GetDisplayLayoutModel();
 
-//   // Apply this layout
-//   dlm->GetViewPanelLayoutModel()->SetValue(layout);
-// }
+  // always open current index
+  DisplayLayoutModel::ViewPanelLayout layout =
+      dlm->GetViewPanelExpandButtonActionModel(3)->GetValue();
 
-// void SliceDefaultViewPanel::UpdateExpandViewButton()
-// {
-//   // Get the layout applied when the button is pressed
-//   DisplayLayoutModel *dlm = m_GlobalUI->GetDisplayLayoutModel();
-//   DisplayLayoutModel::ViewPanelLayout layout =
-//       dlm->GetViewPanelExpandButtonActionModel(m_Index)->GetValue();
+  // Apply this layout
+  dlm->GetViewPanelLayoutModel()->SetValue(layout);
+}
 
-//   // Set the appropriate icon
-//   static const char* iconNames[] =
-//     { "fourviews", "axial", "sagittal", "coronal", "default" };
+void SliceDefaultViewPanel::UpdateExpandViewButton()
+{
+  // Get the layout applied when the button is pressed
+  DisplayLayoutModel *dlm = m_GlobalUI->GetDisplayLayoutModel();
+  DisplayLayoutModel::ViewPanelLayout layout =
+      dlm->GetViewPanelExpandButtonActionModel(m_Index)->GetValue();
 
-//   QString iconFile = QString(":/root/dl_%1.png").arg(iconNames[layout]);
-//   ui->btnExpand->setIcon(QIcon(iconFile));
+  // Set the appropriate icon
+  static const char* iconNames[] =
+    { "fourviews", "axial", "sagittal", "coronal", "default" };
 
-//   // Set the tooltip
-//   if(layout == DisplayLayoutModel::VIEW_ALL)
-//     {
-//     ui->btnExpand->setToolTip("Restore the four-panel display configuration");
-//     }
-//   else
-//     {
-//     ui->btnExpand->setToolTip("Expand this view to occupy the entire window");
-//     }
+  QString iconFile = QString(":/root/dl_%1.png").arg(iconNames[layout]);
+  ui->btnExpand->setIcon(QIcon(iconFile));
 
-//   // Also expand the tile/cascade button
-//   LayerLayout ll = dlm->GetSliceViewLayerLayoutModel()->GetValue();
-//   if(ll == LAYOUT_TILED)
-//     {
-//     ui->btnToggleLayout->setIcon(QIcon(":/root/layout_thumb_16.png"));
-//     }
-//   else if(ll == LAYOUT_STACKED)
-//     {
-//     ui->btnToggleLayout->setIcon(QIcon(":/root/layout_tile_16.png"));
-//     }
-// }
+  // Set the tooltip
+  if(layout == DisplayLayoutModel::VIEW_ALL)
+    {
+    ui->btnExpand->setToolTip("Restore the four-panel display configuration");
+    }
+  else
+    {
+    ui->btnExpand->setToolTip("Expand this view to occupy the entire window");
+    }
+
+  // Also expand the tile/cascade button
+  LayerLayout ll = dlm->GetSliceViewLayerLayoutModel()->GetValue();
+  if(ll == LAYOUT_TILED)
+    {
+    ui->btnToggleLayout->setIcon(QIcon(":/root/layout_thumb_16.png"));
+    }
+  else if(ll == LAYOUT_STACKED)
+    {
+    ui->btnToggleLayout->setIcon(QIcon(":/root/layout_tile_16.png"));
+    }
+}
 
 
-// void SliceDefaultViewPanel::on_btnScreenshot_clicked()
-// {
-//   MainImageWindow *parent = findParentWidget<MainImageWindow>(this);
-//   parent->ExportScreenshot(m_Index);
-// }
+void SliceDefaultViewPanel::on_btnScreenshot_clicked()
+{
+  MainImageWindow *parent = findParentWidget<MainImageWindow>(this);
+  parent->ExportScreenshot(3);
+}
 
 // void SliceDefaultViewPanel::on_btnToggleLayout_clicked()
 // {
@@ -642,16 +643,19 @@ void SliceDefaultViewPanel::on_btnAxialView_clicked() {
   std::cout << "btn Axial clicked" << std::endl;
   this->m_Index = AXIAL;
   this->resetTo(AXIAL);
+  UpdateExpandViewButton();
 }
 
 void SliceDefaultViewPanel::on_btnCoronalView_clicked() {
   std::cout << "btn Coronal clicked" << std::endl;
   this->m_Index = CORONAL;
   this->resetTo(CORONAL);
+  UpdateExpandViewButton();
 }
 
 void SliceDefaultViewPanel::on_btnSagittalView_clicked() {
   std::cout << "btn Sagittal clicked" << std::endl;
   this->m_Index = SAGITTAL;
   this->resetTo(SAGITTAL);
+  UpdateExpandViewButton();
 }

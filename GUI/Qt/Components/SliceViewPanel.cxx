@@ -253,9 +253,6 @@ void SliceViewPanel::Initialize(GlobalUIModel *model, unsigned int index)
   makeCoupling(ui->inSlicePosition, m_SliceModel->GetSliceIndexModel());  
   makeCoupling(ui->inLevelIntensityPosition, m_IntensityModel->GetManualIntensityRangeModel(IntensityCurveModel::LEVEL));
   makeCoupling(ui->inWindowIntensityPosition, m_IntensityModel->GetManualIntensityRangeModel(IntensityCurveModel::WINDOW));
-  // makeCoupling(ui->inLevelIntensityPosition, )
-
-  
 
   // Activation
   activateOnFlag(this, m_GlobalUI, UIF_BASEIMG_LOADED);
@@ -312,6 +309,7 @@ void SliceViewPanel::Initialize(GlobalUIModel *model, unsigned int index)
 
 void SliceViewPanel::onModelUpdate(const EventBucket &eb)
 {
+  
   if(eb.HasEvent(ToolbarModeChangeEvent()) ||
      eb.HasEvent(StateMachineChangeEvent()))
     {
@@ -532,9 +530,9 @@ void SliceViewPanel::SetMouseMotionTracking(bool enable)
     */
 }
 
+
 void SliceViewPanel::on_btnExpand_clicked()
 {
-  std::cout << "EXPAND" << std::endl;
   // Get the layout applied when the button is pressed
   DisplayLayoutModel *dlm = m_GlobalUI->GetDisplayLayoutModel();
   DisplayLayoutModel::ViewPanelLayout layout =
@@ -544,6 +542,8 @@ void SliceViewPanel::on_btnExpand_clicked()
   dlm->GetViewPanelLayoutModel()->SetValue(layout);
 }
 
+
+// Expand Button images change when Expand is clicked.
 void SliceViewPanel::UpdateExpandViewButton()
 {
   // Get the layout applied when the button is pressed

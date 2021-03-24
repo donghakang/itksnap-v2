@@ -95,11 +95,11 @@ SliceWindowCoordinator
   // this change occurs, we have to modify the size of the slice views
   DisplayLayoutModel *dlm = m_ParentModel->GetDisplayLayoutModel();
   Rebroadcast(dlm, DisplayLayoutModel::LayerLayoutChangeEvent(), ModelUpdateEvent());
-
 }
 
 void SliceWindowCoordinator::OnUpdate()
 {
+  
   // Has a new main image been loaded
   if(this->m_EventBucket->HasEvent(MainImageDimensionsChangeEvent()))
     {
@@ -107,7 +107,6 @@ void SliceWindowCoordinator::OnUpdate()
     // dimensions change
     for(unsigned int i = 0; i < 3; i++)
       m_SliceModel[i]->Update();
-
     // Reset the view to fit (depending on linked zoom)
     if(m_ParentModel->GetDriver()->IsMainImageLoaded())
       this->ResetViewToFitInAllWindows();
@@ -129,7 +128,6 @@ void SliceWindowCoordinator::OnUpdate()
       // Recompute the optimal zoom in each of the views
       for(unsigned int i = 0; i < 3; i++)
         m_SliceModel[i]->ComputeOptimalZoom();
-
       // Optionally, reset the view
       if(rezoom)
         this->ResetViewToFitInAllWindows();

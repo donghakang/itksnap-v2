@@ -27,7 +27,7 @@ void DisplayLayoutInspector::SetModel(DisplayLayoutModel *model)
   rmap[DisplayLayoutModel::VIEW_AXIAL] = ui->btnAxial;
   rmap[DisplayLayoutModel::VIEW_CORONAL] = ui->btnCoronal;
   rmap[DisplayLayoutModel::VIEW_SAGITTAL] = ui->btnSagittal;
-  rmap[DisplayLayoutModel::VIEW_3D] = ui->btn3D;
+  rmap[DisplayLayoutModel::VIEW_DEFAULT] = ui->btn3D;     // This needs to have a new btn visual
   makeRadioGroupCoupling(ui->grpDisplayLayout, rmap,
                          m_Model->GetViewPanelLayoutModel());
 

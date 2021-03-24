@@ -33,7 +33,7 @@ public:
 
   /** Layout of the SNAP slice views */
   enum ViewPanelLayout {
-    VIEW_ALL = 0, VIEW_AXIAL, VIEW_CORONAL, VIEW_SAGITTAL, VIEW_3D
+    VIEW_ALL = 0, VIEW_AXIAL, VIEW_CORONAL, VIEW_SAGITTAL, VIEW_DEFAULT
   };
 
   typedef AbstractPropertyModel<ViewPanelLayout> AbstractViewPanelLayoutProperty;

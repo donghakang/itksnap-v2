@@ -166,6 +166,7 @@ void SliceWindowDecorationRenderer::DrawNicknames()
   int nrows = (int) layout[0];
   int ncols = (int) layout[1];
 
+  
   // Get the properties for the labels
   SNAPAppearanceSettings *as =
       parentModel->GetParentUI()->GetAppearanceSettings();
@@ -197,7 +198,6 @@ void SliceWindowDecorationRenderer::DrawNicknames()
 
   // Get the viewport size
   int w = vp_size[0] / (vppr * ncols), h = vp_size[1] / (vppr * nrows);
-
   // For non-tiled mode, set the offset to equal that of the anatomical markers
   const OpenGLAppearanceElement *elt_marker = as->GetUIElement(SNAPAppearanceSettings::RULER);
   int left_margin = elt_marker->GetFontSize() / 3;
@@ -302,7 +302,6 @@ void SliceWindowDecorationRenderer::DrawRulers()
 
   // Get the viewport properties (retina-capable)
   float vppr = parentModel->GetSizeReporter()->GetViewportPixelRatio();
-
   // Get the dimensions of the non-thumbnail area where the decorations go
   Vector2ui vp_pos, vp_size;
   parentModel->GetNonThumbnailViewport(vp_pos, vp_size);

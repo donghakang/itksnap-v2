@@ -190,8 +190,11 @@ void ViewPanel3D::ProgressCallback(itk::Object *source, const itk::EventObject &
 
 void ViewPanel3D::on_btnScreenshot_clicked()
 {
-  MainImageWindow *window = findParentWidget<MainImageWindow>(this);
-  window->ExportScreenshot(3);
+  /**
+   * No longer available due to default view
+   */
+  // MainImageWindow *window = findParentWidget<MainImageWindow>(this);
+  // window->ExportScreenshot(3);
 }
 
 void ViewPanel3D::on_btnAccept_clicked()
@@ -212,13 +215,16 @@ void ViewPanel3D::on_btnCancel_clicked()
 
 void ViewPanel3D::on_btnExpand_clicked()
 {
-  // Get the layout applied when the button is pressed
-  DisplayLayoutModel *dlm = m_GlobalUI->GetDisplayLayoutModel();
-  DisplayLayoutModel::ViewPanelLayout layout =
-      dlm->GetViewPanelExpandButtonActionModel(3)->GetValue();
+  /**
+   * No longer available due to default view
+   */
+  // // Get the layout applied when the button is pressed
+  // DisplayLayoutModel *dlm = m_GlobalUI->GetDisplayLayoutModel();
+  // DisplayLayoutModel::ViewPanelLayout layout =
+  //     dlm->GetViewPanelExpandButtonActionModel(3)->GetValue();
 
-  // Apply this layout
-  dlm->GetViewPanelLayoutModel()->SetValue(layout);
+  // // Apply this layout
+  // dlm->GetViewPanelLayoutModel()->SetValue(layout);
 }
 
 void ViewPanel3D::onTimer()

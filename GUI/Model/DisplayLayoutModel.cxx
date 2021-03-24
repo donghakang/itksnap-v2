@@ -14,8 +14,7 @@ DisplayLayoutModel::DisplayLayoutModel()
   Rebroadcast(m_ViewPanelLayoutModel, ValueChangedEvent(), ViewPanelLayoutChangeEvent());
 
   // Set up the boolean visibility models
-  for(int panel = 0; panel < 4; panel++)
-    {
+  for(int panel = 0; panel < 4; panel++) {
     // Create the derived property for panel visibility
     m_ViewPanelVisibilityModel[panel] = wrapIndexedGetterSetterPairAsProperty(
           this, panel,
@@ -33,7 +32,7 @@ DisplayLayoutModel::DisplayLayoutModel()
     // The derived model must react to changes in view panel layout
     m_ViewPanelExpandButtonActionModel[panel]->Rebroadcast(
           this, ViewPanelLayoutChangeEvent(), ValueChangedEvent());
-    }
+  }
 
   // The tiling model
   m_SliceViewLayerTilingModel = wrapGetterSetterPairAsProperty(
@@ -85,6 +84,7 @@ void DisplayLayoutModel::SetParentModel(GlobalUIModel *parentModel)
 AbstractPropertyModel<LayerLayout, TrivialDomain> *
 DisplayLayoutModel::GetSliceViewLayerLayoutModel() const
 {
+  // GlobalUIModel -> GetSliceViewLayerLayoutModel
   return m_ParentModel->GetGlobalState()->GetSliceViewLayerLayoutModel();
 }
 
@@ -150,7 +150,7 @@ bool DisplayLayoutModel
   // If asking about the 3D window, there is no need to check display orientation
   else if(panel == 3)
     {
-    value = (layout == VIEW_3D);
+    value = (layout == VIEW_DEFAULT);
     }
 
   // Otherwise, we need to know the orientation of the panel in question
@@ -171,9 +171,10 @@ bool DisplayLayoutModel
 bool DisplayLayoutModel::GetNthViewPanelExpandButtonActionValue(
     int panel, DisplayLayoutModel::ViewPanelLayout &value)
 {
+
   // The current layout
   ViewPanelLayout layout = m_ViewPanelLayoutModel->GetValue();
-
+    
   // When the mode is 4-views, the action is to expand to the individual view
   if(layout == VIEW_ALL)
     {
@@ -185,7 +186,7 @@ bool DisplayLayoutModel::GetNthViewPanelExpandButtonActionValue(
     else if (panel == (int) driver->GetDisplayWindowForAnatomicalDirection(ANATOMY_SAGITTAL))
       value = VIEW_SAGITTAL;
     else
-      value = VIEW_3D;
+      value = VIEW_DEFAULT;
     }
 
   // Otherwise, the action is to return back to 4 views

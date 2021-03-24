@@ -346,7 +346,6 @@ void ImageIOWizardModel::LoadImage(std::string filename)
     throw IRISException("Error: exception occured during image IO. "
                         "Exception: %s", exc.what());
   }
-
 }
 
 

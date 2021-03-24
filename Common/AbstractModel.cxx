@@ -27,7 +27,6 @@ AbstractModel::~AbstractModel()
 
 void AbstractModel::Update()
 {
-
   if(!m_EventBucket->IsEmpty())
     {
 #ifdef SNAP_DEBUG_EVENTS

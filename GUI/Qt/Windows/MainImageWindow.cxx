@@ -1682,8 +1682,8 @@ void MainImageWindow::ExportScreenshot(int panelIndex)
   if(panelIndex == 3)
     {
     // target = ui->panel_default->Get3DView();
-    // SliceViewPanel *svp = reinterpret_cast<SliceViewPanel *>(m_ViewPanels[panelIndex]);
-    // target = svp->GetSliceView();
+    SliceDefaultViewPanel *svp = reinterpret_cast<SliceDefaultViewPanel *>(m_ViewPanels[panelIndex]);
+    target = svp->GetSliceView();
     }
   else
     {

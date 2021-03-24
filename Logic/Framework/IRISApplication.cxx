@@ -110,7 +110,6 @@ IRISApplication
   m_LabelUseHistory->SetColorLabelTable(m_ColorLabelTable);
 
   // Contruct the IRIS and SNAP data objects
-  std::cout << " *** IRISApplication.cxx - initialization" << std::endl;
   m_IRISImageData = IRISImageData::New();
   m_IRISImageData->SetParent(this);
 
@@ -1586,7 +1585,6 @@ void
 IRISApplication
 ::UpdateIRISMainImage(GuidedNativeImageIO *io, Registry *metadata)
 {
-  std::cout << "IRISApplication.cxx - UpdateIRISMainImage " << std::endl;
   // This has to happen in 'pure' IRIS mode
   assert(!IsSnakeModeActive());
 
@@ -1607,10 +1605,6 @@ IRISApplication
   float t0, y0, t1, y1;
   curve->GetControlPoint(0, t0, y0);
   curve->GetControlPoint(1 , t1, y1);
-
-  std::cout << "IRISApplication.cxx ------ " << t0 << ", " << t1 << std::endl;
-
-  
 
   // Set the filename and nickname of the image wrapper
   layer->SetFileName(io->GetFileNameOfNativeImage());

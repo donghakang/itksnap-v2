@@ -57,21 +57,17 @@ font-size:13px;
         <property name="spacing">
          <number>4</number>
         </property>
-        <item row="0" column="0">
-         <widget class="SliceViewPanel" name="panel0" native="true"/>
+        <item row="1" column="1">
+         <widget class="SliceViewPanel" name="panel2" native="true"/>
         </item>
         <item row="0" column="1">
          <widget class="SliceViewPanel" name="panel1" native="true"/>
         </item>
-        <item row="1" column="0">
-         <widget class="SliceDefaultViewPanel" name="panel_default" native="true">
-          <!-- <property name="styleSheet">
-           <string notr="true"/>
-          </property> -->
-         </widget>
+        <item row="0" column="0">
+         <widget class="SliceViewPanel" name="panel0" native="true"/>
         </item>
-        <item row="1" column="1">
-         <widget class="SliceViewPanel" name="panel2" native="true"/>
+        <item row="1" column="0">
+         <widget class="SliceDefaultViewPanel" name="panel_default" native="true"/>
         </item>
        </layout>
       </widget>
@@ -1746,6 +1742,11 @@ color:rgb(103, 103, 103);
    <extends>QWidget</extends>
    <header location="global">RecentHistoryItemsView.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SliceDefaultViewPanel</class>
+   <extends>QWidget</extends>
+   <header>slicedefaultviewpanel.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

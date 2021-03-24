@@ -48,15 +48,15 @@ private slots:
 
   void on_btnZoomToFit_clicked();
 
-//   void onModelUpdate(const EventBucket &eb);
+  void onModelUpdate(const EventBucket &eb);
 
 //   void OnToolbarModeChange();
 
 //   void onContextMenu();
 
-//   void on_btnExpand_clicked();
+  void on_btnExpand_clicked();
 
-//   void on_btnScreenshot_clicked();
+  void on_btnScreenshot_clicked();
 
 //   void on_btnToggleLayout_clicked();
 
@@ -122,8 +122,8 @@ private:
 //   void enterEvent(QEvent *);
 //   void leaveEvent(QEvent *);
 
-//   /** Update the expand view / contract view button based on the state */
-//   void UpdateExpandViewButton();
+  /** Update the expand view / contract view button based on the state */
+  void UpdateExpandViewButton();
 
 
   void zoomToFit();
