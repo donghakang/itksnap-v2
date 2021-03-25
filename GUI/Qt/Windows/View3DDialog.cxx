@@ -37,7 +37,12 @@ void View3DDialog::Update() {
   ui->panel3D->Update();
 }
 
+GenericView3D *View3DDialog::Get3DView() {
+  return ui->panel3D->Get3DView();
+}
+
 View3DDialog::~View3DDialog()
 {
   delete ui;
 }
+

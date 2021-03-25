@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include <QAbstractListModel>
+#include "Generic3DModel.h"
+#include "GenericView3D.h"
 
 class GlobalUIModel;
 
@@ -22,6 +24,8 @@ public:
   void SetModel(GlobalUIModel *model);
 
   void Update();
+
+  GenericView3D *Get3DView();
 
 private:
   Ui::View3DDialog *ui;

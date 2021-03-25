@@ -99,6 +99,7 @@ public:
 
   // Export a screenshot from one of the panels
   void ExportScreenshot(int panelIndex);
+  void Export3DScreenshot();
 
   // Export a screenshot series from one of the panels
   void ExportScreenshotSeries(AnatomicalDirection direction);

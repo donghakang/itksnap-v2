@@ -193,8 +193,8 @@ void ViewPanel3D::on_btnScreenshot_clicked()
   /**
    * No longer available due to default view
    */
-  // MainImageWindow *window = findParentWidget<MainImageWindow>(this);
-  // window->ExportScreenshot(3);
+  MainImageWindow *window = findParentWidget<MainImageWindow>(this);
+  window->Export3DScreenshot();
 }
 
 void ViewPanel3D::on_btnAccept_clicked()

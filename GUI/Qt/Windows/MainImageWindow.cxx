@@ -1698,6 +1698,34 @@ void MainImageWindow::ExportScreenshot(int panelIndex)
   m_Model->SetLastScreenshotFileName(to_utf8(fuser));
 }
 
+void MainImageWindow::Export3DScreenshot() {
+    // Generate a filename for the screenshot
+  std::string finput = m_Model->GenerateScreenshotFilename();
+
+  // Open a file browser and have the user select something
+  QString fuser = ShowSimpleSaveDialogWithHistory(
+        this, m_Model, "Snapshots",
+        "Save Snapshot - ITK-SNAP",
+        "Snapshot File:",
+        "PNG Image (*.png);;TIFF Image (*.tiff *.tif);;JPEG Image (*.jpg *.jpeg)",
+        true,
+        from_utf8(finput));
+
+  // If nothing selected, exit
+  if(fuser.length() == 0)
+    return;
+
+  // What panel is this?
+  QtAbstractOpenGLBox *target = NULL;
+  target = m_View3DDialog->Get3DView();
+
+  // Call the screenshot saving method, which will execute asynchronously
+  target->SaveScreenshot(to_utf8(fuser));
+
+  // Store the last filename
+  m_Model->SetLastScreenshotFileName(to_utf8(fuser));
+}
+
 void MainImageWindow::on_actionSSAxial_triggered()
 {
   ExportScreenshot(
