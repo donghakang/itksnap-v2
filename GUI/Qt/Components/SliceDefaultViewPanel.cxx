@@ -166,7 +166,9 @@ void SliceDefaultViewPanel::Initialize(GlobalUIModel *model)
 
   // Get the slice model
   m_SliceModel = m_GlobalUI->GetSliceModel(AXIAL);
-  
+  // m_SliceModel->SetId(3);   // for default mode
+  std::cout << m_SliceModel->GetId() << std::endl;
+
   m_IntensityModel = m_GlobalUI->GetIntensityCurveModel();
 
 
@@ -222,8 +224,6 @@ void SliceDefaultViewPanel::Initialize(GlobalUIModel *model)
 //   // // Listen to all (?) events from the snake wizard as well
 //   // connectITK(m_GlobalUI->GetSnakeWizardModel(), IRISEvent());
 
-  
-
   //TODO: Widget coupling 
   makeCoupling(ui->inSlicePosition, m_SliceModel->GetSliceIndexModel());  
   makeCoupling(ui->inLevelIntensityPosition, m_IntensityModel->GetManualIntensityRangeModel(IntensityCurveModel::LEVEL));
@@ -231,7 +231,8 @@ void SliceDefaultViewPanel::Initialize(GlobalUIModel *model)
 
   ui->inWindowIntensityPosition->setVisible(false);        // not-visible scroll bars that deals with 
   ui->inLevelIntensityPosition->setVisible(false);
-
+  ui->btnExpand->setVisible(false);
+  ui->btnToggleLayout->setVisible(false);
 
 //   // // Activation
 //   // activateOnFlag(this, m_GlobalUI, UIF_BASEIMG_LOADED);

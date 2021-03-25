@@ -141,21 +141,19 @@ void GenericSliceModel
 
 void GenericSliceModel::OnUpdate()
 {
+
   // Has there been a change in the image dimensions?
   if(m_EventBucket->HasEvent(MainImageDimensionsChangeEvent()))
     {
     // Do a complete initialization
     this->InitializeSlice(m_Driver->GetCurrentImageData());
     }
-
-  // TODO: what is the ValueChangeEvent here???
   else if(m_EventBucket->HasEvent(ViewportSizeReporter::ViewportResizeEvent())
           || m_EventBucket->HasEvent(DisplayLayoutModel::LayerLayoutChangeEvent())
           || m_EventBucket->HasEvent(ValueChangedEvent()))
     {
     // Recompute the viewport layout and dimensions
     this->UpdateViewportLayout();
-
     // We only react to the viewport resize if the zoom is not managed by the
     // coordinator. When zoom is managed, the coordinator will take care of
     // computing the optimal zoom and resetting the view
@@ -168,10 +166,11 @@ void GenericSliceModel::OnUpdate()
 
       // Just recompute the optimal zoom factor
       this->ComputeOptimalZoom();
-
       // Keep zoom optimal if before it was optimal
-      if(rezoom)
+      if(rezoom) {
         this->SetViewZoom(m_OptimalZoom);
+      }
+
       }
     }
 
@@ -183,8 +182,10 @@ void GenericSliceModel::OnUpdate()
      || m_EventBucket->HasEvent(SliceModelGeometryChangeEvent()))
     {
     // Viewport geometry pretty much   depends on everything!
-    if(m_SliceInitialized && m_ViewZoom > 1.e-7)
+    if(m_SliceInitialized && m_ViewZoom > 1.e-7) {
       this->UpdateUpstreamViewportGeometry();
+    }
+
     }
 }
 
@@ -826,6 +827,9 @@ void GenericSliceModel::UpdateViewportLayout()
   // Get the dimensions of the main viewport (in real pixels, not logical pixels)
   unsigned int w = m_SizeReporter->GetViewportSize()[0];
   unsigned int h = m_SizeReporter->GetViewportSize()[1];
+
+
+  std::cout << m_Id << ":  "  << nrows << "\t" << ncols << "\t" << "||"  << "\t" << w << "\t" << h << std::endl;
 
   // Get the current image data
   GenericImageData *id = this->GetDriver()->GetCurrentImageData();

@@ -53,7 +53,6 @@ void GenericSliceView::SetModel(GenericSliceModel *model)
 {
   // Set the model
   m_Model = model;
-
   // Pass the viewport reporter to the model
   m_Model->SetSizeReporter(m_ViewportReporter);
 
@@ -71,7 +70,8 @@ void GenericSliceView::SetDefaultModel(GenericSliceModel *model) {
   m_Model = model;
 
   // Pass the viewport reporter to the model
-  m_Model->SetSizeReporter(m_ViewportReporter);
+  // TODO: To visualize the fullscreen in Default view, this needs to be implemented
+  // m_Model->SetSizeReporter(m_ViewportReporter);   //
 
   // Pass the model to the renderer
   m_Renderer->SetModel(m_Model, true);

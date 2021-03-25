@@ -293,7 +293,7 @@ public:
   irisGetMacro(SliceSize,Vector3i)
 
   /** The id (slice direction) of this slice model */
-  irisGetMacro(Id, int)
+  irisGetSetMacro(Id, int)
 
   /** Get the physical size of the window (updated from widget via events) */
   Vector2ui GetSize();

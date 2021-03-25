@@ -173,8 +173,7 @@ bool DisplayLayoutModel::GetNthViewPanelExpandButtonActionValue(
 {
 
   // The current layout
-  ViewPanelLayout layout = m_ViewPanelLayoutModel->GetValue();
-    
+  ViewPanelLayout layout = m_ViewPanelLayoutModel->GetValue(); 
   // When the mode is 4-views, the action is to expand to the individual view
   if(layout == VIEW_ALL)
     {
