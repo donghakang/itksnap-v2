@@ -1,6 +1,7 @@
 ## ITK-SNAP README
-To see the implemented Documentation click <a href="https://docs.google.com/presentation/d/e/2PACX-1vSwEqnJPaQiE5gsg4227Yb_QzFEcQWMkNBO7O6yMYAR4QaBPB_jwFnAo89bQe2vBu1bGrFQl9S5XiKo/pub?start=false&loop=false&delayms=3000">here</a>.
-To download executable only, click <a href="https://drive.google.com/file/d/1ZCM4IjsqnoV7v21ieSqEVJKNSl9fllPi/view?usp=sharing">here</a> (might not work).
+:page_facing_up: &nbsp; **To see the implemented Documentation click <a href="https://docs.google.com/presentation/d/e/2PACX-1vSwEqnJPaQiE5gsg4227Yb_QzFEcQWMkNBO7O6yMYAR4QaBPB_jwFnAo89bQe2vBu1bGrFQl9S5XiKo/pub?start=false&loop=false&delayms=3000">here</a>.**
+<br>
+:floppy_disk: &nbsp; **To download executable only, click <a href="https://drive.google.com/file/d/1ZCM4IjsqnoV7v21ieSqEVJKNSl9fllPi/view?usp=sharing">here</a>** (might not work).
 
 ### Installation
 First, below is the folder structure.
