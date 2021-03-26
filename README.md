@@ -1,6 +1,6 @@
 ## ITK-SNAP README
 To see the implemented Documentation click <a href="https://docs.google.com/presentation/d/e/2PACX-1vSwEqnJPaQiE5gsg4227Yb_QzFEcQWMkNBO7O6yMYAR4QaBPB_jwFnAo89bQe2vBu1bGrFQl9S5XiKo/pub?start=false&loop=false&delayms=3000">here</a>.
-To download executable only, click <a href="https://drive.google.com/file/d/1y48tK0r7OCHd8ta0d0JubFIR228Ogw8Y/view?usp=sharing">here</a> (might not work).
+To download executable only, click <a href="https://drive.google.com/file/d/1ZCM4IjsqnoV7v21ieSqEVJKNSl9fllPi/view?usp=sharing">here</a> (might not work).
 
 ### Installation
 First, below is the folder structure.
@@ -91,10 +91,11 @@ git submodule update
     ```shell
     ITK_DIR           |  <absolute dir>/ITK-SNAP/itk/build
     VTK_DIR           |  <absolute dir>/ITK-SNAP/vtk/build
-    CMAKE_PREFIX_DIR  |  <absolute dir>/ITK-SNAP/qt5/build/qtbase/lib/cmake
+    CMAKE_PREFIX_PATH |  <absolute dir>/ITK-SNAP/qt5/build/qtbase/lib/cmake
     ```
     <img src="./img/cmake.jpg" alt="cmake sample" width="50%"></img>
-
+    Both *Unix Configuration* and *XCode configuration* works (MacOS)
+    <br>
     - ```ccmake``` 
     ```shell
     # in ITK-SNAP/build
