@@ -1,67 +1,110 @@
-ITK-SNAP README
------------------
+## ITK-SNAP README
+To see the implemented Documentation click <a href="https://docs.google.com/presentation/d/e/2PACX-1vSwEqnJPaQiE5gsg4227Yb_QzFEcQWMkNBO7O6yMYAR4QaBPB_jwFnAo89bQe2vBu1bGrFQl9S5XiKo/pub?start=false&loop=false&delayms=3000">here</a>.
+To download executable only, click <a href="">here</a> (might not work).
 
-### Welcome!
+### Installation
+First, below is the folder structure.
+```
+    .
+    ITK-SNAP              
+    ├── itk               # v4.13.3
+    │   ├── src           # source folder of itk
+    │   └── build         # build directory of itk  
+    ├── vtk               # v6.3.0
+    │   ├── src           # source folder of vtk
+    │   └── build         # build directory of vtk 
+    ├── qt5               # v5.12.0 // seems like newest version also works.
+    │   ├── src           # source folder of qt5
+    │   └── build         # build directory of qt5 
+    ├── build             # build directory of itksnap
+    └── itksnap-v2        # source folder of itksnap   
+    ...
+    └── cmake             # version seems not matter. Works in v3.16.0-rc3
+```         
 
-Thank you for your interest in ITK-SNAP! By using this program you are joining
-an ever growing community of users from research labs around the world.
-ITK-SNAP is an open-source software application made possible by the
-committment of dedicated developers, who often make contributions on a
-volunteer basis. Original development of ITK-SNAP was supported by the U.S.
-National Library of Medicine through PO 467-MZ-202446-1. Subsequent
-development of ITK-SNAP version 2.0 has been supported by the U.S. National
-Institute of Biomedical Imaging and BioEngineering and the NIH Blueprint for
-Neuroscience through grant 1 R03 EB008200-01. Development of ITK-SNAP versions
-3.0 - 3.6 has been supported by the NIH grant 1R01 EB014346. 
+#### ITK download
 
-ITK-SNAP is the result of over 15 years of work by many researchers, software
-engineers and students. Please visit the [Credits page](http:/itksnap.org/credits.php) 
-to learn about the team that made ITK-SNAP possible!
+1. Download src file as <a href="https://github.com/InsightSoftwareConsortium/ITK/releases/download/v4.13.3/InsightToolkit-4.13.3.zip">.zip</a> or <a href="https://github.com/InsightSoftwareConsortium/ITK/releases/download/v4.13.3/InsightToolkit-4.13.3.tar.gz">.tar.gz</a>
+2. Move the source file to ```ITK-SNAP/itk/src``` and Compile itk.
+```shell
+# in ITK-SNAP/itk/build
+cmake ../src
+```
+3. Build itk
+```shell
+# in ITK-SNAP/itk/build
+make -j7                # depends on RAM size
+```
 
-### Please remember to cite ITK-SNAP
+#### VTK download
+1. Download src file as <a href="https://github.com/Kitware/VTK/archive/refs/tags/v6.3.0.zip">.zip</a> or <a href="https://github.com/Kitware/VTK/archive/refs/tags/v6.3.0.tar.gz">.tar.gz</a>
+2. Move the source file to ```ITK-SNAP/vtk/src``` and Compile vtk.
+```shell
+# in ITK-SNAP/vtk/build
+cmake ../src
+```
+3. Build itk
+```shell
+# in ITK-SNAP/vtk/build
+make -j7                # depends on RAM size
+```
 
-Citations in published work is the best way for us to gauge ITK-SNAP impact.
-As of the Fall of 2016, ITK-SNAP has been cited by [over 2000 papers](https://goo.gl/YoM9EK). 
-If you use ITK-SNAP for a publication, please cite the paper below.
+#### QT5 download
+1. Clone src file from and change the branch or download the v5.12.0 version.
+```shell
+# to clone and change the branch
+git clone https://github.com/qt/qt5.git
+git fetch 
+git checkout -b 5.12 origin/5.12
+```
+2. Download all submodule in qt5
+```shell
+# in ITK-SNAP/qt5/src
+perl init-repository
+```
+3. Use qmake to create build make file.
+```shell
+# in ITK-SANP/qt5/build
+../src/configure -developer-build -opensource -nomake examples -nomake tests -skip webengine
+```
+4. Build qt5
+```shell
+make -j7
+```
+This will take a LONG time.
 
-* Paul A. Yushkevich, Joseph Piven, Heather Cody Hazlett, Rachel Gimpel Smith,
-  Sean Ho, James C. Gee, and Guido Gerig. User-guided 3D active contour
-  segmentation of anatomical structures: Significantly improved efficiency and
-  reliability. Neuroimage. 2006 Jul 1; 31(3):1116-28. 
 
-### Getting Started 
+#### ITK-SNAP Donwload
+1. Clone this project. 
+```shell
+# in ITK-SNAP
+git clone https://github.com/donghakang/itksnap-v2.git
+```
+2. Download submodule
+```shell
+cd itksnap-v2           # in ITK-SNAP/itksnap
+git submodule init
+git submodule update
+``` 
+3. Build the itksnap by using CMake.app or ```ccmake``` 
+    - CMake.app
+    ```shell
+    ITK_DIR           |  <absolute dir>/ITK-SNAP/itk/build
+    VTK_DIR           |  <absolute dir>/ITK-SNAP/vtk/build
+    CMAKE_PREFIX_DIR  |  <absolute dir>/ITK-SNAP/qt5/build/qtbase/lib/cmake
+    ```
+    <img src="./img/cmake.jpg" alt="cmake sample" width="50%"></img>
 
-ITK-SNAP was designed for ease of use. There are several resources to get
-started with it. 
+    - ```ccmake``` 
+    ```shell
+    # in ITK-SNAP/build
+    ccmake ../itksnap-v2 -D ITK_DIR:FILEPATH=<absolute dir>/ITK-SNAP/itk/build -D VTK_DIR:FILEPATH=<absolute dir>/ITK-SNAP/vtk/build -D CMAKE_PREFIX_DIR:FILEPATH=<absolute dir>/ITK-SNAP/qt5/build/qtbase/lib/cmake
+    ```
+4. Build
+```shell
+make -j7  # in ITK-SNAP/build
+```
 
-*   If you downloaded ITK-SNAP as a binary executable from
-    [itksnap.org](http://www.itksnap.org/download/snap), you can get started
-    by reading the [online tutorials](http://www.itksnap.org/pmwiki/pmwiki.php?n=Documentation.HomePage).
-*   If you downloaded ITK-SNAP source code, please follow these [online
-    instructions](http://www.itksnap.org/pmwiki/pmwiki.php?n=Documentation.BuildingITK-SNAP)
-    to compile and build ITK-SNAP.
-*   You will need a 3D image to use this software. Images with which ITK-SNAP
-    is known to work are found on the [ITK-SNAP download page](http://www.itksnap.org/download/snap)
-*   There are also materials (images, exercises, video) from training courses
-    available on the [documentation page](http://www.itksnap.org/pmwiki/pmwiki.php?n=Documentation.SNAP3). 
+---
 
-### Asking Questions
-
-If you have a question about ITK-SNAP, here are the places where you may find an answer. Keep in mind that since ITK-SNAP in not a commercial product, it may take some time for an answer to arrive.
-
-*   If you have an question about how to use SNAP or why it's not doing what
-    it should, post in on the [ITK-SNAP Users' List](http://www.itksnap.org/pmwiki/pmwiki.php?n=MailingLists).
-*   If you have a technical question or a questing related to ITK, join the 
-    [ITK Users' Mailing List](http://www.itk.org/HTML/MailingLists.htm) and
-    post your question there.
-
-### Get Involved!
-
-Your participation as a user, developer or sponsor is essential to ensuring a
-bright future for ITK-SNAP. There are many ways in which you can contribute to
-the stability and quality of this program:
-
-*   By participating in the [ITK-SNAP User and Developer Mailing Lists](http://www.itksnap.org/pmwiki/pmwiki.php?n=MailingLists).
-*   By reporting bugs and suggesting enhancements using the [Bug Tracker](http://www.itksnap.org/pmwiki/pmwiki.php?n=Main.BugTracker).
-*   By joining the ITK-SNAP Development Team on [SourceForge.net](http://sourceforge.net/projects/itk-snap) and contributing source code.
-
+For the source code/documentation of ITKSNAP click <a href="https://github.com/pyushkevich/itksnap">here</a> (Link to ITKSNAP github)
