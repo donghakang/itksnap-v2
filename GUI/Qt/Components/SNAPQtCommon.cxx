@@ -560,7 +560,7 @@ void TranslateStringTooltipKeyModifiers(QString &tooltip)
   tooltip.replace(QChar(0x21e7),"Shift+");
   tooltip.replace(QChar(0x2318),"Ctrl+");
   tooltip.replace(QChar(0x2325),"Alt+");
-  tooltip.replace("⌃","Ctrl+");
+  tooltip.replace(QChar(0x2303),"Ctrl+");
   tooltip.replace(QChar(0x238b),"Esc");
 }
 

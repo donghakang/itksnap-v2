@@ -82,6 +82,9 @@ VectorImageWrapper<TTraits, TBase>
     it.SetIndex(startIdx);
     size_t nc = this->GetNumberOfComponents();
 
+	std::vector<float> temp_vec;
+	temp_vec.reserve(runlength);
+
     // Perform the integration
     for(long q = 0; q < runlength; q++, ++it)
       {
@@ -89,10 +92,24 @@ VectorImageWrapper<TTraits, TBase>
       for(size_t c = 0; c < nc; c++)
         {
         double v = (double) p[c];
+
+		if (v >= -700 && v <= 0) ++(*out_haa);
+		if (v <= -950) ++(*below950);
+		if (v <= -920) ++(*below920);
+		if (v <= -910) ++(*below910);
+		if (v <= -856) ++(*below856);
+		if (v <= -601) ++(*below601);
+		if (v <= -250) ++(*below250);
+		if (v >= 0)    ++(*below0);
+
         out_sum[c] += v;
         out_sumsq[c] += v * v;
+		cubicsum[c] += v * v * v;
+		fourthsum[c] += v * v * v * v;
+		temp_vec.push_back(v);
         }
       }
+	return temp_vec;
     }
   else
     {

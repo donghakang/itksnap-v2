@@ -39,6 +39,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <functional>
 
 
 using namespace std;
