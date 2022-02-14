@@ -1,27 +1,90 @@
-## ITK-SNAP README
+# Build ITK-SNAP 
 :page_facing_up: &nbsp; **To see the implemented Documentation click <a href="https://docs.google.com/presentation/d/e/2PACX-1vSwEqnJPaQiE5gsg4227Yb_QzFEcQWMkNBO7O6yMYAR4QaBPB_jwFnAo89bQe2vBu1bGrFQl9S5XiKo/pub?start=false&loop=false&delayms=3000">here</a>.**
 <br>
+<!-- 
 :floppy_disk: &nbsp; **To download executable only, click <a href="https://drive.google.com/file/d/1ZCM4IjsqnoV7v21ieSqEVJKNSl9fllPi/view?usp=sharing">here</a>** (might not work).
+-->
 
-### Installation
-First, below is the folder structure.
+## ⚙️ Version control
+
+| Library | Version | Source |
+| - | - | - |
+| ITK | 4.13.3 | [zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v4.13.3/InsightToolkit-4.13.3.zip), [tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v4.13.3/InsightToolkit-4.13.3.tar.gz) |
+| VTK | 6.3.0 | [zip](https://github.com/Kitware/VTK/archive/refs/tags/v6.3.0.zip), [tar.gz](https://github.com/Kitware/VTK/archive/refs/tags/v6.3.0.tar.gz) |
+| QT | 5.6.3 | [download link](https://download.qt.io/new_archive/qt/5.6/5.6.3/) |
+
+--- 
+
+## 🗂 Folder Structure
 ```
     .
     ITK-SNAP              
-    ├── itk               # v4.13.3
+    ├── itk
     │   ├── src           # source folder of itk
     │   └── build         # build directory of itk  
-    ├── vtk               # v6.3.0
+    ├── vtk
     │   ├── src           # source folder of vtk
     │   └── build         # build directory of vtk 
-    ├── qt5               # v5.12.0 // seems like newest version also works.
-    │   ├── src           # source folder of qt5
-    │   └── build         # build directory of qt5 
+    ├── qt5               # downloaded qt5
     ├── build             # build directory of itksnap
     └── itksnap-v2        # source folder of itksnap   
     ...
     └── cmake             # version seems not matter. Works in v3.16.0-rc3
-```         
+``` 
+
+--- 
+
+## 👷🏼‍♂️ Installation
+
+### Windows
+| Visual Studio | 2015 | 
+|-|-|
+
+
+
+#### ITK download
+
+1. Download src file as <a href="https://github.com/InsightSoftwareConsortium/ITK/releases/download/v4.13.3/InsightToolkit-4.13.3.zip">.zip</a> or <a href="https://github.com/InsightSoftwareConsortium/ITK/releases/download/v4.13.3/InsightToolkit-4.13.3.tar.gz">.tar.gz</a>
+2. Move the source file to ```ITK-SNAP/itk/src``` and Compile itk using CMAKE GUI
+:warning: Make sure to check **Visual Studio 2015** and **x64** (depends on machine) when *Configure*
+3. Build itk using Visual Studio
+
+#### VTK download
+1. Download src file as <a href="https://github.com/Kitware/VTK/archive/refs/tags/v6.3.0.zip">.zip</a> or <a href="https://github.com/Kitware/VTK/archive/refs/tags/v6.3.0.tar.gz">.tar.gz</a>
+2. Move the source file to ```ITK-SNAP/vtk/src``` and Compile vtk using CMAKE GUI
+:warning: Make sure to check **Visual Studio 2015** and **x64** (depends on machine) when *Configure*
+3. Build vtk using Visual Studio
+
+#### Qt download
+1. Download Qt with a [link](https://download.qt.io/new_archive/qt/5.6/5.6.3/)
+
+
+
+### ITK-SNAP Donwload
+1. Clone this project. 
+```shell
+# in ITK-SNAP
+git clone https://github.com/donghakang/itksnap-v2.git
+```
+2. Download submodule
+```shell
+cd itksnap-v2           # in ITK-SNAP/itksnap
+git submodule init
+git submodule update
+``` 
+3. Build the itksnap by using CMake.app 
+    - CMake.app
+    ```shell
+    ITK_DIR           |  <absolute dir>/ITK-SNAP/itk/build
+    VTK_DIR           |  <absolute dir>/ITK-SNAP/vtk/build
+    CMAKE_PREFIX_PATH |  <absolute dir>/ITK-SNAP/qt5/5.6.3/clang_64/lib/cmake
+    ```
+
+4. Build using Visual Studio
+5. Package using Visual Studio
+
+
+### MacOS
 
 #### ITK download
 
@@ -50,32 +113,12 @@ cmake ../src
 make -j7                # depends on RAM size
 ```
 
-#### QT5 download
-1. Clone src file from and change the branch or download the v5.12.0 version.
-```shell
-# to clone and change the branch
-git clone https://github.com/qt/qt5.git
-git fetch 
-git checkout -b 5.12 origin/5.12
-```
-2. Download all submodule in qt5
-```shell
-# in ITK-SNAP/qt5/src
-perl init-repository
-```
-3. Use qmake to create build make file.
-```shell
-# in ITK-SANP/qt5/build
-../src/configure -developer-build -opensource -nomake examples -nomake tests -skip webengine
-```
-4. Build qt5
-```shell
-make -j7
-```
-This will take a LONG time.
+#### Qt download
+1. Download Qt with a [link](https://download.qt.io/new_archive/qt/5.6/5.6.3/)
 
 
-#### ITK-SNAP Donwload
+
+### ITK-SNAP Donwload
 1. Clone this project. 
 ```shell
 # in ITK-SNAP
@@ -92,19 +135,22 @@ git submodule update
     ```shell
     ITK_DIR           |  <absolute dir>/ITK-SNAP/itk/build
     VTK_DIR           |  <absolute dir>/ITK-SNAP/vtk/build
-    CMAKE_PREFIX_PATH |  <absolute dir>/ITK-SNAP/qt5/build/qtbase/lib/cmake
+    CMAKE_PREFIX_PATH |  <absolute dir>/ITK-SNAP/qt5/5.6.3/clang_64/lib/cmake
     ```
-    <img src="./img/cmake.jpg" alt="cmake sample" width="50%"></img>
     Both *Unix Configuration* and *XCode configuration* works (MacOS)
     <br>
     - ```ccmake``` 
     ```shell
     # in ITK-SNAP/build
-    ccmake ../itksnap-v2 -D ITK_DIR:FILEPATH=<absolute dir>/ITK-SNAP/itk/build -D VTK_DIR:FILEPATH=<absolute dir>/ITK-SNAP/vtk/build -D CMAKE_PREFIX_DIR:FILEPATH=<absolute dir>/ITK-SNAP/qt5/build/qtbase/lib/cmake
+    ccmake ../itksnap-v2 -D ITK_DIR:FILEPATH=<absolute dir>/ITK-SNAP/itk/build -D VTK_DIR:FILEPATH=<absolute dir>/ITK-SNAP/vtk/build -D CMAKE_PREFIX_DIR:FILEPATH=<absolute dir>/ITK-SNAP/qt5/5.6.3/clang_64/lib/cmake
     ```
 4. Build
 ```shell
 make -j7  # in ITK-SNAP/build
+```
+5. Package
+```shell
+make package 
 ```
 
 ---
