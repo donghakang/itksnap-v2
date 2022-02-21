@@ -82,6 +82,7 @@ git submodule update
 
 4. Build using Visual Studio
 5. Package using Visual Studio
+⚠️ Sometimes, Visual Studio gives error message saying "vtkxxxx.dll" not found, just simply copy & paste all the dll files in vtk build library to project folder
 
 
 ### MacOS
